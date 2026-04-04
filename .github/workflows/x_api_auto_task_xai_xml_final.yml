@@ -1,8 +1,8 @@
 name: 昨晚硅谷在聊啥 v16 (日报主流程)
 
 on:
-  #schedule:
-   # - cron: '35 23 * * *'
+  # schedule:
+  #   - cron: '35 23 * * *'
 
   workflow_dispatch:
     inputs:
@@ -18,6 +18,9 @@ permissions:
 concurrency:
   group: x-api-daily-report
   cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
   daily-report:
@@ -41,24 +44,26 @@ jobs:
           pip install requests openai
 
       - name: 4. 显示当前模式
+        shell: bash
         run: |
-          echo "TEST_MODE_ENV=${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}"
-          if [ "${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}" = "true" ]; then
+          TEST_MODE_VALUE="${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}"
+          echo "TEST_MODE_ENV=${TEST_MODE_VALUE}"
+          if [ "${TEST_MODE_VALUE}" = "true" ]; then
             echo "当前为测试模式：脚本应只推送到 FEISHU_WEBHOOK_URL"
+            echo "当前为测试模式：产物仅临时保留，不提交仓库"
           else
             echo "当前为正式模式：脚本应只推送到 FEISHU_WEBHOOK_URL_1"
+            echo "当前为正式模式：产物会保存并提交到仓库"
           fi
 
       - name: 5. 运行日报主流程
         env:
           TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
-
           FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
           FEISHU_WEBHOOK_URL_1: ${{ secrets.FEISHU_WEBHOOK_URL_1 }}
           WECHAT_WEBHOOK_URL: ${{ secrets.WECHAT_WEBHOOK_URL }}
           WECHAT_WEBHOOK_URL_1: ${{ secrets.WECHAT_WEBHOOK_URL_1 }}
           JIJYUN_WEBHOOK_URL: ${{ secrets.JIJYUN_WEBHOOK_URL }}
-
           TWITTERAPI_IO_KEY: ${{ secrets.TWITTERAPI_IO_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
@@ -67,10 +72,27 @@ jobs:
         run: |
           python x_api_auto_task_xai_xml_final_clean.py
 
-      - name: 6. 自动提交日报与数据文件
+      - name: 6. 上传测试产物
+        if: ${{ github.event.inputs.test_mode == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-report-test-artifacts-${{ github.run_number }}
+          path: |
+            test_outputs/**
+            data/**/daily_report.txt
+            data/**/combined.txt
+            data/**/raw_llm_report.xml
+            data/**/parsed_data.json
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: 7. 自动提交日报与数据文件
+        if: ${{ github.event.inputs.test_mode != 'true' }}
+        shell: bash
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data combined.txt daily_report.txt character_memory.json memory_*.json target_accounts_stats.json echo_accounts_stats.json account_stats.json || true
+          git add data/ character_memory.json memory_*.json target_accounts_stats.json echo_accounts_stats.json account_stats.json || true
+          git status --short
           git commit -m "🤖 [Daily Report v16] Update report artifacts" || echo "No changes to commit"
           git push
