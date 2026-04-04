@@ -77,6 +77,32 @@ TOXIC_PATTERNS = [
     r"\bscam\b", r"\bracist\b", r"\btrash\b", r"\bgarbage\b"
 ]
 
+ROLE_MAP = {
+    "product expert": "产品专家",
+    "product manager": "产品专家",
+    "pm": "产品专家",
+    "builder": "产品/增长操盘手",
+    "founder": "创始人",
+    "cofounder": "联合创始人",
+    "investor": "投资人",
+    "vc": "投资人",
+    "researcher": "研究员",
+    "scientist": "研究员",
+    "engineer": "工程师",
+    "developer": "工程师",
+    "analyst": "分析师",
+    "writer": "作者",
+    "journalist": "媒体人",
+    "media": "媒体人",
+}
+
+KEEP_ENGLISH_TERMS = {
+    "OpenAI", "xAI", "Grok", "Claude", "Anthropic", "Codex", "FSD",
+    "Tesla", "Waymo", "NVIDIA", "Gemma", "Qwen", "Llama", "Runway", "API", "SDK",
+    "token", "tokens", "prompt", "prompts", "agent", "agents", "crypto", "AI", "LLM",
+    "RAG", "GPU", "CPU", "benchmark", "reasoning", "fine-tuning", "workflow", "voice",
+}
+
 # ==============================================================================
 # HELPERS
 # ==============================================================================
@@ -95,6 +121,164 @@ def safe_int(v):
         return int(float(v or 0))
     except Exception:
         return 0
+
+
+def normalize_role_cn(role: str) -> str:
+    role = norm_text(role)
+    if not role:
+        return "行业观察者"
+    low = role.lower()
+    for k, v in ROLE_MAP.items():
+        if k in low:
+            return v
+    if any(x in low for x in ["产品", "product", "pm"]):
+        return "产品专家"
+    if any(x in low for x in ["投资", "invest", "vc"]):
+        return "投资人"
+    if any(x in low for x in ["研究", "research", "scientist"]):
+        return "研究员"
+    if any(x in low for x in ["工程", "engineer", "developer", "dev"]):
+        return "工程师"
+    if any(x in low for x in ["创始", "founder"]):
+        return "创始人"
+    if any(x in low for x in ["媒体", "journalist", "media"]):
+        return "媒体人"
+    return role if len(role) <= 12 else "行业观察者"
+
+
+def looks_mostly_english(text: str) -> bool:
+    text = norm_text(text)
+    if not text:
+        return False
+    en = len(re.findall(r"[A-Za-z]", text))
+    zh = len(re.findall("[\u4e00-\u9fff]", text))
+    return en > 24 and en > zh * 2
+
+
+def soft_translate_tweet_to_cn(text: str) -> str:
+    text = norm_text(text)
+    if not text:
+        return ""
+    replacements = [
+        ("Software isn't precious anymore", "软件不再是稀缺资源"),
+        ("High quality software is infinitely available", "高质量软件正在变得近乎无限供给"),
+        ("Things that used to be hard suddenly become very easy", "很多过去很难的事情，现在突然变得很容易"),
+        ("AI agents are going to need money", "AI agents 很快会需要自己的钱"),
+        ("The grand unification of AI and crypto is about to happen", "AI 与 crypto 的大融合正在发生"),
+        ("What you can do with Grok Imagine", "Grok Imagine 能做到的事情"),
+        ("Grok is constantly being updated", "Grok 一直在持续更新"),
+        ("Tesla cars, especially with FSD, are the safest in the world",
+         "Tesla 汽车，尤其是搭载 FSD 时，是世界上最安全的汽车"),
+        ("Using voice for Imagine is a great feature for young kids",
+         "对还不会写复杂 prompt 的孩子来说，用语音驱动 Imagine 是个很棒的功能"),
+        ("Grok can help you come up with great prompts for images and videos",
+         "Grok 可以帮你想出更好的图片和视频 prompts"),
+        ("It changed the game by being the best car, period",
+         "它靠\"就是最好的车\"这一点直接改写了行业格局"),
+    ]
+    out = text
+    for s, d in replacements:
+        out = out.replace(s, d)
+    if looks_mostly_english(out):
+        out = out.replace(" and ", "，").replace(" but ", "，但").replace(" because ", "，因为")
+        out = out.replace(" with ", "，带着").replace(" is ", " 是 ").replace(" are ", " 是 ")
+        out = out.replace("very easy", "非常容易").replace("image generation", "图像生成")
+        out = out.replace("creative control", "创作控制力").replace("programming language", "编程语言")
+    return out.strip(' \u201c\u201d"')
+
+
+def finalize_cn_tweet_text(text: str) -> str:
+    text = soft_translate_tweet_to_cn(text)
+    text = text.replace("..", "。")
+    text = re.sub(r"\s+([，。！？；：])", r"\1", text)
+    text = re.sub(r"([，。！？；：]){2,}", r"\1", text)
+    return text.strip(' \u201c\u201d"')
+
+
+def compress_pulse_text(text: str, themes: list | None = None) -> str:
+    text = norm_text(text)
+    titles = [norm_text((x or {}).get("title", "")) for x in (themes or [])
+              if norm_text((x or {}).get("title", ""))]
+    if not text:
+        if len(titles) >= 2:
+            return f"重点关注：{titles[0]}、{titles[1]}。"[:60]
+        if len(titles) == 1:
+            return f"重点关注：{titles[0]}。"[:60]
+        return ""
+    text = text.replace("The Pulse", "").replace("今日看板：", "").replace("今日看板", "").strip("：: ")
+    if len(text) <= 60:
+        return text
+    if len(titles) >= 2:
+        for c in [f"重点关注：{titles[0]}、{titles[1]}。", f"今日聚焦「{titles[0]}」与「{titles[1]}」。"]:
+            if len(c) <= 60:
+                return c
+    if len(titles) == 1:
+        c = f"重点关注：{titles[0]}。"
+        if len(c) <= 60:
+            return c
+    text = re.split(r"[。；;!！?？]", text)[0].strip()
+    return (text[:60].rstrip("，、；： ") + "。") if len(text) > 60 else text
+
+
+def metric_suffix(likes=0, replies=0) -> str:
+    likes, replies = safe_int(likes), safe_int(replies)
+    if likes <= 0 and replies <= 0:
+        return ""
+    return f"（❤️ {likes} | 💬 {replies}）"
+
+
+def render_quote_tweet_markdown(t: dict) -> str:
+    account = norm_text((t or {}).get("account", "")).replace("@", "")
+    role = normalize_role_cn((t or {}).get("role", ""))
+    content = finalize_cn_tweet_text((t or {}).get("content", ""))
+    suffix = metric_suffix((t or {}).get("likes", 0), (t or {}).get("replies", 0))
+    if suffix:
+        content = f"{content}{suffix}"
+    return f'🗣️ @{account} | {role}\n"{content}"'
+
+
+def html_escape_text(s: str) -> str:
+    s = str(s or "")
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+def render_quote_tweet_html(t: dict) -> str:
+    account = norm_text((t or {}).get("account", "")).replace("@", "")
+    role = normalize_role_cn((t or {}).get("role", ""))
+    content = finalize_cn_tweet_text((t or {}).get("content", ""))
+    suffix = metric_suffix((t or {}).get("likes", 0), (t or {}).get("replies", 0))
+    if suffix:
+        content = f"{content}{suffix}"
+    return (
+        f'<p><strong>🗣️ @{html_escape_text(account)} | {html_escape_text(role)}</strong></p>'
+        f'<blockquote style="background:#f8f9fa;border-left:4px solid #8c98a4;'
+        f'padding:10px 14px;color:#555;">"{html_escape_text(content)}"</blockquote>'
+    )
+
+
+def _parse_xml_attrs(attr_text: str) -> dict:
+    return {k.lower(): norm_text(v)
+            for k, v in re.findall(r'(\w+)="(.*?)"', attr_text or "", flags=re.S)}
+
+
+def postprocess_parsed_data_cn(parsed_data: dict) -> dict:
+    parsed_data["pulse"] = compress_pulse_text(
+        parsed_data.get("pulse", ""), parsed_data.get("themes", [])
+    )
+    for theme in parsed_data.get("themes", []) or []:
+        for key in ("title", "narrative", "consensus", "divergence", "outlook", "opportunity", "risk"):
+            theme[key] = norm_text(theme.get(key, ""))
+        for t in theme.get("tweets", []) or []:
+            t["role"] = normalize_role_cn(t.get("role", ""))
+            t["content"] = finalize_cn_tweet_text(t.get("content", ""))
+            t["likes"] = safe_int(t.get("likes", 0))
+            t["replies"] = safe_int(t.get("replies", 0))
+    for t in parsed_data.get("top_picks", []) or []:
+        t["role"] = normalize_role_cn(t.get("role", ""))
+        t["content"] = finalize_cn_tweet_text(t.get("content", ""))
+        t["likes"] = safe_int(t.get("likes", 0))
+        t["replies"] = safe_int(t.get("replies", 0))
+    return parsed_data
 
 
 def load_account_list(filename: str):
@@ -531,14 +715,17 @@ def build_xml_prompt(combined_jsonl: str, today_str: str, memory_context: str) -
 
 要求：
 1. 输出 <REPORT> 根节点。
-2. 生成 <COVER><title>...</title><prompt>...</prompt><insight>...</insight></COVER>
-3. 生成 <PULSE> 一段总脉冲。
+2. 生成 <COVER><title>...</title><prompt>...</prompt><insight>...</insight></COVER>。
+3. 生成 <PULSE>，必须是中文，长度不超过60个汉字，只总结当天最值得关注的2个主题，不允许超过两个主题。
 4. 生成 4-6 个 <THEME>，属性 type 只能是 shift 或 new，并带 emoji。
-5. 每个 THEME 需包含 <TITLE>、<NARRATIVE>、若干 <TWEET account="..." role="...">...</TWEET>。
+5. 每个 THEME 需包含 <TITLE>、<NARRATIVE>、若干 <TWEET account="..." role="..." likes="..." replies="...">...</TWEET>。
 6. shift 类型必须尽量给出 <CONSENSUS> 和 <DIVERGENCE>。
 7. new 类型必须尽量给出 <OUTLOOK>、<OPPORTUNITY>、<RISK>。
-8. 生成 <TOPPICKS>，包含 5 条最值得读的推文。
-9. 内容用中文输出，引用的账号保留英文 handle。
+8. 生成 <TOPPICKS>，包含5条最值得读的推文，TWEET 格式同上。
+9. 所有推文正文、主题里的引用推文、TOPPICKS 默认翻译成自然中文；但人名、账号名、品牌名、产品名、模型名、缩写、黑话、梗和必要英文术语不要硬翻。
+10. role 必须是简短中文角色标签，例如：产品专家、投资人、研究员、创始人、工程师、媒体人。
+11. 不要把账号、角色、点赞、评论写进正文内容里，这些信息只放在 TWEET 属性中。
+12. 输入 JSONL 中 a=账号，l=点赞，r=评论，s=推文正文/上下文，请优先复用对应数据。
 
 今天日期：{today_str}
 
@@ -548,7 +735,6 @@ def build_xml_prompt(combined_jsonl: str, today_str: str, memory_context: str) -
 输入数据(JSONL)：
 {combined_jsonl}
 """.strip()
-
 
 def llm_call_xai(combined_jsonl: str, today_str: str, memory_context: str) -> str:
     if not XAI_API_KEY:
@@ -585,60 +771,54 @@ def parse_llm_xml(xml_text: str) -> dict:
     if not xml_text:
         return data
 
-    cover_match = re.search(r"<COVER>.*?<title>(.*?)</title>.*?<prompt>(.*?)</prompt>.*?<insight>(.*?)</insight>.*?</COVER>", xml_text, re.I | re.S)
-    if cover_match:
-        data["cover"] = {
-            "title": norm_text(cover_match.group(1)),
-            "prompt": norm_text(cover_match.group(2)),
-            "insight": norm_text(cover_match.group(3)),
-        }
+    cm = re.search(r"<COVER>.*?<title>(.*?)</title>.*?<prompt>(.*?)</prompt>.*?<insight>(.*?)</insight>.*?</COVER>", xml_text, re.I | re.S)
+    if cm:
+        data["cover"] = {"title": norm_text(cm.group(1)), "prompt": norm_text(cm.group(2)), "insight": norm_text(cm.group(3))}
 
-    pulse_match = re.search(r"<PULSE>(.*?)</PULSE>", xml_text, re.I | re.S)
-    if pulse_match:
-        data["pulse"] = norm_text(pulse_match.group(1))
+    pm = re.search(r"<PULSE>(.*?)</PULSE>", xml_text, re.I | re.S)
+    if pm:
+        data["pulse"] = norm_text(pm.group(1))
 
-    for tm in re.finditer(r"<THEME\s+type=\"(.*?)\"\s+emoji=\"(.*?)\">(.*?)</THEME>", xml_text, re.I | re.S):
+    for tm in re.finditer(r'<THEME\s+type="(.*?)"\s+emoji="(.*?)">(.*?)</THEME>', xml_text, re.I | re.S):
         theme_type, emoji, body = tm.groups()
-        title = re.search(r"<TITLE>(.*?)</TITLE>", body, re.I | re.S)
-        narrative = re.search(r"<NARRATIVE>(.*?)</NARRATIVE>", body, re.I | re.S)
-        consensus = re.search(r"<CONSENSUS>(.*?)</CONSENSUS>", body, re.I | re.S)
-        divergence = re.search(r"<DIVERGENCE>(.*?)</DIVERGENCE>", body, re.I | re.S)
-        outlook = re.search(r"<OUTLOOK>(.*?)</OUTLOOK>", body, re.I | re.S)
-        opportunity = re.search(r"<OPPORTUNITY>(.*?)</OPPORTUNITY>", body, re.I | re.S)
-        risk = re.search(r"<RISK>(.*?)</RISK>", body, re.I | re.S)
-
+        def _g(tag):
+            m = re.search(rf"<{tag}>(.*?)</{tag}>", body, re.I | re.S)
+            return norm_text(m.group(1)) if m else ""
         tweets = []
-        for tw in re.finditer(r"<TWEET\s+account=\"(.*?)\"\s+role=\"(.*?)\">(.*?)</TWEET>", body, re.I | re.S):
+        for tw in re.finditer(r'<TWEET\b([^>]*)>(.*?)</TWEET>', body, re.I | re.S):
+            attrs = _parse_xml_attrs(tw.group(1))
             tweets.append({
-                "account": norm_text(tw.group(1)),
-                "role": norm_text(tw.group(2)),
-                "content": norm_text(tw.group(3)),
+                "account": norm_text(attrs.get("account", "")),
+                "role":    norm_text(attrs.get("role", "")),
+                "likes":   safe_int(attrs.get("likes", 0)),
+                "replies": safe_int(attrs.get("replies", 0)),
+                "content": norm_text(tw.group(2)),
             })
-
         data["themes"].append({
-            "type": norm_text(theme_type).lower() or "shift",
-            "emoji": norm_text(emoji) or "🧠",
-            "title": norm_text(title.group(1) if title else ""),
-            "narrative": norm_text(narrative.group(1) if narrative else ""),
-            "tweets": tweets,
-            "consensus": norm_text(consensus.group(1) if consensus else ""),
-            "divergence": norm_text(divergence.group(1) if divergence else ""),
-            "outlook": norm_text(outlook.group(1) if outlook else ""),
-            "opportunity": norm_text(opportunity.group(1) if opportunity else ""),
-            "risk": norm_text(risk.group(1) if risk else ""),
+            "type":        norm_text(theme_type).lower() or "shift",
+            "emoji":       norm_text(emoji) or "🧠",
+            "title":       _g("TITLE"),
+            "narrative":   _g("NARRATIVE"),
+            "tweets":      tweets,
+            "consensus":   _g("CONSENSUS"),
+            "divergence":  _g("DIVERGENCE"),
+            "outlook":     _g("OUTLOOK"),
+            "opportunity": _g("OPPORTUNITY"),
+            "risk":        _g("RISK"),
         })
 
-    top_match = re.search(r"<TOPPICKS>(.*?)</TOPPICKS>", xml_text, re.I | re.S)
-    if top_match:
-        for tw in re.finditer(r"<TWEET\s+account=\"(.*?)\"\s+role=\"(.*?)\">(.*?)</TWEET>", top_match.group(1), re.I | re.S):
+    top = re.search(r"<TOPPICKS>(.*?)</TOPPICKS>", xml_text, re.I | re.S)
+    if top:
+        for tw in re.finditer(r'<TWEET\b([^>]*)>(.*?)</TWEET>', top.group(1), re.I | re.S):
+            attrs = _parse_xml_attrs(tw.group(1))
             data["top_picks"].append({
-                "account": norm_text(tw.group(1)),
-                "role": norm_text(tw.group(2)),
-                "content": norm_text(tw.group(3)),
+                "account": norm_text(attrs.get("account", "")),
+                "role":    norm_text(attrs.get("role", "")),
+                "likes":   safe_int(attrs.get("likes", 0)),
+                "replies": safe_int(attrs.get("replies", 0)),
+                "content": norm_text(tw.group(2)),
             })
-
     return data
-
 
 def xml_escape(s: str) -> str:
     s = str(s or "")
@@ -656,90 +836,77 @@ def build_report_xml(parsed_data: dict) -> str:
     lines.append(f"<PULSE>{xml_escape(parsed_data.get('pulse', ''))}</PULSE>")
     lines.append("<THEMES>")
     for theme in parsed_data.get("themes", []):
-        lines.append(f'<THEME type="{xml_escape(theme.get("type", "shift"))}" emoji="{xml_escape(theme.get("emoji", "🧠"))}">')
-        lines.append(f"<TITLE>{xml_escape(theme.get('title', ''))}</TITLE>")
-        lines.append(f"<NARRATIVE>{xml_escape(theme.get('narrative', ''))}</NARRATIVE>")
+        lines.append(f'<THEME type="{xml_escape(theme.get("type","shift"))}" emoji="{xml_escape(theme.get("emoji","🧠"))}">')
+        lines.append(f"<TITLE>{xml_escape(theme.get('title',''))}</TITLE>")
+        lines.append(f"<NARRATIVE>{xml_escape(theme.get('narrative',''))}</NARRATIVE>")
         for t in theme.get("tweets", []):
             lines.append(
-                f'<TWEET account="{xml_escape(t.get("account", ""))}" role="{xml_escape(t.get("role", ""))}">{xml_escape(t.get("content", ""))}</TWEET>'
+                f'<TWEET account="{xml_escape(t.get("account",""))}" role="{xml_escape(t.get("role",""))}" likes="{safe_int(t.get("likes",0))}" replies="{safe_int(t.get("replies",0))}">{xml_escape(t.get("content",""))}</TWEET>'
             )
-        if theme.get("consensus"):
-            lines.append(f"<CONSENSUS>{xml_escape(theme.get('consensus', ''))}</CONSENSUS>")
-        if theme.get("divergence"):
-            lines.append(f"<DIVERGENCE>{xml_escape(theme.get('divergence', ''))}</DIVERGENCE>")
-        if theme.get("outlook"):
-            lines.append(f"<OUTLOOK>{xml_escape(theme.get('outlook', ''))}</OUTLOOK>")
-        if theme.get("opportunity"):
-            lines.append(f"<OPPORTUNITY>{xml_escape(theme.get('opportunity', ''))}</OPPORTUNITY>")
-        if theme.get("risk"):
-            lines.append(f"<RISK>{xml_escape(theme.get('risk', ''))}</RISK>")
+        for tag, key in [("CONSENSUS","consensus"),("DIVERGENCE","divergence"),
+                         ("OUTLOOK","outlook"),("OPPORTUNITY","opportunity"),("RISK","risk")]:
+            if theme.get(key):
+                lines.append(f"<{tag}>{xml_escape(theme[key])}</{tag}>")
         lines.append("</THEME>")
     lines.append("</THEMES>")
     lines.append("<INVESTMENTRADAR>")
     for item in parsed_data.get("investment_radar", []):
-        lines.append(f'<ITEM category="{xml_escape(item.get("category", ""))}">{xml_escape(item.get("content", ""))}</ITEM>')
+        lines.append(f'<ITEM category="{xml_escape(item.get("category",""))}">{xml_escape(item.get("content",""))}</ITEM>')
     lines.append("</INVESTMENTRADAR>")
     lines.append("<RISKCHINAVIEW>")
     for item in parsed_data.get("risk_china_view", []):
-        lines.append(f'<ITEM category="{xml_escape(item.get("category", ""))}">{xml_escape(item.get("content", ""))}</ITEM>')
+        lines.append(f'<ITEM category="{xml_escape(item.get("category",""))}">{xml_escape(item.get("content",""))}</ITEM>')
     lines.append("</RISKCHINAVIEW>")
     lines.append("<TOPPICKS>")
     for t in parsed_data.get("top_picks", []):
         lines.append(
-            f'<TWEET account="{xml_escape(t.get("account", ""))}" role="{xml_escape(t.get("role", ""))}">{xml_escape(t.get("content", ""))}</TWEET>'
+            f'<TWEET account="{xml_escape(t.get("account",""))}" role="{xml_escape(t.get("role",""))}" likes="{safe_int(t.get("likes",0))}" replies="{safe_int(t.get("replies",0))}">{xml_escape(t.get("content",""))}</TWEET>'
         )
     lines.append("</TOPPICKS>")
     lines.append("</REPORT>")
     return "\n".join(lines)
-
 
 def render_feishu_card(parsed_data: dict, today_str: str):
     webhooks = get_feishu_webhooks()
     if not webhooks or not parsed_data.get("pulse"):
         return
     elements = [
-        {"tag": "markdown", "content": f"**The Pulse**\n<font color='grey'>{parsed_data['pulse']}</font>"},
+        {"tag": "markdown", "content": f"**今日看板（The Pulse）**\n<font color='grey'>{parsed_data['pulse']}</font>"},
         {"tag": "hr"},
     ]
     for idx, theme in enumerate(parsed_data.get("themes", [])):
         prefix = "🆕 新叙事" if theme.get("type") == "new" else "🔁 旧共识迁移"
-        theme_md = f"**{theme.get('emoji','🧠')} {theme.get('title','')}**\n<font color='grey'>{prefix}｜{theme.get('narrative','')}</font>\n"
+        md = f"**{theme.get('emoji','🧠')} {theme.get('title','')}**\n<font color='grey'>{prefix}｜{theme.get('narrative','')}</font>\n"
         for t in theme.get("tweets", []):
-            theme_md += f"\n- **@{t.get('account','')}** | {t.get('role','')}\n> {t.get('content','')}\n"
+            md += "\n" + render_quote_tweet_markdown(t) + "\n"
         if theme.get("type") == "new":
-            if theme.get("outlook"):
-                theme_md += f"\n<font color='blue'>🔮 解读与展望：{theme['outlook']}</font>"
-            if theme.get("opportunity"):
-                theme_md += f"\n<font color='green'>🎯 潜在机会：{theme['opportunity']}</font>"
-            if theme.get("risk"):
-                theme_md += f"\n<font color='red'>⚠️ 潜在风险：{theme['risk']}</font>"
+            if theme.get("outlook"):     md += f"\n<font color='blue'>🔮 解读与展望：{theme['outlook']}</font>"
+            if theme.get("opportunity"): md += f"\n<font color='green'>🎯 潜在机会：{theme['opportunity']}</font>"
+            if theme.get("risk"):        md += f"\n<font color='red'>⚠️ 潜在风险：{theme['risk']}</font>"
         else:
-            if theme.get("consensus"):
-                theme_md += f"\n<font color='green'>🔥 核心共识：{theme['consensus']}</font>"
-            if theme.get("divergence"):
-                theme_md += f"\n<font color='red'>⚔️ 最大分歧：{theme['divergence']}</font>"
-        elements.append({"tag": "markdown", "content": theme_md.strip()})
+            if theme.get("consensus"):  md += f"\n<font color='green'>🔥 核心共识：{theme['consensus']}</font>"
+            if theme.get("divergence"): md += f"\n<font color='red'>⚔️ 最大分歧：{theme['divergence']}</font>"
+        elements.append({"tag": "markdown", "content": md.strip()})
         if idx < len(parsed_data.get("themes", [])) - 1:
             elements.append({"tag": "hr"})
     if parsed_data.get("investment_radar"):
         elements.append({"tag": "hr"})
-        content = "**💰 Investment Radar**\n"
+        c = "**💰 投资雷达**\n"
         for item in parsed_data["investment_radar"]:
-            content += f"\n- **{item['category']}**：{item['content']}"
-        elements.append({"tag": "markdown", "content": content})
+            c += f"\n- **{item['category']}**：{item['content']}"
+        elements.append({"tag": "markdown", "content": c})
     if parsed_data.get("risk_china_view"):
         elements.append({"tag": "hr"})
-        content = "**🌏 China / Risk View**\n"
+        c = "**🌏 中国 / 风险观察**\n"
         for item in parsed_data["risk_china_view"]:
-            content += f"\n- **{item['category']}**：{item['content']}"
-        elements.append({"tag": "markdown", "content": content})
+            c += f"\n- **{item['category']}**：{item['content']}"
+        elements.append({"tag": "markdown", "content": c})
     if parsed_data.get("top_picks"):
         elements.append({"tag": "hr"})
-        content = "**⭐ Top Picks**\n"
+        c = "**▌ 📣 今日精选推文 (Top 5 Picks)**\n\n"
         for t in parsed_data["top_picks"][:5]:
-            content += f"\n- **@{t['account']}** | {t['role']}\n> {t['content']}"
-        elements.append({"tag": "markdown", "content": content})
-
+            c += render_quote_tweet_markdown(t) + "\n\n"
+        elements.append({"tag": "markdown", "content": c.strip()})
     payload = {
         "msg_type": "interactive",
         "card": {
@@ -758,30 +925,38 @@ def render_feishu_card(parsed_data: dict, today_str: str):
         except Exception as e:
             print(f"⚠️ [飞书] 推送异常: {e}", flush=True)
 
-
 def render_wechat_html(parsed_data: dict, cover_url: str = "") -> str:
     lines = []
     if cover_url:
-        lines.append(f'<p style="text-align:center;margin:0 0 16px 0;"><img src="{cover_url}" style="max-width:100%;border-radius:8px;"/></p>')
-    lines.append('<h2 style="margin:0 0 12px 0;">The Pulse</h2>')
-    lines.append(f'<blockquote style="background:#f8f9fa;border-left:4px solid #8c98a4;padding:10px 14px;color:#555;">{parsed_data.get("pulse", "")}</blockquote>')
+        lines.append(f'<p style="text-align:center;margin:0 0 16px 0;"><img src="{html_escape_text(cover_url)}" style="max-width:100%;border-radius:8px;"/></p>')
+    lines.append('<h2 style="margin:0 0 12px 0;">今日看板 (The Pulse)</h2>')
+    lines.append(f'<blockquote style="background:#f8f9fa;border-left:4px solid #8c98a4;padding:10px 14px;color:#555;">{html_escape_text(parsed_data.get("pulse",""))}</blockquote>')
     lines.append('<h2 style="margin:24px 0 12px 0;">主题脉络</h2>')
     for theme in parsed_data.get("themes", []):
-        lines.append(f'<h3 style="margin:16px 0 8px 0;">{theme.get("emoji","🧠")} {theme.get("title","")}</h3>')
-        lines.append(f'<div style="background:#f4f8fb;padding:10px 12px;border-radius:6px;margin:0 0 8px 0;">{theme.get("narrative","")}</div>')
+        lines.append(f'<h3 style="margin:16px 0 8px 0;">{html_escape_text(theme.get("emoji","🧠"))} {html_escape_text(theme.get("title",""))}</h3>')
+        lines.append(f'<div style="background:#f4f8fb;padding:10px 12px;border-radius:6px;margin:0 0 8px 0;">{html_escape_text(theme.get("narrative",""))}</div>')
         for t in theme.get("tweets", []):
-            lines.append(f'<p><strong>@{t.get("account","")}</strong> <span style="color:#94a3b8;">| {t.get("role","")}</span></p>')
-            lines.append(f'<blockquote style="background:#f8f9fa;border-left:4px solid #8c98a4;padding:10px 14px;color:#555;">{t.get("content","")}</blockquote>')
+            lines.append(render_quote_tweet_html(t))
+        if theme.get("type") == "new":
+            if theme.get("outlook"):     lines.append(f'<p><strong>🔮 解读与展望：</strong>{html_escape_text(theme["outlook"])}</p>')
+            if theme.get("opportunity"): lines.append(f'<p><strong>🎯 潜在机会：</strong>{html_escape_text(theme["opportunity"])}</p>')
+            if theme.get("risk"):        lines.append(f'<p><strong>⚠️ 潜在风险：</strong>{html_escape_text(theme["risk"])}</p>')
+        else:
+            if theme.get("consensus"):  lines.append(f'<p><strong>🔥 核心共识：</strong>{html_escape_text(theme["consensus"])}</p>')
+            if theme.get("divergence"): lines.append(f'<p><strong>⚔️ 最大分歧：</strong>{html_escape_text(theme["divergence"])}</p>')
+    if parsed_data.get("top_picks"):
+        lines.append('<h2 style="margin:24px 0 12px 0;">▌ 📣 今日精选推文 (Top 5 Picks)</h2>')
+        for t in parsed_data["top_picks"][:5]:
+            lines.append(render_quote_tweet_html(t))
     if parsed_data.get("investment_radar"):
-        lines.append('<h2 style="margin:24px 0 12px 0;">Investment Radar</h2>')
+        lines.append('<h2 style="margin:24px 0 12px 0;">投资雷达</h2>')
         for item in parsed_data["investment_radar"]:
-            lines.append(f'<p><strong>{item["category"]}</strong>：{item["content"]}</p>')
+            lines.append(f'<p><strong>{html_escape_text(item["category"])}</strong>：{html_escape_text(item["content"])}</p>')
     if parsed_data.get("risk_china_view"):
-        lines.append('<h2 style="margin:24px 0 12px 0;">China / Risk View</h2>')
+        lines.append('<h2 style="margin:24px 0 12px 0;">中国 / 风险观察</h2>')
         for item in parsed_data["risk_china_view"]:
-            lines.append(f'<p><strong>{item["category"]}</strong>：{item["content"]}</p>')
+            lines.append(f'<p><strong>{html_escape_text(item["category"])}</strong>：{html_escape_text(item["content"])}</p>')
     return "".join(lines)
-
 
 def generate_cover_image(prompt: str) -> str:
     if not SF_API_KEY or not prompt:
@@ -986,6 +1161,7 @@ def main():
         return
 
     parsed_data = parse_llm_xml(xml_result)
+    parsed_data = postprocess_parsed_data_cn(parsed_data)
     default_investment_radar, default_risk_china_view = default_special_sections()
     parsed_data["investment_radar"] = default_investment_radar
     parsed_data["risk_china_view"] = default_risk_china_view
