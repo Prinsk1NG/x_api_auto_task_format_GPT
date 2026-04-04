@@ -65,6 +65,8 @@ jobs:
           WECHAT_WEBHOOK_URL: ${{ secrets.WECHAT_WEBHOOK_URL }}
           WECHAT_WEBHOOK_URL_1: ${{ secrets.WECHAT_WEBHOOK_URL_1 }}
           JIJYUN_WEBHOOK_URL: ${{ secrets.JIJYUN_WEBHOOK_URL }}
+          ORISG_WEBHOOK_URL: ${{ secrets.ORISG_WEBHOOK_URL }}
+          ORICN_WEBHOOK_URL: ${{ secrets.ORICN_WEBHOOK_URL }}
 
           TWITTERAPI_IO_KEY: ${{ secrets.TWITTERAPI_IO_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
@@ -88,6 +90,10 @@ jobs:
             data/**/combined.txt
             data/**/raw_llm_report.xml
             data/**/parsed_data.json
+            data/memory_*.json
+            data/character_memory.json
+            data/target_accounts_stats.json
+            data/echo_accounts_stats.json
           if-no-files-found: warn
           retention-days: 7
 
@@ -97,7 +103,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/ character_memory.json memory_*.json target_accounts_stats.json echo_accounts_stats.json account_stats.json || true
+          git add data/ || true
           git status --short
           git commit -m "🤖 [Daily Report v16] Update report artifacts" || echo "No changes to commit"
           git push
