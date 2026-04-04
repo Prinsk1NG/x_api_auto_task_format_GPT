@@ -44,11 +44,11 @@ jobs:
           FEISHU_WEBHOOK_URL_1: ''
           FEISHU_WEBHOOK_URL_2: ''
           FEISHU_WEBHOOK_URL_3: ''
-          JIJYUN_WEBHOOK_URL: ${{ secrets.JIJYUN_WEBHOOK_URL }}
-          OriSG_WEBHOOK_URL: ${{ secrets.OriSG_WEBHOOK_URL }}
+          JIJYUN_WEBHOOK_URL: ''
+          OriSG_WEBHOOK_URL: ''
           OriCN_WEBHOOK_URL: ${{ secrets.OriCN_WEBHOOK_URL }}
           TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
-        run: python x_api_auto_task_xai_xml_final.py
+        run: python x_api_auto_task_xai_xml_final_v151.py
 
       - name: 5. 自动保存原始快照与记忆账本
         run: |
