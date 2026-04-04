@@ -533,10 +533,10 @@ def build_xml_prompt(combined_jsonl: str, today_str: str, memory_context: str) -
 1. 输出 <REPORT> 根节点。
 2. 生成 <COVER><title>...</title><prompt>...</prompt><insight>...</insight></COVER>
 3. 生成 <PULSE> 一段总脉冲。
-4. 生成 4-6 个 <THEME>，属性 type 是 development 、shift 或 new，emoji 必须作为独立属性写入标签，例如 <THEME type="new" emoji="✨">，不要把 emoji 放进 <TITLE> 里。
+4. 生成 4-6 个 <THEME>，属性 type 只能是 shift 或 new，emoji 必须作为独立属性写入标签，例如 <THEME type="new" emoji="✨">，不要把 emoji 放进 <TITLE> 里。
 5. 每个 THEME 需包含 <TITLE>、<NARRATIVE>、若干 <TWEET account="..." role="...">...</TWEET>。
 6. shift 类型必须尽量给出 <CONSENSUS> 和 <DIVERGENCE>。
-7. new 或 development类型必须尽量给出 <OUTLOOK>、<OPPORTUNITY>、<RISK>。
+7. new 类型必须尽量给出 <OUTLOOK>、<OPPORTUNITY>、<RISK>。
 8. 生成 <TOPPICKS>，包含 5 条最值得读的推文。
 9. 内容用中文输出，引用的账号保留英文 handle。
 
