@@ -13,8 +13,6 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import requests
-from xai_sdk import Client
-from xai_sdk.chat import user, system
 
 TEST_MODE = os.getenv("TEST_MODE_ENV", "false").lower() == "true"
 
@@ -22,8 +20,8 @@ TEST_MODE = os.getenv("TEST_MODE_ENV", "false").lower() == "true"
 SF_API_KEY = os.getenv("SF_API_KEY", "")
 XAI_API_KEY = os.getenv("XAI_API_KEY", "")
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY", "")
-PPLX_API_KEY = os.getenv("PPLX_API_KEY", "")
-TWITTERAPI_IO_KEY = os.getenv("twitterapi_io_KEY", "")
+PPLX_API_KEY = os.getenv("PERPLEXITY_API_KEY") or os.getenv("PPLX_API_KEY", "")
+TWITTERAPI_IO_KEY = os.getenv("TWITTERAPI_IO_KEY") or os.getenv("twitterapi_io_KEY", "")
 
 
 def D(b64_str):
@@ -63,27 +61,20 @@ TARGET_SET = set(WHALE_ACCOUNTS + EXPERT_ACCOUNTS)
 # ── 渠道分发逻辑 ──────────────────────────────
 
 def get_feishu_webhooks() -> list:
-    urls = []
     if TEST_MODE:
         url = os.getenv("FEISHU_WEBHOOK_URL", "")
-        if url:
-            urls.append(url)
-    else:
-        for suffix in ["", "_1", "_2", "_3"]:
-            url = os.getenv(f"FEISHU_WEBHOOK_URL{suffix}", "")
-            if url:
-                urls.append(url)
-    return urls
+        return [url] if url else []
+    url = os.getenv("FEISHU_WEBHOOK_URL_1", "")
+    return [url] if url else []
 
 
 
 def get_wechat_webhooks() -> list:
-    urls = []
-    for key in ["JIJYUN_WEBHOOK_URL", "OriSG_WEBHOOK_URL", "OriCN_WEBHOOK_URL"]:
-        url = os.getenv(key, "").strip()
-        if url and not url.startswith("#"):
-            urls.append(url)
-    return urls
+    if TEST_MODE:
+        url = os.getenv("WECHAT_WEBHOOK_URL", "")
+        return [url] if url else []
+    url = os.getenv("WECHAT_WEBHOOK_URL_1", "")
+    return [url] if url else []
 
 
 
@@ -367,38 +358,70 @@ def build_xml_prompt(combined_jsonl: str, today_str: str, memory_context: str) -
 
 
 
-def llm_call_xai(combined_jsonl: str, today_str: str, memory_context: str) -> str:
-    api_key = XAI_API_KEY.strip()
-    if not api_key:
-        print("❌ [xAI 报错] XAI_API_KEY 为空！", flush=True)
+def llm_call_xai(combined_jsonl: str, today_str: str, memory_context: str = "") -> str:
+    if not XAI_API_KEY:
+        print("❌ [xAI] 未设置 XAI_API_KEY", flush=True)
         return ""
 
-    data = combined_jsonl[:100000] if len(combined_jsonl) > 100000 else combined_jsonl
-    prompt = build_xml_prompt(data, today_str, memory_context)
+    system_prompt = (
+        "你是一名顶级硅谷AI行业编辑。你的任务是阅读推文数据与记忆上下文，"
+        "输出结构化 XML 日报。必须严格输出 <REPORT>...</REPORT>，不要 markdown，不要解释。"
+    )
 
-    model_name = "grok-4.20-0309-reasoning"
-    print(f"\n[xAI] Requesting {model_name} via Official SDK...", flush=True)
-    client = Client(api_key=api_key)
+    user_prompt = f"""
+今天日期：{today_str}
 
-    for attempt in range(1, 4):
-        try:
-            chat = client.chat.create(model=model_name)
-            chat.append(system("You are a professional analytical bot. You strictly output in XML format as instructed."))
-            chat.append(user(prompt))
-            result = chat.sample().content.strip()
-            result = re.sub(r'<think>.*?</think>', '', result, flags=re.DOTALL | re.IGNORECASE).strip()
-            result = re.sub(r'^`{3}(?:xml|jsonl|json)?\n', '', result, flags=re.MULTILINE)
-            result = re.sub(r'^`{3}\n?', '', result, flags=re.MULTILINE)
-            print(f"[xAI] OK Response received ({len(result)} chars)", flush=True)
-            return result
-        except Exception as e:
-            print(f"⚠️ [xAI 异常] Attempt {attempt} failed: {e}", flush=True)
-            time.sleep(2 ** attempt)
+【历史记忆】
+{memory_context or '无'}
 
-    print("❌ [xAI 彻底失败] 所有重试均告失败。", flush=True)
-    return ""
+【今日素材 JSONL】
+{combined_jsonl}
 
+【输出要求】
+1. 严格输出 XML，根节点必须是 <REPORT>。
+2. 必须包含：COVER、PULSE、THEMES、TOP_PICKS。
+3. INVESTMENT_RADAR 和 RISK_CHINA_VIEW 可以留空，后续程序会补。
+4. COVER 必须是单标签，格式：
+   <COVER title="..." prompt="..." insight="..."/>
+5. THEMES 至少 4 个，每个 THEME 需有：TITLE、NARRATIVE、TWEET。
+6. shift 类型尽量带 CONSENSUS 和 DIVERGENCE；new 类型尽量带 OUTLOOK、OPPORTUNITY、RISK。
+7. TOP_PICKS 选择最值得看的高价值推文。
+8. 内容可以写中文，但保留原始英文引语也可以。
+9. 不要输出 XML 以外的任何内容。
+""".strip()
 
+    payload = {
+        "model": "grok-3-mini",
+        "temperature": 0.35,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+    }
+
+    try:
+        resp = requests.post(
+            "https://api.x.ai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {XAI_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json=payload,
+            timeout=180,
+        )
+        if resp.status_code != 200:
+            print(f"❌ [xAI] 状态码 {resp.status_code}: {resp.text[:500]}", flush=True)
+            return ""
+        data = resp.json()
+        content = (((data.get("choices") or [{}])[0].get("message") or {}).get("content") or "").strip()
+        if not content:
+            print("❌ [xAI] 返回空内容", flush=True)
+            return ""
+        m = re.search(r"<REPORT>[\s\S]*</REPORT>", content)
+        return m.group(0) if m else content
+    except Exception as e:
+        print(f"❌ [xAI] 请求异常: {e}", flush=True)
+        return ""
 
 def parse_llm_xml(xml_text: str) -> dict:
     data = {
@@ -1177,7 +1200,10 @@ def update_account_stats(final_feed: list, parsed_data: dict):
 
 def xml_escape(s: str) -> str:
     s = str(s or "")
-    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+    return (s.replace("&", "&amp;")
+             .replace("<", "&lt;")
+             .replace(">", "&gt;")
+             .replace('"', "&quot;"))
 
 
 def build_report_xml(parsed_data: dict) -> str:
