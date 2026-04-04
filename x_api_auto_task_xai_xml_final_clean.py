@@ -5,6 +5,9 @@ Architecture: TwitterAPI.io -> xAI SDK (Reasoning) + Memory Bank -> Perplexity (
 """
 
 import os
+import traceback
+import uuid
+import zipfile
 import re
 import json
 import time
@@ -13,6 +16,8 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import requests
+from xai_sdk import Client
+from xai_sdk.chat import user, system
 
 TEST_MODE = os.getenv("TEST_MODE_ENV", "false").lower() == "true"
 
@@ -20,8 +25,8 @@ TEST_MODE = os.getenv("TEST_MODE_ENV", "false").lower() == "true"
 SF_API_KEY = os.getenv("SF_API_KEY", "")
 XAI_API_KEY = os.getenv("XAI_API_KEY", "")
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY", "")
-PPLX_API_KEY = os.getenv("PERPLEXITY_API_KEY") or os.getenv("PPLX_API_KEY", "")
-TWITTERAPI_IO_KEY = os.getenv("TWITTERAPI_IO_KEY") or os.getenv("twitterapi_io_KEY", "")
+PPLX_API_KEY = os.getenv("PPLX_API_KEY", "")
+TWITTERAPI_IO_KEY = os.getenv("twitterapi_io_KEY", "")
 
 
 def D(b64_str):
@@ -61,20 +66,27 @@ TARGET_SET = set(WHALE_ACCOUNTS + EXPERT_ACCOUNTS)
 # ── 渠道分发逻辑 ──────────────────────────────
 
 def get_feishu_webhooks() -> list:
+    urls = []
     if TEST_MODE:
         url = os.getenv("FEISHU_WEBHOOK_URL", "")
-        return [url] if url else []
-    url = os.getenv("FEISHU_WEBHOOK_URL_1", "")
-    return [url] if url else []
+        if url:
+            urls.append(url)
+    else:
+        for suffix in ["", "_1", "_2", "_3"]:
+            url = os.getenv(f"FEISHU_WEBHOOK_URL{suffix}", "")
+            if url:
+                urls.append(url)
+    return urls
 
 
 
 def get_wechat_webhooks() -> list:
-    if TEST_MODE:
-        url = os.getenv("WECHAT_WEBHOOK_URL", "")
-        return [url] if url else []
-    url = os.getenv("WECHAT_WEBHOOK_URL_1", "")
-    return [url] if url else []
+    urls = []
+    for key in ["JIJYUN_WEBHOOK_URL", "OriSG_WEBHOOK_URL", "OriCN_WEBHOOK_URL"]:
+        url = os.getenv(key, "").strip()
+        if url and not url.startswith("#"):
+            urls.append(url)
+    return urls
 
 
 
@@ -358,70 +370,43 @@ def build_xml_prompt(combined_jsonl: str, today_str: str, memory_context: str) -
 
 
 
-def llm_call_xai(combined_jsonl: str, today_str: str, memory_context: str = "") -> str:
-    if not XAI_API_KEY:
-        print("❌ [xAI] 未设置 XAI_API_KEY", flush=True)
+def llm_call_xai(combined_jsonl: str, today_str: str, memory_context: str) -> str:
+    api_key = XAI_API_KEY.strip()
+    if not api_key:
+        print("❌ [xAI 报错] XAI_API_KEY 为空！", flush=True)
         return ""
 
-    system_prompt = (
-        "你是一名顶级硅谷AI行业编辑。你的任务是阅读推文数据与记忆上下文，"
-        "输出结构化 XML 日报。必须严格输出 <REPORT>...</REPORT>，不要 markdown，不要解释。"
-    )
+    data = combined_jsonl[:100000] if len(combined_jsonl) > 100000 else combined_jsonl
+    prompt = build_xml_prompt(data, today_str, memory_context)
+    model_name = "grok-4.20-0309-reasoning"
 
-    user_prompt = f"""
-今天日期：{today_str}
+    print(f"\n[xAI] Requesting {model_name} via Official SDK...", flush=True)
+    print(f"[xAI] combined_jsonl chars={len(combined_jsonl)} | sent chars={len(data)} | memory chars={len(memory_context)} | prompt chars={len(prompt)}", flush=True)
 
-【历史记忆】
-{memory_context or '无'}
+    client = Client(api_key=api_key)
+    for attempt in range(1, 4):
+        try:
+            print(f"[xAI] Attempt {attempt}/3", flush=True)
+            chat = client.chat.create(model=model_name)
+            chat.append(system("You are a professional analytical bot. You strictly output in XML format as instructed."))
+            chat.append(user(prompt))
+            result = chat.sample().content.strip()
+            result = re.sub(r'<think>.*?</think>', '', result, flags=re.DOTALL | re.IGNORECASE).strip()
+            result = re.sub(r'^`{3}(?:xml|jsonl|json)?\\n', '', result, flags=re.MULTILINE)
+            result = re.sub(r'^`{3}\\n?', '', result, flags=re.MULTILINE)
+            preview = result[:800].replace("\n", " ")
+            print(f"[xAI] OK Response received ({len(result)} chars)", flush=True)
+            print(f"[xAI] Preview: {preview}", flush=True)
+            if '<TWEET' not in result:
+                print("⚠️ [xAI] 原始返回中未发现 <TWEET> 标签。", flush=True)
+            return result
+        except Exception as e:
+            print(f"⚠️ [xAI 异常] Attempt {attempt} failed: {e}", flush=True)
+            print(traceback.format_exc(), flush=True)
+            time.sleep(2 ** attempt)
 
-【今日素材 JSONL】
-{combined_jsonl}
-
-【输出要求】
-1. 严格输出 XML，根节点必须是 <REPORT>。
-2. 必须包含：COVER、PULSE、THEMES、TOP_PICKS。
-3. INVESTMENT_RADAR 和 RISK_CHINA_VIEW 可以留空，后续程序会补。
-4. COVER 必须是单标签，格式：
-   <COVER title="..." prompt="..." insight="..."/>
-5. THEMES 至少 4 个，每个 THEME 需有：TITLE、NARRATIVE、TWEET。
-6. shift 类型尽量带 CONSENSUS 和 DIVERGENCE；new 类型尽量带 OUTLOOK、OPPORTUNITY、RISK。
-7. TOP_PICKS 选择最值得看的高价值推文。
-8. 内容可以写中文，但保留原始英文引语也可以。
-9. 不要输出 XML 以外的任何内容。
-""".strip()
-
-    payload = {
-        "model": "grok-3-mini",
-        "temperature": 0.35,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-    }
-
-    try:
-        resp = requests.post(
-            "https://api.x.ai/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {XAI_API_KEY}",
-                "Content-Type": "application/json",
-            },
-            json=payload,
-            timeout=180,
-        )
-        if resp.status_code != 200:
-            print(f"❌ [xAI] 状态码 {resp.status_code}: {resp.text[:500]}", flush=True)
-            return ""
-        data = resp.json()
-        content = (((data.get("choices") or [{}])[0].get("message") or {}).get("content") or "").strip()
-        if not content:
-            print("❌ [xAI] 返回空内容", flush=True)
-            return ""
-        m = re.search(r"<REPORT>[\s\S]*</REPORT>", content)
-        return m.group(0) if m else content
-    except Exception as e:
-        print(f"❌ [xAI] 请求异常: {e}", flush=True)
-        return ""
+    print("❌ [xAI 彻底失败] 所有重试均告失败。", flush=True)
+    return ""
 
 def parse_llm_xml(xml_text: str) -> dict:
     data = {
@@ -433,7 +418,24 @@ def parse_llm_xml(xml_text: str) -> dict:
         "top_picks": []
     }
     if not xml_text:
+        print("⚠️ [解析] xml_text 为空。", flush=True)
         return data
+
+    def extract_tweets(block: str):
+        tweets = []
+        if not block:
+            return tweets
+        for t_match in re.finditer(r'<TWEET\b([^>]*)>(.*?)</TWEET>', block, re.IGNORECASE | re.DOTALL):
+            attrs = t_match.group(1) or ""
+            content = (t_match.group(2) or "").strip()
+            account_m = re.search(r'account\s*=\s*[\'\"“”](.*?)[\'\"“”]', attrs, re.IGNORECASE | re.DOTALL)
+            role_m = re.search(r'role\s*=\s*[\'\"“”](.*?)[\'\"“”]', attrs, re.IGNORECASE | re.DOTALL)
+            tweets.append({
+                "account": account_m.group(1).strip() if account_m else "",
+                "role": role_m.group(1).strip() if role_m else "",
+                "content": content,
+            })
+        return tweets
 
     cover_match = re.search(r'<COVER\s+title=[\'\"“”](.*?)[\'\"“”]\s+prompt=[\'\"“”](.*?)[\'\"“”]\s+insight=[\'\"“”](.*?)[\'\"“”]\s*/?>', xml_text, re.IGNORECASE | re.DOTALL)
     if not cover_match:
@@ -460,13 +462,7 @@ def parse_llm_xml(xml_text: str) -> dict:
         narrative_match = re.search(r'<NARRATIVE>(.*?)</NARRATIVE>', theme_body, re.IGNORECASE | re.DOTALL)
         narrative = narrative_match.group(1).strip() if narrative_match else ""
 
-        tweets = []
-        for t_match in re.finditer(r'<TWEET\s+account=[\'\"“”](.*?)[\'\"“”]\s+role=[\'\"“”](.*?)[\'\"“”]>(.*?)</TWEET>', theme_body, re.IGNORECASE | re.DOTALL):
-            tweets.append({
-                "account": t_match.group(1).strip(),
-                "role": t_match.group(2).strip(),
-                "content": t_match.group(3).strip()
-            })
+        tweets = extract_tweets(theme_body)
 
         con_match = re.search(r'<CONSENSUS>(.*?)</CONSENSUS>', theme_body, re.IGNORECASE | re.DOTALL)
         consensus = con_match.group(1).strip() if con_match else ""
@@ -504,18 +500,17 @@ def parse_llm_xml(xml_text: str) -> dict:
 
     picks_match = re.search(r'<TOP_PICKS>(.*?)</TOP_PICKS>', xml_text, re.IGNORECASE | re.DOTALL)
     if picks_match:
-        for t_match in re.finditer(r'<TWEET\s+account=[\'\"“”](.*?)[\'\"“”]\s+role=[\'\"“”](.*?)[\'\"“”]>(.*?)</TWEET>', picks_match.group(1), re.IGNORECASE | re.DOTALL):
-            data["top_picks"].append({
-                "account": t_match.group(1).strip(),
-                "role": t_match.group(2).strip(),
-                "content": t_match.group(3).strip()
-            })
+        data["top_picks"] = extract_tweets(picks_match.group(1))
+
+    total_theme_tweets = sum(len(theme.get("tweets", [])) for theme in data["themes"])
+    print(f"[解析] themes={len(data['themes'])} | theme_tweets={total_theme_tweets} | top_picks={len(data['top_picks'])}", flush=True)
+    for idx, theme in enumerate(data["themes"], start=1):
+        print(f"[解析] Theme {idx}: {theme.get('title', '')} | tweets={len(theme.get('tweets', []))} | type={theme.get('type', '')}", flush=True)
+    if total_theme_tweets == 0:
+        print("⚠️ [解析警报] 主题存在，但所有 <THEME> 下的推文都没解析出来。请重点检查原始 XML 的 <TWEET> 属性格式。", flush=True)
+    if not data["top_picks"]:
+        print("⚠️ [解析警报] <TOP_PICKS> 为空或其中的 <TWEET> 未匹配成功。", flush=True)
     return data
-
-
-# ==============================================================================
-# 🧩 Perplexity 专项栏目模块
-# ==============================================================================
 
 def fetch_special_sections_with_perplexity(today_str: str):
     if not PPLX_API_KEY:
@@ -579,8 +574,18 @@ def fetch_special_sections_with_perplexity(today_str: str):
 
 def render_feishu_card(parsed_data: dict, today_str: str):
     webhooks = get_feishu_webhooks()
-    if not webhooks or not parsed_data.get("pulse"):
+    if not webhooks:
+        print("⚠️ [飞书] 未配置 webhook，跳过推送。", flush=True)
         return
+    if not parsed_data.get("pulse"):
+        print("⚠️ [飞书] pulse 为空，跳过推送。", flush=True)
+        return
+
+    theme_tweet_count = sum(len(theme.get("tweets", [])) for theme in parsed_data.get("themes", []))
+    print(f"[飞书] 准备推送 | themes={len(parsed_data.get('themes', []))} | theme_tweets={theme_tweet_count} | top_picks={len(parsed_data.get('top_picks', []))}", flush=True)
+    if theme_tweet_count == 0 and not parsed_data.get("top_picks"):
+        print("⚠️ [飞书] 本次卡片没有任何推文内容，会只显示摘要栏目。", flush=True)
+
     elements = []
     elements.append({"tag": "markdown", "content": f"**▌ ⚡️ 今日看板 (The Pulse)**\n<font color='grey'>{parsed_data['pulse']}</font>"})
     elements.append({"tag": "hr"})
@@ -591,8 +596,11 @@ def render_feishu_card(parsed_data: dict, today_str: str):
             theme_md = f"**{theme['emoji']} {theme['title']}**\n"
             prefix = "🔭 新叙事观察" if theme.get("type") == "new" else "💡 叙事转向"
             theme_md += f"<font color='grey'>{prefix}：{theme['narrative']}</font>\n"
-            for t in theme["tweets"]:
-                theme_md += f"🗣️ **@{t['account']} | {t['role']}**\n<font color='grey'>“{t['content']}”</font>\n"
+            for t in theme.get("tweets", []):
+                account = t.get('account') or 'unknown'
+                role = t.get('role') or 'unknown'
+                content = t.get('content') or ''
+                theme_md += f"🗣️ **@{account} | {role}**\n<font color='grey'>“{content}”</font>\n"
             if theme.get("type") == "new":
                 if theme.get("outlook"):
                     theme_md += f"<font color='blue'>**🔮 解读与展望：**</font> {theme['outlook']}\n"
@@ -625,7 +633,10 @@ def render_feishu_card(parsed_data: dict, today_str: str):
     if parsed_data["top_picks"]:
         picks_md = "**▌ 📣 今日精选推文 (Top 5 Picks)**\n"
         for t in parsed_data["top_picks"]:
-            picks_md += f"\n🗣️ **@{t['account']} | {t['role']}**\n<font color='grey'>\"{t['content']}\"</font>\n"
+            account = t.get('account') or 'unknown'
+            role = t.get('role') or 'unknown'
+            content = t.get('content') or ''
+            picks_md += f"\n🗣️ **@{account} | {role}**\n<font color='grey'>\"{content}\"</font>\n"
         elements.append({"tag": "markdown", "content": picks_md.strip()})
 
     card_payload = {
@@ -639,12 +650,12 @@ def render_feishu_card(parsed_data: dict, today_str: str):
     for url in webhooks:
         try:
             resp = requests.post(url, json=card_payload, timeout=20)
-            if resp.status_code != 200:
+            if resp.status_code == 200:
+                print(f"✅ [飞书] 推送成功: {url.split('//')[-1][:18]}...", flush=True)
+            else:
                 print(f"⚠️ [飞书 Webhook 报错] 状态码: {resp.status_code}, 返回: {resp.text}", flush=True)
         except Exception as e:
             print(f"⚠️ [飞书网络异常] 推送断开: {e}", flush=True)
-
-
 
 def render_wechat_html(parsed_data: dict, cover_url: str = "") -> str:
     html_lines = []
@@ -760,14 +771,103 @@ def push_to_wechat(html_content, title, cover_url=""):
 
 
 
-def save_daily_data(today_str: str, post_objects: list, report_text: str):
-    data_dir = Path(f"data/{today_str}")
-    data_dir.mkdir(parents=True, exist_ok=True)
-    (data_dir / "combined.txt").write_text("\n".join(json.dumps(obj, ensure_ascii=False) for obj in post_objects), encoding="utf-8")
-    if report_text:
-        (data_dir / "daily_report.txt").write_text(report_text, encoding="utf-8")
+def get_run_output_dir(today_str: str) -> Path:
+    if TEST_MODE:
+        now = datetime.now(timezone(timedelta(hours=8)))
+        stamp = now.strftime("%H%M%S")
+        suffix = uuid.uuid4().hex[:6]
+        out_dir = Path(f"test_outputs/{today_str}/{stamp}_{suffix}")
+    else:
+        out_dir = Path(f"data/{today_str}")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    return out_dir
 
 
+def write_json_file(path: Path, payload):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def zip_directory(source_dir: Path, zip_path: Path):
+    zip_path.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+        for file_path in source_dir.rglob("*"):
+            if file_path.is_file() and file_path != zip_path:
+                zf.write(file_path, arcname=file_path.relative_to(source_dir))
+    return zip_path
+
+
+def try_upload_temp_bundle(zip_path: Path) -> str:
+    try:
+        with zip_path.open("rb") as f:
+            resp = requests.post("https://0x0.st", files={"file": (zip_path.name, f, "application/zip")}, timeout=60)
+        if resp.status_code == 200:
+            return resp.text.strip()
+        print(f"⚠️ [测试包上传失败] status={resp.status_code} body={resp.text[:300]}", flush=True)
+    except Exception as e:
+        print(f"⚠️ [测试包上传异常] {e}", flush=True)
+    return ""
+
+
+def save_test_sidecars(output_dir: Path, memory_candidates: list, parsed_data: dict, report_candidates: list):
+    write_json_file(output_dir / "memory_candidates.json", memory_candidates)
+    write_json_file(output_dir / "report_candidates.json", report_candidates)
+    write_json_file(output_dir / "parsed_summary.json", {
+        "theme_count": len(parsed_data.get("themes", [])),
+        "theme_tweet_count": sum(len(t.get("tweets", [])) for t in parsed_data.get("themes", [])),
+        "top_picks_count": len(parsed_data.get("top_picks", [])),
+        "theme_titles": [t.get("title", "") for t in parsed_data.get("themes", [])],
+    })
+
+
+def save_daily_data(today_str: str, post_objects: list, report_text: str, parsed_data: dict = None, raw_llm_xml: str = "", extra_meta: dict = None):
+    output_dir = get_run_output_dir(today_str)
+    combined_path = output_dir / "combined.txt"
+    daily_report_path = output_dir / "daily_report.txt"
+    raw_xml_path = output_dir / "raw_llm_report.xml"
+    parsed_json_path = output_dir / "parsed_data.json"
+    meta_path = output_dir / "run_meta.json"
+
+    combined_path.write_text("\n".join(json.dumps(obj, ensure_ascii=False) for obj in post_objects), encoding="utf-8")
+    final_report = build_report_xml(parsed_data) if parsed_data else report_text
+    if final_report:
+        daily_report_path.write_text(final_report, encoding="utf-8")
+    if raw_llm_xml:
+        raw_xml_path.write_text(raw_llm_xml, encoding="utf-8")
+    if parsed_data is not None:
+        write_json_file(parsed_json_path, parsed_data)
+
+    meta = extra_meta or {}
+    meta.update({
+        "test_mode": TEST_MODE,
+        "output_dir": str(output_dir),
+        "combined_count": len(post_objects),
+        "theme_count": len(parsed_data.get("themes", [])) if parsed_data else 0,
+        "theme_tweet_count": sum(len(t.get("tweets", [])) for t in parsed_data.get("themes", [])) if parsed_data else 0,
+        "top_picks_count": len(parsed_data.get("top_picks", [])) if parsed_data else 0,
+        "generated_at": datetime.now(timezone(timedelta(hours=8))).isoformat(),
+    })
+    write_json_file(meta_path, meta)
+
+    print(f"[落盘] 输出目录: {output_dir}", flush=True)
+    print(f"[落盘] combined.txt => {combined_path}", flush=True)
+    print(f"[落盘] daily_report.txt => {daily_report_path}", flush=True)
+    if raw_llm_xml:
+        print(f"[落盘] raw_llm_report.xml => {raw_xml_path}", flush=True)
+    if parsed_data is not None:
+        print(f"[落盘] parsed_data.json => {parsed_json_path}", flush=True)
+
+    if TEST_MODE:
+        zip_path = output_dir / "test_artifacts.zip"
+        zip_directory(output_dir, zip_path)
+        print(f"[测试模式] 临时打包完成: {zip_path}", flush=True)
+        temp_url = try_upload_temp_bundle(zip_path)
+        if temp_url:
+            print(f"[测试模式] 临时下载链接: {temp_url}", flush=True)
+        else:
+            print("[测试模式] 临时下载链接生成失败；请直接从日志中的 runner 路径取文件。", flush=True)
+
+    return output_dir
 
 def save_memory_snapshot(today_str: str, top_feed: list):
     data_dir = Path("data")
@@ -1200,10 +1300,7 @@ def update_account_stats(final_feed: list, parsed_data: dict):
 
 def xml_escape(s: str) -> str:
     s = str(s or "")
-    return (s.replace("&", "&amp;")
-             .replace("<", "&lt;")
-             .replace(">", "&gt;")
-             .replace('"', "&quot;"))
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
 
 def build_report_xml(parsed_data: dict) -> str:
@@ -1261,6 +1358,7 @@ def main():
     print("=" * 60, flush=True)
     print("昨晚硅谷在聊啥 v16.0 (分层清洗 + 记忆收敛 + 统计拆池版)", flush=True)
     print("=" * 60, flush=True)
+    print(f"[模式] TEST_MODE={TEST_MODE}", flush=True)
 
     if not TWITTERAPI_IO_KEY or not TARGET_SET:
         print("❌ 错误: 未配置 API KEY 或本地 txt 名单为空", flush=True)
@@ -1288,7 +1386,10 @@ def main():
         print("❌ [终极警告] 本次运行未能从推特获取任何有效数据！程序强行终止。", flush=True)
         return
 
+    print(f"[抓取] raw_feed={len(raw_feed)}", flush=True)
     clean_feed = score_and_filter(raw_feed)
+    print(f"[筛选] clean_feed={len(clean_feed)}", flush=True)
+
     tier_1 = clean_feed[:15]
     tier_2 = clean_feed[15:REPORT_POOL_LIMIT]
 
@@ -1296,6 +1397,7 @@ def main():
     for t in tier_1:
         raw_replies = fetch_reply_pages(t["id"], max_pages=2)
         t["deep_replies"] = filter_deep_replies(raw_replies)
+        print(f"[深挖] @{t['author']} | tweet_id={t['id']} | raw_replies={len(raw_replies)} | kept={len(t['deep_replies'])}", flush=True)
         time.sleep(0.6)
 
     report_candidates = []
@@ -1329,6 +1431,7 @@ def main():
         print("❌ [终极警告] 最终送入 LLM 的内容为空！", flush=True)
         return
 
+    print(f"[LLM 输入] report_candidates={len(report_candidates)} | combined_jsonl chars={len(combined_jsonl)}", flush=True)
     today_accounts = set(t.get("a", "").lower() for t in report_candidates)
     memory = load_memory()
     memory_context_lines = []
@@ -1336,6 +1439,7 @@ def main():
         if acc in memory and memory[acc]:
             memory_context_lines.append(f"@{acc} 近期观点:\n- " + "\n- ".join(memory[acc]))
     memory_context = "\n\n".join(memory_context_lines)
+    print(f"[记忆] accounts_with_memory={len(memory_context_lines)} | memory chars={len(memory_context)}", flush=True)
 
     xml_result = llm_call_xai(combined_jsonl, today_str, memory_context)
     if not xml_result:
@@ -1354,15 +1458,43 @@ def main():
         parsed_data["risk_china_view"] = risk_china_view
 
     memory_candidates = build_memory_candidates(parsed_data)
-    update_character_memory(parsed_data, today_str)
+    if TEST_MODE:
+        print("[测试模式] 跳过 update_character_memory/save_memory_snapshot/update_account_stats 的正式写库流程。", flush=True)
+    else:
+        update_character_memory(parsed_data, today_str)
 
     cover_url = ""
     if parsed_data.get("cover", {}).get("prompt"):
         print(f"\n[生图] 提取到生图提示词: {parsed_data['cover']['prompt'][:50]}...", flush=True)
         sf_url = generate_cover_image(parsed_data["cover"]["prompt"])
         cover_url = upload_to_imgbb_via_url(sf_url) if sf_url else ""
+        print(f"[生图] cover_url={'OK' if cover_url else 'EMPTY'}", flush=True)
     else:
         print("\n⚠️ [渲染警报] 未能从 Grok 报告中解析出生图 prompt 属性！", flush=True)
+
+    output_dir = save_daily_data(
+        today_str,
+        report_candidates,
+        xml_result,
+        parsed_data,
+        raw_llm_xml=xml_result,
+        extra_meta={
+            "cover_url": cover_url,
+            "memory_candidates_count": len(memory_candidates),
+        },
+    )
+
+    if TEST_MODE:
+        save_test_sidecars(output_dir, memory_candidates, parsed_data, report_candidates)
+        zip_path = output_dir / "test_artifacts.zip"
+        if not zip_path.exists():
+            zip_directory(output_dir, zip_path)
+        temp_url = try_upload_temp_bundle(zip_path)
+        if temp_url:
+            print(f"[测试模式] 复核下载链接: {temp_url}", flush=True)
+    else:
+        save_memory_snapshot(today_str, memory_candidates)
+        update_account_stats(report_candidates, parsed_data)
 
     render_feishu_card(parsed_data, today_str)
 
@@ -1375,12 +1507,8 @@ def main():
             cover_url=cover_url,
         )
 
-    save_daily_data(today_str, report_candidates, xml_result, parsed_data)
-    save_memory_snapshot(today_str, memory_candidates)
-    update_account_stats(report_candidates, parsed_data)
-
+    print(f"[完成] 输出目录: {output_dir}", flush=True)
     print("\n🎉 V16.0 全链路执行完毕！", flush=True)
-
 
 if __name__ == "__main__":
     main()
