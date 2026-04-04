@@ -558,7 +558,7 @@ def llm_call_xai(combined_jsonl: str, today_str: str, memory_context: str) -> st
     client = Client(api_key=XAI_API_KEY)
     for attempt in range(1, 4):
         try:
-            chat = client.chat.create(model="grok-4.1")
+            chat = client.chat.create(model="grok-4.20-0309-reasoning")
             chat.append(system("You are a professional analytical bot. You strictly output in XML format as instructed."))
             chat.append(user(prompt))
             result = chat.sample().content.strip()
