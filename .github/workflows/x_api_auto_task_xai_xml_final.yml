@@ -41,7 +41,7 @@ jobs:
       - name: 3. 安装依赖
         run: |
           python -m pip install --upgrade pip
-          pip install requests openai
+          pip install requests openai xai-sdk
 
       - name: 4. 显示当前模式
         shell: bash
@@ -59,14 +59,19 @@ jobs:
       - name: 5. 运行日报主流程
         env:
           TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
+
           FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
           FEISHU_WEBHOOK_URL_1: ${{ secrets.FEISHU_WEBHOOK_URL_1 }}
           WECHAT_WEBHOOK_URL: ${{ secrets.WECHAT_WEBHOOK_URL }}
           WECHAT_WEBHOOK_URL_1: ${{ secrets.WECHAT_WEBHOOK_URL_1 }}
           JIJYUN_WEBHOOK_URL: ${{ secrets.JIJYUN_WEBHOOK_URL }}
+
           TWITTERAPI_IO_KEY: ${{ secrets.TWITTERAPI_IO_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+
+          PPLX_API_KEY: ${{ secrets.PPLX_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PPLX_API_KEY }}
+
           SF_API_KEY: ${{ secrets.SF_API_KEY }}
           IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
         run: |
