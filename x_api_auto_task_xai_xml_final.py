@@ -80,8 +80,8 @@ def get_feishu_webhooks() -> list:
 def get_wechat_webhooks() -> list:
     urls = []
     for key in ["JIJYUN_WEBHOOK_URL", "OriSG_WEBHOOK_URL", "OriCN_WEBHOOK_URL"]:
-        url = os.getenv(key, "")
-        if url:
+        url = os.getenv(key, "").strip()
+        if url and not url.startswith("#"):
             urls.append(url)
     return urls
 
@@ -540,13 +540,10 @@ def fetch_special_sections_with_perplexity(today_str: str):
             print(f"⚠️ [Perplexity 外部栏目报错] HTTP {resp.status_code}: {resp.text[:200]}", flush=True)
             return [], []
         content = resp.json()["choices"][0]["message"]["content"].strip()
-        match = re.search(r'\{.*\}', content, re.S)
-        if not match:
-            print("⚠️ [Perplexity 外部栏目] 未找到 JSON，跳过。", flush=True)
+        investment_radar, risk_china_view = safe_parse_pplx_sections(content)
+        if not investment_radar and not risk_china_view:
+            print("⚠️ [Perplexity 外部栏目] 解析失败，已降级为空栏目。", flush=True)
             return [], []
-        data = json.loads(match.group(0))
-        investment_radar = data.get("investment_radar", []) if isinstance(data.get("investment_radar", []), list) else []
-        risk_china_view = data.get("risk_china_view", []) if isinstance(data.get("risk_china_view", []), list) else []
         return investment_radar[:2], risk_china_view[:2]
     except Exception as e:
         print(f"⚠️ [Perplexity 外部栏目异常] {e}", flush=True)
