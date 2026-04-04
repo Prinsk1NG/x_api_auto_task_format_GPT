@@ -959,7 +959,12 @@ TOXIC_PATTERNS = [
     r"\bscam\b", r"\bracist\b", r"\btrash\b", r"\bgarbage\b"
 ]
 
-PPLX_API_KEY = os.getenv("PERPLEXITY_API_KEY") or os.getenv("PPLXAPIKEY") or ""
+PPLX_API_KEY = (
+    os.getenv("PPLX_API_KEY")
+    or os.getenv("PERPLEXITY_API_KEY")
+    or os.getenv("PPLXAPIKEY")
+    or ""
+)
 
 
 def norm_text(s: str) -> str:
