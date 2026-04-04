@@ -1,0 +1,54 @@
+name: 硅谷情报局半月度名单维护 (V15.0)
+
+on:
+  schedule:
+    - cron: '0 2 1,15 * *' # 每个月 1号/15号，北京时间上午 10:00
+  workflow_dispatch:
+    inputs:
+      test_mode:
+        description: '🧪 开启测试模式 (仅发测试群)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  maintain-list:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. 拉取最新代码 (包含 data 目录历史记录)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 2. 安装 Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 3. 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: 4. 运行 HR Manager (半月度洗牌算法)
+        env:
+          FEISHU_WEBHOOK_URL: ${{ github.event.inputs.test_mode == 'true' && secrets.FEISHU_WEBHOOK_URL || '' }}
+          FEISHU_WEBHOOK_URL_1: ''
+          JIJYUN_WEBHOOK_URL: ${{ secrets.JIJYUN_WEBHOOK_URL }}
+          TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
+        run: |
+          python hr_manager_final.py
+
+      - name: 5. 自动提交新名单
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add experts.txt || true
+
+          git commit -m "🤖 [HR Manager] Portfolio Rebalancing: Automatically update experts list" || echo "No changes to commit"
+          git push
