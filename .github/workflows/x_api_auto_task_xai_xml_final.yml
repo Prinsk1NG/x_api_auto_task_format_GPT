@@ -1,12 +1,13 @@
-name: 硅谷情报局自动任务 (V15.1)
+name: 昨晚硅谷在聊啥 v16 (日报主流程)
 
 on:
   #schedule:
-  #  - cron: '0 23 * * *' # 每天北京时间早上 7 点运行（暂未启用）
+   # - cron: '35 23 * * *'
+
   workflow_dispatch:
     inputs:
       test_mode:
-        description: '🧪 开启测试模式 (仅发测试群)'
+        description: '🧪 开启测试模式'
         required: false
         type: boolean
         default: false
@@ -14,48 +15,62 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: x-api-daily-report
+  cancel-in-progress: false
+
 jobs:
-  build-and-run:
+  daily-report:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
+
     steps:
-      - name: 1. 拉取代码
+      - name: 1. 拉取最新代码 (包含 data 历史文件)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 2. 配置 Python 环境
+      - name: 2. 安装 Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: 3. 安装依赖包
+      - name: 3. 安装依赖
         run: |
           python -m pip install --upgrade pip
-          pip install requests xai-sdk
+          pip install requests openai
 
-      - name: 4. 执行核心情报捕获与研报生成
+      - name: 4. 显示当前模式
+        run: |
+          echo "TEST_MODE_ENV=${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}"
+          if [ "${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}" = "true" ]; then
+            echo "当前为测试模式：脚本应只推送到 FEISHU_WEBHOOK_URL"
+          else
+            echo "当前为正式模式：脚本应只推送到 FEISHU_WEBHOOK_URL_1"
+          fi
+
+      - name: 5. 运行日报主流程
         env:
-          twitterapi_io_KEY: ${{ secrets.TWITTERAPI_IO_KEY }}
-          PPLX_API_KEY: ${{ secrets.PPLX_API_KEY }}
+          TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
+
+          FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
+          FEISHU_WEBHOOK_URL_1: ${{ secrets.FEISHU_WEBHOOK_URL_1 }}
+          WECHAT_WEBHOOK_URL: ${{ secrets.WECHAT_WEBHOOK_URL }}
+          WECHAT_WEBHOOK_URL_1: ${{ secrets.WECHAT_WEBHOOK_URL_1 }}
+          JIJYUN_WEBHOOK_URL: ${{ secrets.JIJYUN_WEBHOOK_URL }}
+
+          TWITTERAPI_IO_KEY: ${{ secrets.TWITTERAPI_IO_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
           SF_API_KEY: ${{ secrets.SF_API_KEY }}
           IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
-          FEISHU_WEBHOOK_URL: ${{ github.event.inputs.test_mode == 'true' && secrets.FEISHU_WEBHOOK_URL || '' }}
-          FEISHU_WEBHOOK_URL_1: ''
-          FEISHU_WEBHOOK_URL_2: ''
-          FEISHU_WEBHOOK_URL_3: ''
-          JIJYUN_WEBHOOK_URL: ''
-          OriSG_WEBHOOK_URL: ''
-          OriCN_WEBHOOK_URL: ${{ secrets.OriCN_WEBHOOK_URL }}
-          TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
-        run: python x_api_auto_task_xai_xml_final.py
+        run: |
+          python x_api_auto_task_xai_xml_final_clean.py
 
-      - name: 5. 自动保存原始快照与记忆账本
+      - name: 6. 自动提交日报与数据文件
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-
-          git add whales.txt experts.txt data/ || true
-
-          git commit -m "🤖 [Daily Intelligence] Archive reports & Memory Bank" || echo "No changes to commit"
+          git add data combined.txt daily_report.txt character_memory.json memory_*.json target_accounts_stats.json echo_accounts_stats.json account_stats.json || true
+          git commit -m "🤖 [Daily Report v16] Update report artifacts" || echo "No changes to commit"
           git push
