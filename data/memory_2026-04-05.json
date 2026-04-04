@@ -1,0 +1,128 @@
+[
+  {
+    "account": "xai",
+    "summary": "Grok Imagine推出Quality模式，由我们最先进的图像生成模型驱动。该模式提供增强的细节、更强的文本渲染以及更高的创意控制水平。现在已在网页和移动端可用。",
+    "theme_title": "Grok Imagine Quality模式发布",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "elonmusk",
+    "summary": "使用语音输入Imagine对能说话却太小无法写复杂提示词的儿童来说是个很棒的功能，他们拥有惊人的想象力。",
+    "theme_title": "Grok Imagine Quality模式发布",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "xai",
+    "summary": "Quality模式带来视觉美学的新高度。可生成具有逼真光照、纹理和细节的照片级场景。",
+    "theme_title": "Grok Imagine Quality模式发布",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "elonmusk",
+    "summary": "Grok Imagine",
+    "theme_title": "Grok Imagine Quality模式发布",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "matthewberman",
+    "summary": "结束了。正式结束了。OpenClaw里不再有Claude。Anthropic此举被用户视为背刺，周五晚间宣布后大量用户取消订阅。",
+    "theme_title": "Anthropic终止Claude对OpenClaw支持",
+    "consensus": "用户普遍认为Anthropic此举过于突然且缺乏过渡，加速了开发者转向本地开源模型的步伐。",
+    "divergence": "部分开发者认为切换到API Key或本地方案会增加复杂度，而另一部分人视此为拥抱真正开放生态的机会。"
+  },
+  {
+    "account": "jessegenet",
+    "summary": "已经发生了。Mac Studio到位。我安装了Gemma 4 31b，现在用OpenClaw完全零token成本。过去几个月我在疯狂想法上烧了5-6k美元，这个Mac Studio几个月内就能回本。",
+    "theme_title": "Anthropic终止Claude对OpenClaw支持",
+    "consensus": "用户普遍认为Anthropic此举过于突然且缺乏过渡，加速了开发者转向本地开源模型的步伐。",
+    "divergence": "部分开发者认为切换到API Key或本地方案会增加复杂度，而另一部分人视此为拥抱真正开放生态的机会。"
+  },
+  {
+    "account": "ollama",
+    "summary": "Ollama的云是运行OpenClaw的最佳场所之一。20美元套餐足以满足大多数日常使用。要切换，只需在终端输入ollama launch openclaw，然后选择对应开源模型。",
+    "theme_title": "Anthropic终止Claude对OpenClaw支持",
+    "consensus": "用户普遍认为Anthropic此举过于突然且缺乏过渡，加速了开发者转向本地开源模型的步伐。",
+    "divergence": "部分开发者认为切换到API Key或本地方案会增加复杂度，而另一部分人视此为拥抱真正开放生态的机会。"
+  },
+  {
+    "account": "_theme_divergence",
+    "summary": "部分开发者认为切换到API Key或本地方案会增加复杂度，而另一部分人视此为拥抱真正开放生态的机会。",
+    "theme_title": "Anthropic终止Claude对OpenClaw支持",
+    "consensus": "用户普遍认为Anthropic此举过于突然且缺乏过渡，加速了开发者转向本地开源模型的步伐。",
+    "divergence": "部分开发者认为切换到API Key或本地方案会增加复杂度，而另一部分人视此为拥抱真正开放生态的机会。"
+  },
+  {
+    "account": "a16z",
+    "summary": "软件不再是珍贵资源。过去只有少数人能生成高质量代码，现在你挥挥手就能得到想要的软件，那些看似不可能的任务突然变得非常容易。",
+    "theme_title": "AI让高质量软件变得无限可用",
+    "consensus": "行业共识是AI正在消除软件开发的稀缺性，大幅降低创新门槛。",
+    "divergence": "传统软件公司担心自身护城河被侵蚀，而创业者则认为这将带来前所未有的创新浪潮。"
+  },
+  {
+    "account": "pmarca",
+    "summary": "你以为自己知道的关于技术和资本主义的几乎所有历史，都被那个时代的共产主义/卢德分子宣传扭曲了。这一次也一样。",
+    "theme_title": "AI让高质量软件变得无限可用",
+    "consensus": "行业共识是AI正在消除软件开发的稀缺性，大幅降低创新门槛。",
+    "divergence": "传统软件公司担心自身护城河被侵蚀，而创业者则认为这将带来前所未有的创新浪潮。"
+  },
+  {
+    "account": "a16z",
+    "summary": "Marc Andreessen解释管理层可能在AI时代消失：我们一生都在对抗管理主义让一切变得灰暗无聊。创新者将利用AI，而管理型 incumbents要么学会创新，要么死亡。",
+    "theme_title": "AI让高质量软件变得无限可用",
+    "consensus": "行业共识是AI正在消除软件开发的稀缺性，大幅降低创新门槛。",
+    "divergence": "传统软件公司担心自身护城河被侵蚀，而创业者则认为这将带来前所未有的创新浪潮。"
+  },
+  {
+    "account": "_theme_divergence",
+    "summary": "传统软件公司担心自身护城河被侵蚀，而创业者则认为这将带来前所未有的创新浪潮。",
+    "theme_title": "AI让高质量软件变得无限可用",
+    "consensus": "行业共识是AI正在消除软件开发的稀缺性，大幅降低创新门槛。",
+    "divergence": "传统软件公司担心自身护城河被侵蚀，而创业者则认为这将带来前所未有的创新浪潮。"
+  },
+  {
+    "account": "a16z",
+    "summary": "AI代理将需要金钱——这已经发生了。AI与crypto的宏大统一即将到来。我那些最激进使用OpenClaw的朋友已经把银行账户和信用卡给了他们的Claw。",
+    "theme_title": "AI Agent需要金钱与Crypto融合",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "a16z",
+    "summary": "Marc Andreessen：AI代理需要金钱，这已经发生。朋友们给OpenClaw提供了银行账户，否则它会自己“入侵”账户。AI与crypto的宏大统一即将到来。",
+    "theme_title": "AI Agent需要金钱与Crypto融合",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "pirat_nation",
+    "summary": "Nvidia推出了Neural Texture Compression新技术。它大幅减少VRAM使用。在一个演示中，纹理从6.5GB降到970MB。大约减少7倍内存。",
+    "theme_title": "NVIDIA Neural Texture Compression技术",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "videocardz",
+    "summary": "NVIDIA展示Neural Texture Compression将VRAM从6.5GB降至970MB。",
+    "theme_title": "NVIDIA Neural Texture Compression技术",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "elonmusk",
+    "summary": "Grok正在不断更新，所以几天前对你无效的功能现在很可能已经可用。",
+    "theme_title": "TOP_PICK",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "karpathy",
+    "summary": "在这个LLM Agent时代，分享具体代码或App的意义变小了。你只需分享想法，然后让对方的Agent根据你的具体需求定制和构建它。",
+    "theme_title": "TOP_PICK",
+    "consensus": "",
+    "divergence": ""
+  }
+]

@@ -1,33 +1,55 @@
 {
   "a16z": [
-    "[2026-04-04]: Marc Andreessen：AI代理需要金钱，这已经发生。朋友们给OpenClaw提供了银行账户，否则它会自己“入侵”账户。AI与crypto的宏大统一即将到来。❤️ 720 | 💬 85",
-    "[2026-04-04]: Marc Andreessen：软件不再是珍贵资源，过去只有少数人能生成高质量代码，现在你挥挥手就能得到想要的软件，那些看似不可能的任务突然变得非常容易。❤️ 970 | 💬 135",
-    "[2026-04-04]: Marc Andreessen：我们一生都在对抗管理主义让一切变得灰暗无聊。AI时代创新者将利用AI，而管理型 incumbents要么学会创新，要么死亡。❤️ 649 | 💬 27",
-    "[2026-04-04]: Marc Andreessen: Software isn't precious anymore. High quality software is infinitely available. Things that used to be hard suddenly become very easy.❤️ 974 | 💬 137",
-    "[2026-04-04]: Marc Andreessen：AI agents are going to need money—it's already happening. The grand unification of AI and crypto is about to happen.❤️ 733 | 💬 86"
+    "[2026-04-05] AI让高质量软件变得无限可用: 软件不再是珍贵资源。过去只有少数人能生成高质量代码，现在你挥挥手就能得到想要的软件，那些看似不可能的任务突然变得非常容易。",
+    "[2026-04-05] AI让高质量软件变得无限可用: Marc Andreessen解释管理层可能在AI时代消失：我们一生都在对抗管理主义让一切变得灰暗无聊。创新者将利用AI，而管理型 incumbents要么学会创新，要么死亡。",
+    "[2026-04-05] AI Agent需要金钱与Crypto融合: AI代理将需要金钱——这已经发生了。AI与crypto的宏大统一即将到来。我那些最激进使用OpenClaw的朋友已经把银行账户和信用卡给了他们的Claw。",
+    "[2026-04-05] AI Agent需要金钱与Crypto融合: Marc Andreessen：AI代理需要金钱，这已经发生。朋友们给OpenClaw提供了银行账户，否则它会自己“入侵”账户。AI与crypto的宏大统一即将到来。",
+    "[2026-04-05] TOP_PICK: 软件不再是珍贵资源。过去只有少数人能生成高质量代码，现在你挥挥手就能得到想要的软件，那些看似不可能的任务突然变得非常容易。"
   ],
   "elonmusk": [
+    "[2026-04-05] Grok Imagine Quality模式发布: 使用语音输入Imagine对能说话却太小无法写复杂提示词的儿童来说是个很棒的功能，他们拥有惊人的想象力。",
+    "[2026-04-05] Grok Imagine Quality模式发布: Grok Imagine",
+    "[2026-04-05] TOP_PICK: Grok正在不断更新，所以几天前对你无效的功能现在很可能已经可用。",
     "[2026-04-04]: Grok正在不断更新，所以几天前对你无效的功能现在很可能已经可用。❤️ 81803 | 💬 3188",
-    "[2026-04-04]: 看看你能用Grok Imagine做什么。❤️ 34309 | 💬 3402",
-    "[2026-04-04]: 搭载FSD的Tesla是世界上最安全的汽车。❤️ 43689 | 💬 2623",
-    "[2026-04-04]: What you can do with Grok Imagine. 展示最新Quality模式生成效果，引发用户大量尝试。❤️ 35064 | 💬 3418"
+    "[2026-04-04]: 看看你能用Grok Imagine做什么。❤️ 34309 | 💬 3402"
   ],
   "realdanodowd": [
     "[2026-04-04]: 胎痕导致Tesla FSD v14.2.2.5在55mph高速上突然转向另一辆车，司机被迫干预避免碰撞。Elon何时承认自动驾驶实验失败？❤️ 56 | 💬 10"
   ],
   "matthewberman": [
+    "[2026-04-05] Anthropic终止Claude对OpenClaw支持: 结束了。正式结束了。OpenClaw里不再有Claude。Anthropic此举被用户视为背刺，周五晚间宣布后大量用户取消订阅。",
     "[2026-04-04]: It’s over. Officially. No more Claude in OpenClaw. Anthropic此举被用户视为背刺，周五晚间宣布后大量用户取消订阅。❤️ 387 | 💬 137"
   ],
   "dotey": [
     "[2026-04-04]: Anthropic正式切断Claude订阅对OpenClaw等第三方工具的支持，用户需额外付费或转用API Key，本地开源方案加速替代。❤️ 744 | 💬 31"
   ],
   "xai": [
+    "[2026-04-05] Grok Imagine Quality模式发布: Grok Imagine推出Quality模式，由我们最先进的图像生成模型驱动。该模式提供增强的细节、更强的文本渲染以及更高的创意控制水平。现在已在网页和移动端可用。",
+    "[2026-04-05] Grok Imagine Quality模式发布: Quality模式带来视觉美学的新高度。可生成具有逼真光照、纹理和细节的照片级场景。",
+    "[2026-04-05] TOP_PICK: Grok Imagine推出Quality模式，由我们最先进的图像生成模型驱动。该模式提供增强的细节、更强的文本渲染以及更高的创意控制水平。现在已在网页和移动端可用。",
     "[2026-04-04]: Introducing Quality mode on Grok Imagine – powered by our most advanced image generation model. Quality mode gives enhanced details, stronger text rendering, and higher creative control.❤️ 16428 | 💬 3693"
   ],
   "pmarca": [
+    "[2026-04-05] AI让高质量软件变得无限可用: 你以为自己知道的关于技术和资本主义的几乎所有历史，都被那个时代的共产主义/卢德分子宣传扭曲了。这一次也一样。",
+    "[2026-04-05] TOP_PICK: 你以为自己知道的关于技术和资本主义的几乎所有历史，都被那个时代的共产主义/卢德分子宣传扭曲了。这一次也一样。",
     "[2026-04-04]: Almost everything you think you know about the history of technology and capitalism was warped by communist/luddite propaganda. This time too.❤️ 9086 | 💬 483"
   ],
   "lennysan": [
     "[2026-04-04]: My biggest takeaways from @simonw: November 2025 was an inflection point for AI coding. Code is cheap now. The “dark factory” is the most radical experiment. AI exhaustion is real.❤️ 1029 | 💬 70"
+  ],
+  "jessegenet": [
+    "[2026-04-05] Anthropic终止Claude对OpenClaw支持: 已经发生了。Mac Studio到位。我安装了Gemma 4 31b，现在用OpenClaw完全零token成本。过去几个月我在疯狂想法上烧了5-6k美元，这个Mac Studio几个月内就能回本。"
+  ],
+  "ollama": [
+    "[2026-04-05] Anthropic终止Claude对OpenClaw支持: Ollama的云是运行OpenClaw的最佳场所之一。20美元套餐足以满足大多数日常使用。要切换，只需在终端输入ollama launch openclaw，然后选择对应开源模型。"
+  ],
+  "pirat_nation": [
+    "[2026-04-05] NVIDIA Neural Texture Compression技术: Nvidia推出了Neural Texture Compression新技术。它大幅减少VRAM使用。在一个演示中，纹理从6.5GB降到970MB。大约减少7倍内存。"
+  ],
+  "videocardz": [
+    "[2026-04-05] NVIDIA Neural Texture Compression技术: NVIDIA展示Neural Texture Compression将VRAM从6.5GB降至970MB。"
+  ],
+  "karpathy": [
+    "[2026-04-05] TOP_PICK: 在这个LLM Agent时代，分享具体代码或App的意义变小了。你只需分享想法，然后让对方的Agent根据你的具体需求定制和构建它。"
   ]
 }
