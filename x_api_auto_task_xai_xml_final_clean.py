@@ -8,8 +8,14 @@ from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
 import requests
-from xaisdk import Client
-from xaisdk.chat import user, system
+
+try:
+    from xai_sdk import Client
+    from xai_sdk.chat import user, system
+except Exception as e:
+    raise RuntimeError(
+        "xai-sdk 未正确安装。请确认 workflow 已执行: pip install --no-cache-dir xai-sdk"
+    ) from e
 
 # ==============================================================================
 # ENV
@@ -30,7 +36,7 @@ PPLX_API_KEY = os.getenv("PPLX_API_KEY", "").strip() or os.getenv("PERPLEXITY_AP
 SF_API_KEY = os.getenv("SF_API_KEY", "").strip()
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY", "").strip()
 
-# backward-compatible aliases for older function names
+# backward-compatible aliases for older names inside historical code blocks
 TWITTERAPIIOKEY = TWITTERAPI_IO_KEY
 XAIAPIKEY = XAI_API_KEY
 PPLXAPIKEY = PPLX_API_KEY
@@ -691,7 +697,10 @@ def render_feishu_card(parsed_data: dict, today_str: str):
     webhooks = get_feishu_webhooks()
     if not webhooks or not parsed_data.get("pulse"):
         return
-    elements = [{"tag": "markdown", "content": f"**The Pulse**\n<font color='grey'>{parsed_data['pulse']}</font>"}, {"tag": "hr"}]
+    elements = [
+        {"tag": "markdown", "content": f"**The Pulse**\n<font color='grey'>{parsed_data['pulse']}</font>"},
+        {"tag": "hr"},
+    ]
     for idx, theme in enumerate(parsed_data.get("themes", [])):
         prefix = "🆕 新叙事" if theme.get("type") == "new" else "🔁 旧共识迁移"
         theme_md = f"**{theme.get('emoji','🧠')} {theme.get('title','')}**\n<font color='grey'>{prefix}｜{theme.get('narrative','')}</font>\n"
@@ -884,7 +893,7 @@ def update_account_stats(final_feed: list, parsed_data: dict):
 
 def main():
     print("=" * 60, flush=True)
-    print("昨晚硅谷在聊啥 v16.0 (统一环境变量版)", flush=True)
+    print("昨晚硅谷在聊啥 v16.1 (稳定修正版)", flush=True)
     print("=" * 60, flush=True)
     print(f"[模式] TEST_MODE={TESTMODE}", flush=True)
 
@@ -1006,7 +1015,7 @@ def main():
 
     save_daily_data(today_str, report_candidates, xml_result, parsed_data)
     update_account_stats(report_candidates, parsed_data)
-    print("✅ V16.0 执行完成", flush=True)
+    print("✅ v16.1 执行完成", flush=True)
 
 
 if __name__ == "__main__":
