@@ -809,9 +809,431 @@ def update_account_stats(final_feed: list, parsed_data: dict):
 # 🚀 MAIN 入口
 # ==============================================================================
 
+
+import os
+
+MIN_REPLY_LIKES = 8
+MIN_REPLY_LEN = 24
+MAX_DEEP_REPLIES_PER_TWEET = 3
+REPORT_POOL_LIMIT = 75
+MEMORY_POOL_LIMIT = 20
+CHARACTER_MEMORY_MAX_PER_ACCOUNT = 5
+
+AI_CORE_KEYWORDS = {
+    "ai", "agent", "agents", "model", "models", "llm", "grok", "gemma", "gemini",
+    "claude", "openai", "anthropic", "xai", "nvidia", "huggingface", "inference",
+    "reasoning", "token", "tokens", "multimodal", "gpu", "chips", "chip", "robot",
+    "robots", "coding", "codegen", "rag", "retrieval", "openclaw", "codex"
+}
+
+NON_AI_HOT_NOISE = {
+    "tesla", "fsd", "spacex", "starlink", "trump", "election", "ukraine",
+    "immigration", "border", "tariff"
+}
+
+TOXIC_PATTERNS = [
+    r"\bpedo\b", r"\bidiot\b", r"\bstupid\b", r"\bfuck\b", r"\bwtf\b",
+    r"\bscam\b", r"\bracist\b", r"\btrash\b", r"\bgarbage\b"
+]
+
+PPLX_API_KEY = os.getenv("PERPLEXITY_API_KEY") or os.getenv("PPLXAPIKEY") or ""
+
+
+def norm_text(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "")).strip()
+
+
+def is_target_account(acc: str) -> bool:
+    return (acc or "").lower().replace("@", "") in TARGET_SET
+
+
+def contains_ai_signal(text: str) -> bool:
+    low = norm_text(text).lower()
+    return any(k in low for k in AI_CORE_KEYWORDS)
+
+
+def non_ai_noise_hits(text: str) -> int:
+    low = norm_text(text).lower()
+    return sum(1 for k in NON_AI_HOT_NOISE if k in low)
+
+
+def looks_toxic_or_empty(text: str) -> bool:
+    t = norm_text(text)
+    if len(t) < MIN_REPLY_LEN:
+        return True
+    if re.fullmatch(r"[@\w\s\.\!\?\,\-:;]+", t) and len(t.split()) <= 4:
+        return True
+    low = t.lower()
+    return any(re.search(p, low) for p in TOXIC_PATTERNS)
+
+
+def filter_deep_replies(replies: list) -> list:
+    clean = []
+    seen = set()
+    for r in replies or []:
+        text = norm_text(r.get("text", ""))
+        likes = int(r.get("likes", 0) or 0)
+        author = (r.get("author", "") or "").lower()
+        if likes < MIN_REPLY_LIKES:
+            continue
+        if looks_toxic_or_empty(text):
+            continue
+        key = (author, text[:160].lower())
+        if key in seen:
+            continue
+        seen.add(key)
+        clean.append({
+            "author": r.get("author", ""),
+            "likes": likes,
+            "text": text,
+        })
+    clean.sort(key=lambda x: (x["likes"], len(x["text"])), reverse=True)
+    return clean[:MAX_DEEP_REPLIES_PER_TWEET]
+
+
+def apply_ai_relevance(post: dict) -> float:
+    text = norm_text(post.get("text", ""))
+    author = (post.get("author", "") or "").lower()
+    bonus = 0.0
+    if contains_ai_signal(text):
+        bonus += 180.0
+    if author in {"xai", "openai", "anthropicai", "googleai", "huggingface", "nvidia", "a16z", "pmarca"}:
+        bonus += 80.0
+    penalty = non_ai_noise_hits(text) * 120.0
+    if ("tesla" in text.lower() or "fsd" in text.lower()) and not contains_ai_signal(text):
+        penalty += 250.0
+    return bonus - penalty
+
+
+def score_and_filter(posts: list) -> list:
+    seen = set()
+    cleaned = []
+    for t in posts or []:
+        tid = str(t.get("id", "")).strip()
+        text = norm_text(t.get("text", ""))
+        if not tid or not text or tid in seen:
+            continue
+        seen.add(tid)
+        likes = int(t.get("likes", 0) or 0)
+        replies = int(t.get("replies", 0) or 0)
+        quotes = int(t.get("quotes", 0) or 0)
+        base_score = likes + replies * 2 + quotes * 3
+        total_score = base_score + apply_ai_relevance(t)
+        if total_score < 300:
+            continue
+        t["score"] = round(total_score, 2)
+        t["source_type"] = "target" if is_target_account(t.get("author", "")) else "echo"
+        cleaned.append(t)
+    cleaned.sort(key=lambda x: x.get("score", 0), reverse=True)
+    return cleaned
+
+
+def default_special_sections():
+    return (
+        [
+            {"category": "一级市场", "content": "暂无新增高置信投资线索，继续观察本地AI代理、推理基础设施、多模态生成三条线。"},
+            {"category": "二级市场", "content": "暂无新增高置信交易结论，维持对算力、推理成本、应用渗透率三项指标的跟踪。"},
+        ],
+        [
+            {"category": "中国 AI 最新动态", "content": "暂无外部补充成功，建议继续跟踪中国模型发布、算力供给、监管口径与应用落地。"},
+            {"category": "中美 AI 博弈与衍生风险", "content": "暂无外部补充成功，建议继续跟踪芯片限制、模型开源竞争、云服务与地缘监管外溢风险。"},
+        ],
+    )
+
+
+def _extract_json_object(text: str) -> dict:
+    text = (text or "").strip()
+    if not text:
+        return {}
+    try:
+        return json.loads(text)
+    except Exception:
+        pass
+    match = re.search(r"\{.*\}", text, flags=re.S)
+    if not match:
+        return {}
+    try:
+        return json.loads(match.group(0))
+    except Exception:
+        return {}
+
+
+def _normalize_special_section_items(items, fallback):
+    result = []
+    for item in items or []:
+        category = norm_text((item or {}).get("category", ""))
+        content = norm_text((item or {}).get("content", ""))
+        if category and content:
+            result.append({"category": category, "content": content})
+    return result or fallback
+
+
+def fetch_special_sections_with_perplexity(today_str: str):
+    default_investment_radar, default_risk_china_view = default_special_sections()
+    if not PPLX_API_KEY:
+        print("⚠️ [Perplexity] 未设置 API Key，使用默认外部栏目结构。", flush=True)
+        return default_investment_radar, default_risk_china_view
+
+    prompt = f"""
+今天是 {today_str}。你是AI行业观察员，请输出严格 JSON，不要 markdown，不要解释，不要代码块。
+
+目标：补充日报中的两个栏目，只保留高信息密度、与AI行业直接相关的内容。
+1) investment_radar：给出 2 条，类别只能是“一级市场”或“二级市场”。
+2) risk_china_view：必须给出 2 条，类别固定为“中国 AI 最新动态”和“中美 AI 博弈与衍生风险”。
+
+输出格式：
+{{
+  "investment_radar": [
+    {{"category": "一级市场", "content": "..."}},
+    {{"category": "二级市场", "content": "..."}}
+  ],
+  "risk_china_view": [
+    {{"category": "中国 AI 最新动态", "content": "..."}},
+    {{"category": "中美 AI 博弈与衍生风险", "content": "..."}}
+  ]
+}}
+""".strip()
+
+    try:
+        resp = requests.post(
+            "https://api.perplexity.ai/chat/completions",
+            headers={
+                "Authorization": f"Bearer {PPLX_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": "sonar",
+                "messages": [
+                    {"role": "system", "content": "You are a concise research assistant that always returns valid JSON."},
+                    {"role": "user", "content": prompt},
+                ],
+                "temperature": 0.2,
+            },
+            timeout=60,
+        )
+        if resp.status_code != 200:
+            print(f"⚠️ [Perplexity] 状态码 {resp.status_code}，使用默认结构。", flush=True)
+            return default_investment_radar, default_risk_china_view
+        data = resp.json()
+        content = (((data.get("choices") or [{}])[0].get("message") or {}).get("content") or "")
+        parsed = _extract_json_object(content)
+        investment_radar = _normalize_special_section_items(parsed.get("investment_radar"), default_investment_radar)
+        risk_china_view = _normalize_special_section_items(parsed.get("risk_china_view"), default_risk_china_view)
+        risk_categories = {x["category"] for x in risk_china_view}
+        if "中国 AI 最新动态" not in risk_categories or "中美 AI 博弈与衍生风险" not in risk_categories:
+            risk_china_view = default_risk_china_view
+        return investment_radar, risk_china_view
+    except Exception as e:
+        print(f"⚠️ [Perplexity] 请求失败，使用默认结构：{e}", flush=True)
+        return default_investment_radar, default_risk_china_view
+
+
+def build_memory_candidates(parsed_data: dict) -> list:
+    candidates = []
+    for theme in parsed_data.get("themes", []):
+        title = norm_text(theme.get("title", ""))
+        consensus = norm_text(theme.get("consensus", ""))
+        divergence = norm_text(theme.get("divergence", ""))
+        for t in theme.get("tweets", []):
+            account = (t.get("account", "") or "").replace("@", "").lower()
+            content = norm_text(t.get("content", ""))
+            if not account or not content:
+                continue
+            candidates.append({
+                "account": account,
+                "summary": content,
+                "theme_title": title,
+                "consensus": consensus,
+                "divergence": divergence,
+            })
+        if divergence:
+            candidates.append({
+                "account": "_theme_divergence",
+                "summary": divergence,
+                "theme_title": title,
+                "consensus": consensus,
+                "divergence": divergence,
+            })
+    for t in parsed_data.get("top_picks", []):
+        account = (t.get("account", "") or "").replace("@", "").lower()
+        content = norm_text(t.get("content", ""))
+        if account and content:
+            candidates.append({
+                "account": account,
+                "summary": content,
+                "theme_title": "TOP_PICK",
+                "consensus": "",
+                "divergence": "",
+            })
+    seen = set()
+    uniq = []
+    for item in candidates:
+        key = (item["account"], item["summary"][:180])
+        if key in seen:
+            continue
+        seen.add(key)
+        uniq.append(item)
+    return uniq[:MEMORY_POOL_LIMIT]
+
+
+def save_memory_snapshot(today_str: str, memory_candidates: list):
+    data_dir = Path("data")
+    data_dir.mkdir(parents=True, exist_ok=True)
+    snapshot_file = data_dir / f"memory_{today_str}.json"
+    snapshot_file.write_text(json.dumps(memory_candidates, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def update_character_memory(parsed_data: dict, today_str: str):
+    memory_file = Path("data/character_memory.json")
+    memory = {}
+    if memory_file.exists():
+        try:
+            memory = json.loads(memory_file.read_text(encoding="utf-8"))
+        except Exception:
+            memory = {}
+
+    new_items = {}
+    for theme in parsed_data.get("themes", []):
+        title = norm_text(theme.get("title", ""))
+        for t in theme.get("tweets", []):
+            acc = (t.get("account", "") or "").replace("@", "").lower()
+            content = norm_text(t.get("content", ""))
+            if not acc or not content:
+                continue
+            line = f"[{today_str}] {title}: {content}"
+            new_items.setdefault(acc, []).append(line)
+    for t in parsed_data.get("top_picks", []):
+        acc = (t.get("account", "") or "").replace("@", "").lower()
+        content = norm_text(t.get("content", ""))
+        if not acc or not content:
+            continue
+        line = f"[{today_str}] TOP_PICK: {content}"
+        new_items.setdefault(acc, []).append(line)
+
+    for acc, items in new_items.items():
+        existing = memory.get(acc, [])
+        merged = []
+        seen = set()
+        for x in items + existing:
+            if x not in seen:
+                seen.add(x)
+                merged.append(x)
+        memory[acc] = merged[:CHARACTER_MEMORY_MAX_PER_ACCOUNT]
+
+    memory_file.parent.mkdir(parents=True, exist_ok=True)
+    memory_file.write_text(json.dumps(memory, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def _load_stats_file(path: Path) -> dict:
+    if path.exists():
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+    return {}
+
+
+def _update_stats_bucket(stats: dict, feed: list, used_accounts: set, today_str: str):
+    touched_today = set()
+    for t in feed:
+        acc = (t.get("a", "") or "unknown").lower().replace("@", "")
+        if acc not in stats:
+            stats[acc] = {"fetched_days": 0, "total_tweets": 0, "used_in_reports": 0, "last_active": ""}
+        if acc not in touched_today and stats[acc].get("last_active") != today_str:
+            stats[acc]["fetched_days"] += 1
+            touched_today.add(acc)
+        stats[acc]["total_tweets"] += 1
+        stats[acc]["last_active"] = today_str
+    for acc in used_accounts:
+        acc = (acc or "").lower().replace("@", "")
+        if acc in stats:
+            stats[acc]["used_in_reports"] += 1
+    return stats
+
+
+def update_account_stats(final_feed: list, parsed_data: dict):
+    target_file = Path("data/target_accounts_stats.json")
+    echo_file = Path("data/echo_accounts_stats.json")
+    target_stats = _load_stats_file(target_file)
+    echo_stats = _load_stats_file(echo_file)
+    today_str = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d")
+    used_accounts = set()
+    for theme in parsed_data.get("themes", []):
+        for t in theme.get("tweets", []):
+            used_accounts.add((t.get("account", "") or "").lower())
+    for t in parsed_data.get("top_picks", []):
+        used_accounts.add((t.get("account", "") or "").lower())
+
+    target_feed = [x for x in final_feed if is_target_account(x.get("a", ""))]
+    echo_feed = [x for x in final_feed if not is_target_account(x.get("a", ""))]
+
+    target_stats = _update_stats_bucket(target_stats, target_feed, {a for a in used_accounts if is_target_account(a)}, today_str)
+    echo_stats = _update_stats_bucket(echo_stats, echo_feed, {a for a in used_accounts if not is_target_account(a)}, today_str)
+
+    target_file.parent.mkdir(parents=True, exist_ok=True)
+    target_file.write_text(json.dumps(target_stats, ensure_ascii=False, indent=2), encoding="utf-8")
+    echo_file.write_text(json.dumps(echo_stats, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def xml_escape(s: str) -> str:
+    s = str(s or "")
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+def build_report_xml(parsed_data: dict) -> str:
+    lines = ["<REPORT>"]
+    cover = parsed_data.get("cover", {}) or {}
+    lines.append(
+        f'  <COVER title="{xml_escape(cover.get("title", ""))}" prompt="{xml_escape(cover.get("prompt", ""))}" insight="{xml_escape(cover.get("insight", ""))}"/>'
+    )
+    lines.append(f"  <PULSE>{xml_escape(parsed_data.get('pulse', ''))}</PULSE>")
+    lines.append("  <THEMES>")
+    for theme in parsed_data.get("themes", []):
+        lines.append(f'    <THEME type="{xml_escape(theme.get("type", "shift"))}" emoji="{xml_escape(theme.get("emoji", "📌"))}">')
+        lines.append(f"      <TITLE>{xml_escape(theme.get('title', ''))}</TITLE>")
+        lines.append(f"      <NARRATIVE>{xml_escape(theme.get('narrative', ''))}</NARRATIVE>")
+        for t in theme.get("tweets", []):
+            lines.append(f'      <TWEET account="{xml_escape(t.get("account", ""))}" role="{xml_escape(t.get("role", ""))}">{xml_escape(t.get("content", ""))}</TWEET>')
+        if theme.get("consensus"):
+            lines.append(f"      <CONSENSUS>{xml_escape(theme.get('consensus', ''))}</CONSENSUS>")
+        if theme.get("divergence"):
+            lines.append(f"      <DIVERGENCE>{xml_escape(theme.get('divergence', ''))}</DIVERGENCE>")
+        if theme.get("outlook"):
+            lines.append(f"      <OUTLOOK>{xml_escape(theme.get('outlook', ''))}</OUTLOOK>")
+        if theme.get("opportunity"):
+            lines.append(f"      <OPPORTUNITY>{xml_escape(theme.get('opportunity', ''))}</OPPORTUNITY>")
+        if theme.get("risk"):
+            lines.append(f"      <RISK>{xml_escape(theme.get('risk', ''))}</RISK>")
+        lines.append("    </THEME>")
+    lines.append("  </THEMES>")
+    lines.append("  <INVESTMENT_RADAR>")
+    for item in parsed_data.get("investment_radar", []):
+        lines.append(f'    <ITEM category="{xml_escape(item.get("category", ""))}">{xml_escape(item.get("content", ""))}</ITEM>')
+    lines.append("  </INVESTMENT_RADAR>")
+    lines.append("  <RISK_CHINA_VIEW>")
+    for item in parsed_data.get("risk_china_view", []):
+        lines.append(f'    <ITEM category="{xml_escape(item.get("category", ""))}">{xml_escape(item.get("content", ""))}</ITEM>')
+    lines.append("  </RISK_CHINA_VIEW>")
+    lines.append("  <TOP_PICKS>")
+    for t in parsed_data.get("top_picks", []):
+        lines.append(f'    <TWEET account="{xml_escape(t.get("account", ""))}" role="{xml_escape(t.get("role", ""))}">{xml_escape(t.get("content", ""))}</TWEET>')
+    lines.append("  </TOP_PICKS>")
+    lines.append("</REPORT>")
+    return "\n".join(lines)
+
+
+def save_daily_data(today_str: str, post_objects: list, report_text: str, parsed_data: dict = None):
+    data_dir = Path(f"data/{today_str}")
+    data_dir.mkdir(parents=True, exist_ok=True)
+    (data_dir / "combined.txt").write_text("\n".join(json.dumps(obj, ensure_ascii=False) for obj in post_objects), encoding="utf-8")
+    final_report = build_report_xml(parsed_data) if parsed_data else report_text
+    if final_report:
+        (data_dir / "daily_report.txt").write_text(final_report, encoding="utf-8")
+
+
 def main():
     print("=" * 60, flush=True)
-    print("昨晚硅谷在聊啥 v15.0 (Twitter主线 + Perplexity定向补充版)", flush=True)
+    print("昨晚硅谷在聊啥 v16.0 (分层清洗 + 记忆收敛 + 统计拆池版)", flush=True)
     print("=" * 60, flush=True)
 
     if not TWITTERAPI_IO_KEY or not TARGET_SET:
@@ -821,7 +1243,7 @@ def main():
     today_str, _ = get_dates()
     print(f"🚀 开始抓取 {len(TARGET_SET)} 位核心节点的最新动态...", flush=True)
 
-    all_raw = []
+    raw_feed = []
     acc_list = list(TARGET_SET)
     batch_size = 10 if TEST_MODE else 12
 
@@ -829,55 +1251,59 @@ def main():
         chunk = acc_list[i:i + batch_size]
         q1 = "(" + " OR ".join([f"from:{a}" for a in chunk]) + f") since:{SINCE_DATE_STR} -filter:retweets"
         q2 = "(" + " OR ".join([f"@{a}" for a in chunk]) + f") since:{SINCE_DATE_STR} min_faves:20 -filter:replies"
-
         original = fetch_advanced_search_pages(q1, query_type="Latest", max_pages=2)
         echoes = fetch_advanced_search_pages(q2, query_type="Top", max_pages=2)
-        all_raw.extend(original)
-        all_raw.extend(echoes)
+        raw_feed.extend(original)
+        raw_feed.extend(echoes)
         print(f"✅ chunk {i // batch_size + 1}: 原创 {len(original)} 条 | 外部回响 {len(echoes)} 条", flush=True)
         time.sleep(1.0)
 
-    if not all_raw:
+    if not raw_feed:
         print("❌ [终极警告] 本次运行未能从推特获取任何有效数据！程序强行终止。", flush=True)
         return
 
-    top_feed = score_and_filter(all_raw)
-    tier_1 = top_feed[:15]
-    tier_2 = top_feed[15:75]
+    clean_feed = score_and_filter(raw_feed)
+    tier_1 = clean_feed[:15]
+    tier_2 = clean_feed[15:REPORT_POOL_LIMIT]
 
-    print(f"\n[深挖] 正在为 Tier 1 (Top {len(tier_1)}) 高分话题抓取神回复...", flush=True)
+    print(f"\n[深挖] 正在为 Tier 1 (Top {len(tier_1)}) 高分话题抓取高质量回复...", flush=True)
     for t in tier_1:
-        t["deep_replies"] = fetch_reply_pages(t["id"], max_pages=2)[:3]
+        raw_replies = fetch_reply_pages(t["id"], max_pages=2)
+        t["deep_replies"] = filter_deep_replies(raw_replies)
         time.sleep(0.6)
 
-    formatted_feed = []
+    report_candidates = []
     for t in tier_1:
-        reply_strs = [f"[神回复 @{r['author']}]: {r['text'][:150]} (❤️ {r['likes']})" for r in t["deep_replies"]]
+        reply_strs = [f"[高质量回复 @{r['author']}]: {r['text'][:180]} (❤️ {r['likes']})" for r in t.get("deep_replies", [])]
         s_text = t["text"] + ("\n\n" + "\n".join(reply_strs) if reply_strs else "")
-        formatted_feed.append({
+        report_candidates.append({
             "a": t["author"],
             "tweet_id": t["id"],
             "l": t["likes"],
             "r": t["replies"],
             "score": t["score"],
             "t": t["created_ts"],
-            "s": s_text
+            "source_type": t.get("source_type", "unknown"),
+            "s": s_text,
         })
-
     for t in tier_2:
-        formatted_feed.append({
+        report_candidates.append({
             "a": t["author"],
             "tweet_id": t["id"],
             "l": t["likes"],
             "r": t["replies"],
             "score": t["score"],
             "t": t["created_ts"],
-            "s": t["text"]
+            "source_type": t.get("source_type", "unknown"),
+            "s": t["text"],
         })
 
-    combined_jsonl = "\n".join(json.dumps(obj, ensure_ascii=False) for obj in formatted_feed)
+    combined_jsonl = "\n".join(json.dumps(obj, ensure_ascii=False) for obj in report_candidates)
+    if not combined_jsonl.strip():
+        print("❌ [终极警告] 最终送入 LLM 的内容为空！", flush=True)
+        return
 
-    today_accounts = set(t.get("a", "").lower() for t in formatted_feed)
+    today_accounts = set(t.get("a", "").lower() for t in report_candidates)
     memory = load_memory()
     memory_context_lines = []
     for acc in today_accounts:
@@ -885,27 +1311,27 @@ def main():
             memory_context_lines.append(f"@{acc} 近期观点:\n- " + "\n- ".join(memory[acc]))
     memory_context = "\n\n".join(memory_context_lines)
 
-    if not combined_jsonl.strip():
-        print("❌ [终极警告] 最终送入 LLM 的内容为空！", flush=True)
-        return
-
     xml_result = llm_call_xai(combined_jsonl, today_str, memory_context)
     if not xml_result:
         print("❌ [终极警告] LLM 处理失败，无报告输出！", flush=True)
         return
 
     parsed_data = parse_llm_xml(xml_result)
+    default_investment_radar, default_risk_china_view = default_special_sections()
+    parsed_data["investment_radar"] = default_investment_radar
+    parsed_data["risk_china_view"] = default_risk_china_view
 
     investment_radar, risk_china_view = fetch_special_sections_with_perplexity(today_str)
-    if investment_radar:
+    if investment_radar and isinstance(investment_radar, list):
         parsed_data["investment_radar"] = investment_radar
-    if risk_china_view:
+    if risk_china_view and isinstance(risk_china_view, list):
         parsed_data["risk_china_view"] = risk_china_view
 
+    memory_candidates = build_memory_candidates(parsed_data)
     update_character_memory(parsed_data, today_str)
 
     cover_url = ""
-    if parsed_data["cover"]["prompt"]:
+    if parsed_data.get("cover", {}).get("prompt"):
         print(f"\n[生图] 提取到生图提示词: {parsed_data['cover']['prompt'][:50]}...", flush=True)
         sf_url = generate_cover_image(parsed_data["cover"]["prompt"])
         cover_url = upload_to_imgbb_via_url(sf_url) if sf_url else ""
@@ -919,15 +1345,15 @@ def main():
         html_content = render_wechat_html(parsed_data, cover_url)
         push_to_wechat(
             html_content,
-            title=f"{parsed_data['cover']['title'] or '今日核心动态'} | 昨晚硅谷在聊啥",
+            title=f"{parsed_data.get('cover', {}).get('title') or '今日核心动态'} | 昨晚硅谷在聊啥",
             cover_url=cover_url,
         )
 
-    save_daily_data(today_str, formatted_feed, xml_result)
-    save_memory_snapshot(today_str, tier_1 + tier_2)
-    update_account_stats(formatted_feed, parsed_data)
+    save_daily_data(today_str, report_candidates, xml_result, parsed_data)
+    save_memory_snapshot(today_str, memory_candidates)
+    update_account_stats(report_candidates, parsed_data)
 
-    print("\n🎉 V15.0 全链路执行完毕！", flush=True)
+    print("\n🎉 V16.0 全链路执行完毕！", flush=True)
 
 
 if __name__ == "__main__":
