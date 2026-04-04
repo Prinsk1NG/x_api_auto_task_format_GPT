@@ -1,12 +1,13 @@
-name: 硅谷情报局半月度名单维护 (V15.0)
+name: 硅谷情报局半月度名单维护 v15 (1号/15号)
 
 on:
   schedule:
-    - cron: '0 2 1,15 * *' # 每个月 1号/15号，北京时间上午 10:00
+    - cron: '0 2 1,15 * *'
+
   workflow_dispatch:
     inputs:
       test_mode:
-        description: '🧪 开启测试模式 (仅发测试群)'
+        description: '🧪 开启测试模式'
         required: false
         type: boolean
         default: false
@@ -34,21 +35,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: 4. 运行 HR Manager (半月度洗牌算法)
+      - name: 4. 显示当前模式
+        run: |
+          echo "TEST_MODE_ENV=${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}"
+          if [ "${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}" = "true" ]; then
+            echo "当前为测试模式，只允许推送到 FEISHU_WEBHOOK_URL"
+          else
+            echo "当前为正式模式，正式推送走 FEISHU_WEBHOOK_URL_1"
+          fi
+
+      - name: 5. 运行 HR Manager (半月度洗牌算法)
         env:
-          FEISHU_WEBHOOK_URL: ${{ github.event.inputs.test_mode == 'true' && secrets.FEISHU_WEBHOOK_URL || '' }}
-          FEISHU_WEBHOOK_URL_1: ''
+          FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
+          FEISHU_WEBHOOK_URL_1: ${{ secrets.FEISHU_WEBHOOK_URL_1 }}
           JIJYUN_WEBHOOK_URL: ${{ secrets.JIJYUN_WEBHOOK_URL }}
           TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
         run: |
-          python hr_manager_final.py
+          python hr_manager.py
 
-      - name: 5. 自动提交新名单
+      - name: 6. 自动提交新名单
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-
-          git add experts.txt || true
-
-          git commit -m "🤖 [HR Manager] Portfolio Rebalancing: Automatically update experts list" || echo "No changes to commit"
+          git add experts.txt whales.txt data || true
+          git commit -m "🤖 [HR Manager v15] Portfolio Rebalancing: Automatically update lists" || echo "No changes to commit"
           git push
