@@ -1,8 +1,8 @@
 name: 昨晚硅谷在聊啥 v16 (日报主流程)
 
 on:
-  # schedule:
-  #   - cron: '35 23 * * *'
+   schedule:
+     - cron: '0 23 * * *'
 
   workflow_dispatch:
     inputs:
@@ -61,7 +61,7 @@ jobs:
           TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
 
           FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
-          FEISHU_WEBHOOK_URL_1: ${{ secrets.FEISHU_WEBHOOK_URL_1 }}
+          #FEISHU_WEBHOOK_URL_1: ${{ secrets.FEISHU_WEBHOOK_URL_1 }}
           WECHAT_WEBHOOK_URL: ${{ secrets.WECHAT_WEBHOOK_URL }}
           WECHAT_WEBHOOK_URL_1: ${{ secrets.WECHAT_WEBHOOK_URL_1 }}
           JIJYUN_WEBHOOK_URL: ${{ secrets.JIJYUN_WEBHOOK_URL }}
