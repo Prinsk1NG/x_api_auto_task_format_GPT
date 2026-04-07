@@ -1,4 +1,4 @@
-name: 昨晚硅谷在聊啥 v16 (日报主流程)
+name: 昨晚硅谷在聊啥 v17 (日报主流程)
 
 on:
   #schedule:
@@ -59,7 +59,6 @@ jobs:
         env:
           TEST_MODE_ENV: ${{ github.event.inputs.test_mode == 'true' && 'true' || 'false' }}
 
-          FEISHU_WEBHOOK_URL_1: ${{ secrets.FEISHU_WEBHOOK_URL }}
           FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
           #FEISHU_WEBHOOK_URL_1: ${{ secrets.FEISHU_WEBHOOK_URL_1 }}
           WECHAT_WEBHOOK_URL: ${{ secrets.WECHAT_WEBHOOK_URL }}
@@ -105,5 +104,6 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add data/ || true
           git status --short
-          git commit -m "🤖 [Daily Report v16] Update report artifacts" || echo "No changes to commit"
+          git commit -m "🤖 [Daily Report v17] Update report artifacts" || echo "No changes to commit"
+          git pull --rebase origin main
           git push
