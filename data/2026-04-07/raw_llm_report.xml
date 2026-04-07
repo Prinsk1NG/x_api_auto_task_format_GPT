@@ -1,0 +1,67 @@
+<REPORT>
+<COVER>
+<title>2026.04.07 AI脉冲：月球回归与巨头风暴</title>
+<prompt>生成一幅未来感科幻图像：Artemis火箭掠过月球表面，背景是发光的 Claude 神经网络与巨额计算芯片，左侧漂浮 OpenAI 调查文件，整体采用深空蓝与霓虹紫色调，体现科技雄心与争议张力</prompt>
+<insight>AI商业化进入指数级兑现期，Anthropic营收暴增与巨额算力投入并存；Sam Altman诚信调查掀起信任危机；人类重返月球成为共识符号，AI工具48小时落地速度展现2026极致执行力</insight>
+</COVER>
+<PULSE>Anthropic营收暴增至300亿美元；OpenAI Altman诚信调查持续发酵</PULSE>
+<THEME type="new">
+<TITLE>🌕 Artemis II：人类重返月球</TITLE>
+<NARRATIVE>NASA Artemis II任务让宇航员近距离飞越月球，观察人类从未见过的一面。Elon Musk、a16z等科技领袖积极转发，标志着载人登月计划进入实质落地阶段，公众对太空探索的热情被重新点燃。</NARRATIVE>
+<TWEET account="elonmusk" role="创始人" likes="460148" replies="8747">NASA Artemis 正在近距离掠过月球 https://t.co/jLvGoW1IR9</TWEET>
+<TWEET account="nasa" role="官方账号" likes="15773" replies="423">告别无聊的周一，欢迎Moon-day。今天Artemis II宇航员将绕月飞行！从下午1点（东部时间）开始直播，他们将看到人类从未亲眼见过的月球部分。欢迎一起观看直播。</TWEET>
+<TWEET account="a16z" role="投资机构" likes="2982" replies="59">我们正在重返月球。</TWEET>
+<TWEET account="jeffdean" role="研究员" likes="740" replies="23">太不可思议了！从地球看过去，紫红色调不太明显，但黑色背景凸显了太空的浩瀚。</TWEET>
+<OUTLOOK>Artemis计划将加速太空基础设施建设，为未来月球基地和深空探索铺路。</OUTLOOK>
+<OPPORTUNITY>AI+太空的交叉领域将诞生新商业模式，包括自主机器人、卫星算力和太空数据服务。</OPPORTUNITY>
+<RISK>高成本与地缘政治风险可能导致项目进度反复。</RISK>
+</THEME>
+<THEME type="shift">
+<TITLE>📈 Anthropic营收爆发与算力联盟</TITLE>
+<NARRATIVE>Anthropic运行率收入已超300亿美元，较2025年底的90亿美元大幅跃升。公司与Google、Broadcom签署数吉瓦下一代TPU协议，2027年开始上线，用于训练Claude前沿模型。市场对AI公司商业化路径的认知正在快速调整。</NARRATIVE>
+<TWEET account="anthropicai" role="官方账号" likes="13453" replies="428">我们已与Google和Broadcom签署协议，获得多个吉瓦下一代TPU容量，从2027年开始上线，用于训练和提供Claude前沿模型服务。</TWEET>
+<TWEET account="anthropicai" role="官方账号" likes="4609" replies="151">我们的运行率收入已超过300亿美元，较2025年底的90亿美元大幅增长，Claude需求持续加速。此次合作将为我们提供所需算力。</TWEET>
+<TWEET account="deredleritt3r" role="分析师" likes="5200" replies="117">Anthropic收入（年化）：2025年1月10亿，5月30亿……2026年4月已达300亿（什么鬼？）</TWEET>
+<TWEET account="lennysan" role="产品专家" likes="1088" replies="57">从Anthropic增长负责人Amol Avasare那里学到的最大启示：工程团队因Claude Code获得最大AI杠杆，一支5人工程团队产出相当于15-20人；PM与设计师生产力尚未同步提升，导致团队结构被压缩。</TWEET>
+<CONSENSUS>AI公司收入增长远超预期，算力成为核心战略资源，大模型商业化进入高速轨道。</CONSENSUS>
+<DIVERGENCE>部分观点认为巨额算力支出（OpenAI 2028年预计1210亿美元）将长期无法盈利，泡沫风险真实存在。</DIVERGENCE>
+</THEME>
+<THEME type="shift">
+<TITLE>🕵️ Sam Altman诚信调查风暴</TITLE>
+<NARRATIVE>Ronan Farrow历时一年半为《纽约客》调查OpenAI与Sam Altman，披露大量未公开内部备忘录和文件。报道指出OpenAI创立初衷是应对AI作为人类史上最危险发明，董事会曾因质疑Altman诚信而将其罢免。Paul Graham等人士对部分叙述提出异议，争议持续发酵。</NARRATIVE>
+<TWEET account="ronanfarrow" role="调查记者" likes="14201" replies="219">过去一年半，我与@andrewmarantz为《纽约客》调查OpenAI和Sam Altman。我们查看了此前未披露的内部备忘录、200多页文件，并采访了100多人。OpenAI创立前提是AI可能是人类史上最危险发明，其CEO需具备非凡诚信。我们详细说明了董事会和高管为何认为他缺乏这种诚信，并提问：他们的指控是否正确？</TWEET>
+<TWEET account="garymarcus" role="研究员" likes="4690" replies="78">Sam Altman的缩影，来自@newyorker。</TWEET>
+<TWEET account="paulg" role="投资人" likes="670" replies="35">既然又有文章声称我们“罢免”Sam是因为合伙人不信任他，不，我们没有。我反复澄清不是为了袒护Sam，而是因为不断读到对自己行为的错误描述实在太烦人。</TWEET>
+<TWEET account="newyorker" role="媒体" likes="1146" replies="35">@RonanFarrow和@AndrewMarantz采访了上百位直接了解Sam Altman商业行为的人，并获得了此前从未公开的文件。</TWEET>
+<CONSENSUS>OpenAI内部曾对Altman的诚信和管理风格存在严重担忧，安全团队被解散等动作加剧了外界质疑。</CONSENSUS>
+<DIVERGENCE>Paul Graham等早期关键人物坚决否认“因不信任而罢免”的说法，双方对历史事实的解读存在明显分歧。</DIVERGENCE>
+</THEME>
+<THEME type="new">
+<TITLE>🧩 Karpathy后48小时：Graphify知识图谱工具诞生</TITLE>
+<NARRATIVE>Karpathy提出LLM Knowledge Bases工作流仅48小时后，GitHub上就出现完全对应的开源工具Graphify。一条命令即可为任意文件夹生成可导航知识图谱、Obsidian vault和wiki，支持13种编程语言、PDF、图像， token效率提升71.5倍，展现2026年开源社区的极致响应速度。</NARRATIVE>
+<TWEET account="socialwithaayan" role="工程师" likes="7547" replies="160">🚨重磅：有人刚好造出了Andrej Karpathy说应该造的工具。Karpathy发帖48小时后，GitHub上就出现了Graphify。只需一条命令，指向任意文件夹，在Claude Code中运行/graphify，就能得到：可导航的知识图谱、带反向链接的Obsidian vault、从index.md开始的概念地图……相比读取原始文件，查询token效率提升71.5倍。这是AI Agent处理大型代码库的范式转变。</TWEET>
+<TWEET account="karpathy" role="AI研究员" likes="1272" replies="79">核心想法是让你跳过写作，但不能跳过阅读和思考。令人惊讶的是这真的有效。我处理大部分文件时会阅读原文、阅读摘要、阅读LLM对它如何融入wiki的意见以及新颖之处等。</TWEET>
+<TWEET account="teknium" role="工程师" likes="476" replies="41">Hermes Agent现在集成了Karpathy的LLM-Wiki，可快速创建知识库和研究库。只需hermes update，然后输入/llm-wiki即可开始。</TWEET>
+<OUTLOOK>AI Agent将从简单工具演变为能自主构建和维护复杂知识系统的“第二大脑”，代码和研究工作流将被彻底重构。</OUTLOOK>
+<OPPORTUNITY>个人开发者与小型团队可低成本获得企业级知识管理能力，极大降低大型项目认知负担。</OPPORTUNITY>
+<RISK>过度依赖AI生成的关系图谱可能弱化人类深度思考和原创洞察能力。</RISK>
+</THEME>
+<THEME type="new">
+<TITLE>💰 AI算力狂飙与新社会契约呼声</TITLE>
+<NARRATIVE>OpenAI预计2028年计算支出将达1210亿美元，至少到2030年才能盈利；Sam Altman警告即将到来的超级智能需要美国制定新社会契约，规模堪比进步时代与新政。Anthropic与OpenAI均加速IPO准备，行业对巨额资本需求与社会影响的讨论达到新高度。</NARRATIVE>
+<TWEET account="polymarket" role="数据平台" likes="1466" replies="158">刚刚：OpenAI预计2028年计算支出1210亿美元，至少到2030年才有望盈利。</TWEET>
+<TWEET account="mikeallen" role="媒体人" likes="654" replies="77">Sam Altman向我表示，对即将到来的AI模型威力感到极度紧迫，OpenAI正在提出“超级智能新政”以唤醒华盛顿。他认为AI将强大到需要全新社会契约。</TWEET>
+<TWEET account="hesamation" role="分析师" likes="5527" replies="56">是的，这是泡沫。OpenAI 2028年将在计算上花费1210亿美元，至少到2030年无法盈利。准备好你的GPU吧。</TWEET>
+<TWEET account="openai" role="官方账号" likes="2037" replies="272">我们推出OpenAI Safety Fellowship，这是一个支持AI安全与对齐独立研究、培养下一代人才的新项目。</TWEET>
+<OUTLOOK>AI将推动社会结构发生类似工业革命级别的转型，超级智能时代需要全新的经济与治理框架。</OUTLOOK>
+<OPPORTUNITY>早期布局AI基础设施、能源和政策咨询的公司将获得巨大先发优势。</OPPORTUNITY>
+<RISK>巨额资本开支若无法转化为盈利，可能引发投资泡沫破裂与监管强烈反弹。</RISK>
+</THEME>
+<TOPPICKS>
+<TWEET account="socialwithaayan" role="工程师" likes="7547" replies="160">🚨重磅：Karpathy提出LLM Knowledge Bases工作流仅48小时后，GitHub上就出现了完全对应的开源工具Graphify。一条命令即可生成可导航知识图谱、Obsidian vault和wiki，支持代码、PDF、图像，token效率提升71.5倍。这是2026年的开发速度。</TWEET>
+<TWEET account="ronanfarrow" role="调查记者" likes="14201" replies="219">过去一年半，我为《纽约客》深度调查OpenAI与Sam Altman，获取了大量未公开内部文件和采访。报道详细还原了董事会因诚信问题罢免他的过程，并提出核心疑问：他们对他的不信任是否正确？</TWEET>
+<TWEET account="anthropicai" role="官方账号" likes="13453" replies="428">我们已与Google和Broadcom达成协议，获得多个吉瓦下一代TPU容量，从2027年起用于训练Claude前沿模型。同时我们的运行率收入已超过300亿美元，较2025年底增长超过3倍。</TWEET>
+<TWEET account="elonmusk" role="创始人" likes="460148" replies="8747">NASA Artemis 正在近距离掠过月球。</TWEET>
+<TWEET account="lennysan" role="产品专家" likes="1088" replies="57">Anthropic增长负责人分享：工程因AI获得最大杠杆，5人团队产出相当于15-20人；PM角色未被取代，反而可能增加，因为“让六个人达成一致”仍是AI无法自动化的工作。</TWEET>
+</TOPPICKS>
+</REPORT>

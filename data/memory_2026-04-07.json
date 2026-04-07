@@ -1,0 +1,142 @@
+[
+  {
+    "account": "elonmusk",
+    "summary": "NASA Artemis 正在近距离掠过月球 https://t.co/jLvGoW1IR9",
+    "theme_title": "🌕 Artemis II：人类重返月球",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "nasa",
+    "summary": "告别无聊的周一，欢迎Moon-day。今天Artemis II宇航员将绕月飞行！从下午1点（东部时间）开始直播，他们将看到人类从未亲眼见过的月球部分。欢迎一起观看直播。",
+    "theme_title": "🌕 Artemis II：人类重返月球",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "a16z",
+    "summary": "我们正在重返月球。",
+    "theme_title": "🌕 Artemis II：人类重返月球",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "jeffdean",
+    "summary": "太不可思议了！从地球看过去，紫红色调不太明显，但黑色背景凸显了太空的浩瀚。",
+    "theme_title": "🌕 Artemis II：人类重返月球",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "anthropicai",
+    "summary": "我们已与Google和Broadcom签署协议，获得多个吉瓦下一代TPU容量，从2027年开始上线，用于训练和提供Claude前沿模型服务。",
+    "theme_title": "📈 Anthropic营收爆发与算力联盟",
+    "consensus": "AI公司收入增长远超预期，算力成为核心战略资源，大模型商业化进入高速轨道。",
+    "divergence": "部分观点认为巨额算力支出（OpenAI 2028年预计1210亿美元）将长期无法盈利，泡沫风险真实存在。"
+  },
+  {
+    "account": "anthropicai",
+    "summary": "我们的运行率收入已超过300亿美元，较2025年底的90亿美元大幅增长，Claude需求持续加速。此次合作将为我们提供所需算力。",
+    "theme_title": "📈 Anthropic营收爆发与算力联盟",
+    "consensus": "AI公司收入增长远超预期，算力成为核心战略资源，大模型商业化进入高速轨道。",
+    "divergence": "部分观点认为巨额算力支出（OpenAI 2028年预计1210亿美元）将长期无法盈利，泡沫风险真实存在。"
+  },
+  {
+    "account": "deredleritt3r",
+    "summary": "Anthropic收入（年化）：2025年1月10亿，5月30亿……2026年4月已达300亿（什么鬼？）",
+    "theme_title": "📈 Anthropic营收爆发与算力联盟",
+    "consensus": "AI公司收入增长远超预期，算力成为核心战略资源，大模型商业化进入高速轨道。",
+    "divergence": "部分观点认为巨额算力支出（OpenAI 2028年预计1210亿美元）将长期无法盈利，泡沫风险真实存在。"
+  },
+  {
+    "account": "lennysan",
+    "summary": "从Anthropic增长负责人Amol Avasare那里学到的最大启示：工程团队因Claude Code获得最大AI杠杆，一支5人工程团队产出相当于15-20人；PM与设计师生产力尚未同步提升，导致团队结构被压缩。",
+    "theme_title": "📈 Anthropic营收爆发与算力联盟",
+    "consensus": "AI公司收入增长远超预期，算力成为核心战略资源，大模型商业化进入高速轨道。",
+    "divergence": "部分观点认为巨额算力支出（OpenAI 2028年预计1210亿美元）将长期无法盈利，泡沫风险真实存在。"
+  },
+  {
+    "account": "_theme_divergence",
+    "summary": "部分观点认为巨额算力支出（OpenAI 2028年预计1210亿美元）将长期无法盈利，泡沫风险真实存在。",
+    "theme_title": "📈 Anthropic营收爆发与算力联盟",
+    "consensus": "AI公司收入增长远超预期，算力成为核心战略资源，大模型商业化进入高速轨道。",
+    "divergence": "部分观点认为巨额算力支出（OpenAI 2028年预计1210亿美元）将长期无法盈利，泡沫风险真实存在。"
+  },
+  {
+    "account": "ronanfarrow",
+    "summary": "过去一年半，我与@andrewmarantz为《纽约客》调查OpenAI和Sam Altman。我们查看了此前未披露的内部备忘录、200多页文件，并采访了100多人。OpenAI创立前提是AI可能是人类史上最危险发明，其CEO需具备非凡诚信。我们详细说明了董事会和高管为何认为他缺乏这种诚信，并提问：他们的指控是否正确？",
+    "theme_title": "🕵️ Sam Altman诚信调查风暴",
+    "consensus": "OpenAI内部曾对Altman的诚信和管理风格存在严重担忧，安全团队被解散等动作加剧了外界质疑。",
+    "divergence": "Paul Graham等早期关键人物坚决否认“因不信任而罢免”的说法，双方对历史事实的解读存在明显分歧。"
+  },
+  {
+    "account": "garymarcus",
+    "summary": "Sam Altman的缩影，来自@newyorker。",
+    "theme_title": "🕵️ Sam Altman诚信调查风暴",
+    "consensus": "OpenAI内部曾对Altman的诚信和管理风格存在严重担忧，安全团队被解散等动作加剧了外界质疑。",
+    "divergence": "Paul Graham等早期关键人物坚决否认“因不信任而罢免”的说法，双方对历史事实的解读存在明显分歧。"
+  },
+  {
+    "account": "paulg",
+    "summary": "既然又有文章声称我们“罢免”Sam是因为合伙人不信任他，不，我们没有。我反复澄清不是为了袒护Sam，而是因为不断读到对自己行为的错误描述实在太烦人。",
+    "theme_title": "🕵️ Sam Altman诚信调查风暴",
+    "consensus": "OpenAI内部曾对Altman的诚信和管理风格存在严重担忧，安全团队被解散等动作加剧了外界质疑。",
+    "divergence": "Paul Graham等早期关键人物坚决否认“因不信任而罢免”的说法，双方对历史事实的解读存在明显分歧。"
+  },
+  {
+    "account": "newyorker",
+    "summary": "@RonanFarrow和@AndrewMarantz采访了上百位直接了解Sam Altman商业行为的人，并获得了此前从未公开的文件。",
+    "theme_title": "🕵️ Sam Altman诚信调查风暴",
+    "consensus": "OpenAI内部曾对Altman的诚信和管理风格存在严重担忧，安全团队被解散等动作加剧了外界质疑。",
+    "divergence": "Paul Graham等早期关键人物坚决否认“因不信任而罢免”的说法，双方对历史事实的解读存在明显分歧。"
+  },
+  {
+    "account": "_theme_divergence",
+    "summary": "Paul Graham等早期关键人物坚决否认“因不信任而罢免”的说法，双方对历史事实的解读存在明显分歧。",
+    "theme_title": "🕵️ Sam Altman诚信调查风暴",
+    "consensus": "OpenAI内部曾对Altman的诚信和管理风格存在严重担忧，安全团队被解散等动作加剧了外界质疑。",
+    "divergence": "Paul Graham等早期关键人物坚决否认“因不信任而罢免”的说法，双方对历史事实的解读存在明显分歧。"
+  },
+  {
+    "account": "socialwithaayan",
+    "summary": "🚨重磅：有人刚好造出了Andrej Karpathy说应该造的工具。Karpathy发帖48小时后，GitHub上就出现了Graphify。只需一条命令，指向任意文件夹，在Claude Code中运行/graphify，就能得到：可导航的知识图谱、带反向链接的Obsidian vault、从index.md开始的概念地图……相比读取原始文件，查询token效率提升71.5倍。这是AI Agent处理大型代码库的范式转变。",
+    "theme_title": "🧩 Karpathy后48小时：Graphify知识图谱工具诞生",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "karpathy",
+    "summary": "核心想法是让你跳过写作，但不能跳过阅读和思考。令人惊讶的是这真的有效。我处理大部分文件时会阅读原文、阅读摘要、阅读LLM对它如何融入wiki的意见以及新颖之处等。",
+    "theme_title": "🧩 Karpathy后48小时：Graphify知识图谱工具诞生",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "teknium",
+    "summary": "Hermes Agent现在集成了Karpathy的LLM-Wiki，可快速创建知识库和研究库。只需hermes update，然后输入/llm-wiki即可开始。",
+    "theme_title": "🧩 Karpathy后48小时：Graphify知识图谱工具诞生",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "polymarket",
+    "summary": "刚刚：OpenAI预计2028年计算支出1210亿美元，至少到2030年才有望盈利。",
+    "theme_title": "💰 AI算力狂飙与新社会契约呼声",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "mikeallen",
+    "summary": "Sam Altman向我表示，对即将到来的AI模型威力感到极度紧迫，OpenAI正在提出“超级智能新政”以唤醒华盛顿。他认为AI将强大到需要全新社会契约。",
+    "theme_title": "💰 AI算力狂飙与新社会契约呼声",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "hesamation",
+    "summary": "是的，这是泡沫。OpenAI 2028年将在计算上花费1210亿美元，至少到2030年无法盈利。准备好你的GPU吧。",
+    "theme_title": "💰 AI算力狂飙与新社会契约呼声",
+    "consensus": "",
+    "divergence": ""
+  }
+]

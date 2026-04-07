@@ -1,17 +1,17 @@
 {
   "a16z": [
+    "[2026-04-07] 🌕 Artemis II：人类重返月球: 我们正在重返月球。",
     "[2026-04-05] AI让高质量软件变得无限可用: 软件不再是珍贵资源。过去只有少数人能生成高质量代码，现在你挥挥手就能得到想要的软件，那些看似不可能的任务突然变得非常容易。",
     "[2026-04-05] AI让高质量软件变得无限可用: Marc Andreessen解释管理层可能在AI时代消失：我们一生都在对抗管理主义让一切变得灰暗无聊。创新者将利用AI，而管理型 incumbents要么学会创新，要么死亡。",
     "[2026-04-05] AI Agent需要金钱与Crypto融合: AI代理将需要金钱——这已经发生了。AI与crypto的宏大统一即将到来。我那些最激进使用OpenClaw的朋友已经把银行账户和信用卡给了他们的Claw。",
-    "[2026-04-05] AI Agent需要金钱与Crypto融合: Marc Andreessen：AI代理需要金钱，这已经发生。朋友们给OpenClaw提供了银行账户，否则它会自己“入侵”账户。AI与crypto的宏大统一即将到来。",
-    "[2026-04-05] TOP_PICK: 软件不再是珍贵资源。过去只有少数人能生成高质量代码，现在你挥挥手就能得到想要的软件，那些看似不可能的任务突然变得非常容易。"
+    "[2026-04-05] AI Agent需要金钱与Crypto融合: Marc Andreessen：AI代理需要金钱，这已经发生。朋友们给OpenClaw提供了银行账户，否则它会自己“入侵”账户。AI与crypto的宏大统一即将到来。"
   ],
   "elonmusk": [
+    "[2026-04-07] 🌕 Artemis II：人类重返月球: NASA Artemis 正在近距离掠过月球 https://t.co/jLvGoW1IR9",
+    "[2026-04-07] TOP_PICK: NASA Artemis 正在近距离掠过月球。",
     "[2026-04-05] Grok Imagine Quality模式发布: 使用语音输入Imagine对能说话却太小无法写复杂提示词的儿童来说是个很棒的功能，他们拥有惊人的想象力。",
     "[2026-04-05] Grok Imagine Quality模式发布: Grok Imagine",
-    "[2026-04-05] TOP_PICK: Grok正在不断更新，所以几天前对你无效的功能现在很可能已经可用。",
-    "[2026-04-04]: Grok正在不断更新，所以几天前对你无效的功能现在很可能已经可用。❤️ 81803 | 💬 3188",
-    "[2026-04-04]: 看看你能用Grok Imagine做什么。❤️ 34309 | 💬 3402"
+    "[2026-04-05] TOP_PICK: Grok正在不断更新，所以几天前对你无效的功能现在很可能已经可用。"
   ],
   "realdanodowd": [
     "[2026-04-04]: 胎痕导致Tesla FSD v14.2.2.5在55mph高速上突然转向另一辆车，司机被迫干预避免碰撞。Elon何时承认自动驾驶实验失败？❤️ 56 | 💬 10"
@@ -35,6 +35,8 @@
     "[2026-04-04]: Almost everything you think you know about the history of technology and capitalism was warped by communist/luddite propaganda. This time too.❤️ 9086 | 💬 483"
   ],
   "lennysan": [
+    "[2026-04-07] 📈 Anthropic营收爆发与算力联盟: 从Anthropic增长负责人Amol Avasare那里学到的最大启示：工程团队因Claude Code获得最大AI杠杆，一支5人工程团队产出相当于15-20人；PM与设计师生产力尚未同步提升，导致团队结构被压缩。",
+    "[2026-04-07] TOP_PICK: Anthropic增长负责人分享：工程因AI获得最大杠杆，5人团队产出相当于15-20人；PM角色未被取代，反而可能增加，因为“让六个人达成一致”仍是AI无法自动化的工作。",
     "[2026-04-04]: My biggest takeaways from @simonw: November 2025 was an inflection point for AI coding. Code is cheap now. The “dark factory” is the most radical experiment. AI exhaustion is real.❤️ 1029 | 💬 70"
   ],
   "jessegenet": [
@@ -50,6 +52,53 @@
     "[2026-04-05] NVIDIA Neural Texture Compression技术: NVIDIA展示Neural Texture Compression将VRAM从6.5GB降至970MB。"
   ],
   "karpathy": [
+    "[2026-04-07] 🧩 Karpathy后48小时：Graphify知识图谱工具诞生: 核心想法是让你跳过写作，但不能跳过阅读和思考。令人惊讶的是这真的有效。我处理大部分文件时会阅读原文、阅读摘要、阅读LLM对它如何融入wiki的意见以及新颖之处等。",
     "[2026-04-05] TOP_PICK: 在这个LLM Agent时代，分享具体代码或App的意义变小了。你只需分享想法，然后让对方的Agent根据你的具体需求定制和构建它。"
+  ],
+  "nasa": [
+    "[2026-04-07] 🌕 Artemis II：人类重返月球: 告别无聊的周一，欢迎Moon-day。今天Artemis II宇航员将绕月飞行！从下午1点（东部时间）开始直播，他们将看到人类从未亲眼见过的月球部分。欢迎一起观看直播。"
+  ],
+  "jeffdean": [
+    "[2026-04-07] 🌕 Artemis II：人类重返月球: 太不可思议了！从地球看过去，紫红色调不太明显，但黑色背景凸显了太空的浩瀚。"
+  ],
+  "anthropicai": [
+    "[2026-04-07] 📈 Anthropic营收爆发与算力联盟: 我们已与Google和Broadcom签署协议，获得多个吉瓦下一代TPU容量，从2027年开始上线，用于训练和提供Claude前沿模型服务。",
+    "[2026-04-07] 📈 Anthropic营收爆发与算力联盟: 我们的运行率收入已超过300亿美元，较2025年底的90亿美元大幅增长，Claude需求持续加速。此次合作将为我们提供所需算力。",
+    "[2026-04-07] TOP_PICK: 我们已与Google和Broadcom达成协议，获得多个吉瓦下一代TPU容量，从2027年起用于训练Claude前沿模型。同时我们的运行率收入已超过300亿美元，较2025年底增长超过3倍。"
+  ],
+  "deredleritt3r": [
+    "[2026-04-07] 📈 Anthropic营收爆发与算力联盟: Anthropic收入（年化）：2025年1月10亿，5月30亿……2026年4月已达300亿（什么鬼？）"
+  ],
+  "ronanfarrow": [
+    "[2026-04-07] 🕵️ Sam Altman诚信调查风暴: 过去一年半，我与@andrewmarantz为《纽约客》调查OpenAI和Sam Altman。我们查看了此前未披露的内部备忘录、200多页文件，并采访了100多人。OpenAI创立前提是AI可能是人类史上最危险发明，其CEO需具备非凡诚信。我们详细说明了董事会和高管为何认为他缺乏这种诚信，并提问：他们的指控是否正确？",
+    "[2026-04-07] TOP_PICK: 过去一年半，我为《纽约客》深度调查OpenAI与Sam Altman，获取了大量未公开内部文件和采访。报道详细还原了董事会因诚信问题罢免他的过程，并提出核心疑问：他们对他的不信任是否正确？"
+  ],
+  "garymarcus": [
+    "[2026-04-07] 🕵️ Sam Altman诚信调查风暴: Sam Altman的缩影，来自@newyorker。"
+  ],
+  "paulg": [
+    "[2026-04-07] 🕵️ Sam Altman诚信调查风暴: 既然又有文章声称我们“罢免”Sam是因为合伙人不信任他，不，我们没有。我反复澄清不是为了袒护Sam，而是因为不断读到对自己行为的错误描述实在太烦人。"
+  ],
+  "newyorker": [
+    "[2026-04-07] 🕵️ Sam Altman诚信调查风暴: @RonanFarrow和@AndrewMarantz采访了上百位直接了解Sam Altman商业行为的人，并获得了此前从未公开的文件。"
+  ],
+  "socialwithaayan": [
+    "[2026-04-07] 🧩 Karpathy后48小时：Graphify知识图谱工具诞生: 🚨重磅：有人刚好造出了Andrej Karpathy说应该造的工具。Karpathy发帖48小时后，GitHub上就出现了Graphify。只需一条命令，指向任意文件夹，在Claude Code中运行/graphify，就能得到：可导航的知识图谱、带反向链接的Obsidian vault、从index.md开始的概念地图……相比读取原始文件，查询token效率提升71.5倍。这是AI Agent处理大型代码库的范式转变。",
+    "[2026-04-07] TOP_PICK: 🚨重磅：Karpathy提出LLM Knowledge Bases工作流仅48小时后，GitHub上就出现了完全对应的开源工具Graphify。一条命令即可生成可导航知识图谱、Obsidian vault和wiki，支持代码、PDF、图像，token效率提升71.5倍。这是2026年的开发速度。"
+  ],
+  "teknium": [
+    "[2026-04-07] 🧩 Karpathy后48小时：Graphify知识图谱工具诞生: Hermes Agent现在集成了Karpathy的LLM-Wiki，可快速创建知识库和研究库。只需hermes update，然后输入/llm-wiki即可开始。"
+  ],
+  "polymarket": [
+    "[2026-04-07] 💰 AI算力狂飙与新社会契约呼声: 刚刚：OpenAI预计2028年计算支出1210亿美元，至少到2030年才有望盈利。"
+  ],
+  "mikeallen": [
+    "[2026-04-07] 💰 AI算力狂飙与新社会契约呼声: Sam Altman向我表示，对即将到来的AI模型威力感到极度紧迫，OpenAI正在提出“超级智能新政”以唤醒华盛顿。他认为AI将强大到需要全新社会契约。"
+  ],
+  "hesamation": [
+    "[2026-04-07] 💰 AI算力狂飙与新社会契约呼声: 是的，这是泡沫。OpenAI 2028年将在计算上花费1210亿美元，至少到2030年无法盈利。准备好你的GPU吧。"
+  ],
+  "openai": [
+    "[2026-04-07] 💰 AI算力狂飙与新社会契约呼声: 我们推出OpenAI Safety Fellowship，这是一个支持AI安全与对齐独立研究、培养下一代人才的新项目。"
   ]
 }
