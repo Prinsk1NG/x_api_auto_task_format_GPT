@@ -1,0 +1,142 @@
+[
+  {
+    "account": "intel",
+    "summary": "英特尔自豪地加入由 SpaceX、xAI 和 Tesla 发起的 Terafab 项目，帮助重构硅晶圆制造技术。我们设计、制造和封装超高性能芯片的能力，将加速 Terafab 每年生产 1TW 计算能力的目标，以推动 AI 和机器人技术的未来进步。很高兴本周末在英特尔接待了 Elon Musk！",
+    "theme_title": "🚀 Terafab 联盟重塑半导体制造",
+    "consensus": "产业界普遍认为 Terafab 将显著提升美国本土高端芯片自给能力，加速 AI 与机器人时代的算力供给。",
+    "divergence": "部分声音质疑执行难度和时间表，另一些则认为这是 Intel 重返前沿的绝佳机会，资本市场反应两极。"
+  },
+  {
+    "account": "elonmusk",
+    "summary": "期待与 Intel 合作开发 Terafab！深度回复中有人说：我知道 Terafab 是什么意思，谢谢老师。",
+    "theme_title": "🚀 Terafab 联盟重塑半导体制造",
+    "consensus": "产业界普遍认为 Terafab 将显著提升美国本土高端芯片自给能力，加速 AI 与机器人时代的算力供给。",
+    "divergence": "部分声音质疑执行难度和时间表，另一些则认为这是 Intel 重返前沿的绝佳机会，资本市场反应两极。"
+  },
+  {
+    "account": "spacex",
+    "summary": "Intel 加入 Terafab！SpaceX、xAI 和 Tesla 正在启动有史以来最史诗级的芯片制造计划——将逻辑、内存和先进封装整合到同一屋檐下。",
+    "theme_title": "🚀 Terafab 联盟重塑半导体制造",
+    "consensus": "产业界普遍认为 Terafab 将显著提升美国本土高端芯片自给能力，加速 AI 与机器人时代的算力供给。",
+    "divergence": "部分声音质疑执行难度和时间表，另一些则认为这是 Intel 重返前沿的绝佳机会，资本市场反应两极。"
+  },
+  {
+    "account": "beffjezos",
+    "summary": "美国版的 TSMC 正在我们眼前诞生。",
+    "theme_title": "🚀 Terafab 联盟重塑半导体制造",
+    "consensus": "产业界普遍认为 Terafab 将显著提升美国本土高端芯片自给能力，加速 AI 与机器人时代的算力供给。",
+    "divergence": "部分声音质疑执行难度和时间表，另一些则认为这是 Intel 重返前沿的绝佳机会，资本市场反应两极。"
+  },
+  {
+    "account": "_theme_divergence",
+    "summary": "部分声音质疑执行难度和时间表，另一些则认为这是 Intel 重返前沿的绝佳机会，资本市场反应两极。",
+    "theme_title": "🚀 Terafab 联盟重塑半导体制造",
+    "consensus": "产业界普遍认为 Terafab 将显著提升美国本土高端芯片自给能力，加速 AI 与机器人时代的算力供给。",
+    "divergence": "部分声音质疑执行难度和时间表，另一些则认为这是 Intel 重返前沿的绝佳机会，资本市场反应两极。"
+  },
+  {
+    "account": "anthropicai",
+    "summary": "我们推出 Project Glasswing，这是一项紧急计划，用于保护全球最关键的软件。它由我们最新的前沿模型 Claude Mythos Preview 驱动，该模型发现软件漏洞的能力优于除最顶尖人类专家外的所有其他人。",
+    "theme_title": "🛡️ Project Glasswing：AI 网络安全防御新纪元",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "darioamodei",
+    "summary": "我为全球领先企业加入 Project Glasswing 感到自豪，我们将正面应对越来越强大的 AI 系统带来的网络威胁。",
+    "theme_title": "🛡️ Project Glasswing：AI 网络安全防御新纪元",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "joshkale",
+    "summary": "这是大事…… Anthropic 刚刚宣布了一个强大到他们不敢公开发布的模型，因为担心造成的破坏。Claude Mythos Preview 在每个主要操作系统和浏览器中发现了数千个零日漏洞。",
+    "theme_title": "🛡️ Project Glasswing：AI 网络安全防御新纪元",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "pmarca",
+    "summary": "AI 发现的每一个安全缺陷在 AI 出现之前就已存在。世界从未擅长保护计算机系统；现在有了 AI，我们终于要做好这件事了。",
+    "theme_title": "🛡️ Project Glasswing：AI 网络安全防御新纪元",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "anthropicai",
+    "summary": "我们的运行率收入已超过 300 亿美元，较 2025 年底的 90 亿美元大幅增长，Claude 需求持续加速。此次与 Google 和 Broadcom 的合作将为我们提供所需算力。",
+    "theme_title": "「资本与估值雷达 (Investment Radar)」",
+    "consensus": "算力需求爆炸式增长，资本开支规模前所未有，领先实验室营收快速扩张。",
+    "divergence": "部分观点认为当前估值已严重泡沫化，盈利遥遥无期；另一些则坚信指数级 token 需求最终会平衡高昂服务成本。"
+  },
+  {
+    "account": "hesamation",
+    "summary": "是的，这是泡沫。OpenAI 2028 年将在计算上花费 1210 亿美元，至少到 2030 年无法盈利。准备好你的 GPU 吧。",
+    "theme_title": "「资本与估值雷达 (Investment Radar)」",
+    "consensus": "算力需求爆炸式增长，资本开支规模前所未有，领先实验室营收快速扩张。",
+    "divergence": "部分观点认为当前估值已严重泡沫化，盈利遥遥无期；另一些则坚信指数级 token 需求最终会平衡高昂服务成本。"
+  },
+  {
+    "account": "pmarca",
+    "summary": "使用前沿模型的魔法般 OpenClaw 体验目前每天花费 300-1000 美元，未来将走向每天 10000 美元以上。整个技术产业的未来形态，将取决于如何将其降至每月 20 美元。",
+    "theme_title": "「资本与估值雷达 (Investment Radar)」",
+    "consensus": "算力需求爆炸式增长，资本开支规模前所未有，领先实验室营收快速扩张。",
+    "divergence": "部分观点认为当前估值已严重泡沫化，盈利遥遥无期；另一些则坚信指数级 token 需求最终会平衡高昂服务成本。"
+  },
+  {
+    "account": "polymarket",
+    "summary": "刚刚：OpenAI 预计 2028 年计算支出 1210 亿美元，至少到 2030 年才有望盈利。",
+    "theme_title": "「资本与估值雷达 (Investment Radar)」",
+    "consensus": "算力需求爆炸式增长，资本开支规模前所未有，领先实验室营收快速扩张。",
+    "divergence": "部分观点认为当前估值已严重泡沫化，盈利遥遥无期；另一些则坚信指数级 token 需求最终会平衡高昂服务成本。"
+  },
+  {
+    "account": "_theme_divergence",
+    "summary": "部分观点认为当前估值已严重泡沫化，盈利遥遥无期；另一些则坚信指数级 token 需求最终会平衡高昂服务成本。",
+    "theme_title": "「资本与估值雷达 (Investment Radar)」",
+    "consensus": "算力需求爆炸式增长，资本开支规模前所未有，领先实验室营收快速扩张。",
+    "divergence": "部分观点认为当前估值已严重泡沫化，盈利遥遥无期；另一些则坚信指数级 token 需求最终会平衡高昂服务成本。"
+  },
+  {
+    "account": "teknium",
+    "summary": "Hermes Agent 现在集成了 Karpathy 的 LLM-Wiki，可快速创建知识库和研究库。只需 hermes update，然后输入 /llm-wiki 即可开始。",
+    "theme_title": "🧩 Karpathy LLM-Wiki 驱动知识图谱工具爆发",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "nousresearch",
+    "summary": "Karpathy 的 LLM Wiki 现在已成为 Hermes-Agent 的内置技能，欢迎试用。",
+    "theme_title": "🧩 Karpathy LLM-Wiki 驱动知识图谱工具爆发",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "roundtablespace",
+    "summary": "Karpathy 要求构建 LLM 知识图谱，48 小时后有人用 70 倍 token 效率实现了它。",
+    "theme_title": "🧩 Karpathy LLM-Wiki 驱动知识图谱工具爆发",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "elonmusk",
+    "summary": "NASA Artemis 正在近距离掠过月球。",
+    "theme_title": "🌕 Artemis II 月球任务影像引发全球共鸣",
+    "consensus": "人类重返月球的视觉证据极大振奋了公众与产业对太空探索的信心。",
+    "divergence": "部分讨论聚焦技术细节与色彩呈现，另一些则联想到更宏大的星际未来时间线。"
+  },
+  {
+    "account": "jeffdean",
+    "summary": "太不可思议了！从地球看过去，紫红色调不太明显，但黑色背景凸显了太空的浩瀚。",
+    "theme_title": "🌕 Artemis II 月球任务影像引发全球共鸣",
+    "consensus": "人类重返月球的视觉证据极大振奋了公众与产业对太空探索的信心。",
+    "divergence": "部分讨论聚焦技术细节与色彩呈现，另一些则联想到更宏大的星际未来时间线。"
+  },
+  {
+    "account": "_theme_divergence",
+    "summary": "部分讨论聚焦技术细节与色彩呈现，另一些则联想到更宏大的星际未来时间线。",
+    "theme_title": "🌕 Artemis II 月球任务影像引发全球共鸣",
+    "consensus": "人类重返月球的视觉证据极大振奋了公众与产业对太空探索的信心。",
+    "divergence": "部分讨论聚焦技术细节与色彩呈现，另一些则联想到更宏大的星际未来时间线。"
+  }
+]

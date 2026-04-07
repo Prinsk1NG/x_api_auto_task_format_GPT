@@ -1,9 +1,9 @@
 {
   "elonmusk": {
-    "fetched_days": 2,
-    "total_tweets": 30,
-    "used_in_reports": 2,
-    "last_active": "2026-04-07"
+    "fetched_days": 3,
+    "total_tweets": 39,
+    "used_in_reports": 3,
+    "last_active": "2026-04-08"
   },
   "xai": {
     "fetched_days": 1,
@@ -12,10 +12,10 @@
     "last_active": "2026-04-05"
   },
   "pmarca": {
-    "fetched_days": 2,
-    "total_tweets": 7,
-    "used_in_reports": 1,
-    "last_active": "2026-04-07"
+    "fetched_days": 3,
+    "total_tweets": 11,
+    "used_in_reports": 2,
+    "last_active": "2026-04-08"
   },
   "palmerluckey": {
     "fetched_days": 1,
@@ -30,16 +30,16 @@
     "last_active": "2026-04-07"
   },
   "chamath": {
-    "fetched_days": 2,
-    "total_tweets": 4,
+    "fetched_days": 3,
+    "total_tweets": 5,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "anthropicai": {
-    "fetched_days": 2,
-    "total_tweets": 3,
-    "used_in_reports": 1,
-    "last_active": "2026-04-07"
+    "fetched_days": 3,
+    "total_tweets": 12,
+    "used_in_reports": 2,
+    "last_active": "2026-04-08"
   },
   "a16z": {
     "fetched_days": 2,
@@ -78,22 +78,22 @@
     "last_active": "2026-04-05"
   },
   "jeffdean": {
+    "fetched_days": 3,
+    "total_tweets": 4,
+    "used_in_reports": 2,
+    "last_active": "2026-04-08"
+  },
+  "lexfridman": {
     "fetched_days": 2,
     "total_tweets": 2,
     "used_in_reports": 1,
-    "last_active": "2026-04-07"
-  },
-  "lexfridman": {
-    "fetched_days": 1,
-    "total_tweets": 1,
-    "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "garymarcus": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 4,
     "used_in_reports": 1,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "openai": {
     "fetched_days": 1,
@@ -108,15 +108,45 @@
     "last_active": "2026-04-07"
   },
   "runwayml": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 2,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "hubermanlab": {
     "fetched_days": 1,
     "total_tweets": 2,
     "used_in_reports": 0,
     "last_active": "2026-04-07"
+  },
+  "intel": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-08"
+  },
+  "darioamodei": {
+    "fetched_days": 1,
+    "total_tweets": 5,
+    "used_in_reports": 1,
+    "last_active": "2026-04-08"
+  },
+  "simonw": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "nathievr": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "bindureddy": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
   }
 }

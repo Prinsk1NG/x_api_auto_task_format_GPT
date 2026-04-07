@@ -1,0 +1,231 @@
+{
+  "cover": {
+    "title": "2026 年 4 月 8 日 AI 行业脉动",
+    "prompt": "基于 X/Twitter 实时讨论提炼 AI 领域关键主题转变与新兴趋势",
+    "insight": "Terafab 联盟重塑半导体制造供应链，Anthropic Mythos 模型揭开 AI 网络安全新风险与防御范式，资本层面算力支出泡沫与营收爆发并存"
+  },
+  "pulse": "Terafab 芯片制造联盟成立，Anthropic Mythos 网络安全模型突破",
+  "themes": [
+    {
+      "type": "shift",
+      "emoji": "🧠",
+      "title": "🚀 Terafab 联盟重塑半导体制造",
+      "narrative": "Intel 正式加入 SpaceX、xAI 和 Tesla 发起的 Terafab 项目，目标是每年生产 1TW 计算能力，通过将逻辑、内存和先进封装整合到同一屋檐下，美国半导体制造迎来范式级转变，被视为本土 TSMC 等价物正在诞生。",
+      "tweets": [
+        {
+          "account": "intel",
+          "role": "官方账号",
+          "likes": 13542,
+          "replies": 908,
+          "content": "英特尔自豪地加入由 SpaceX、xAI 和 Tesla 发起的 Terafab 项目，帮助重构硅晶圆制造技术。我们设计、制造和封装超高性能芯片的能力，将加速 Terafab 每年生产 1TW 计算能力的目标，以推动 AI 和机器人技术的未来进步。很高兴本周末在英特尔接待了 Elon Musk！"
+        },
+        {
+          "account": "elonmusk",
+          "role": "创始人",
+          "likes": 64071,
+          "replies": 4127,
+          "content": "期待与 Intel 合作开发 Terafab！深度回复中有人说：我知道 Terafab 是什么意思，谢谢老师。"
+        },
+        {
+          "account": "spacex",
+          "role": "官方账号",
+          "likes": 12967,
+          "replies": 614,
+          "content": "Intel 加入 Terafab！SpaceX、xAI 和 Tesla 正在启动有史以来最史诗级的芯片制造计划——将逻辑、内存和先进封装整合到同一屋檐下。"
+        },
+        {
+          "account": "beffjezos",
+          "role": "投资人",
+          "likes": 1635,
+          "replies": 81,
+          "content": "美国版的 TSMC 正在我们眼前诞生。"
+        }
+      ],
+      "consensus": "产业界普遍认为 Terafab 将显著提升美国本土高端芯片自给能力，加速 AI 与机器人时代的算力供给。",
+      "divergence": "部分声音质疑执行难度和时间表，另一些则认为这是 Intel 重返前沿的绝佳机会，资本市场反应两极。",
+      "outlook": "",
+      "opportunity": "",
+      "risk": ""
+    },
+    {
+      "type": "new",
+      "emoji": "🧠",
+      "title": "🛡️ Project Glasswing：AI 网络安全防御新纪元",
+      "narrative": "Anthropic 发布未公开前沿模型 Claude Mythos Preview，该模型能自主发现数千个高危零日漏洞，包括各大操作系统和浏览器中长期未修补的缺陷。公司不计划公开发布，而是联合 Apple、Google、Microsoft、NVIDIA 等巨头成立 Project Glasswing 联盟，投入 1 亿美元信用额度，率先修补关键基础设施。",
+      "tweets": [
+        {
+          "account": "anthropicai",
+          "role": "官方账号",
+          "likes": 18890,
+          "replies": 884,
+          "content": "我们推出 Project Glasswing，这是一项紧急计划，用于保护全球最关键的软件。它由我们最新的前沿模型 Claude Mythos Preview 驱动，该模型发现软件漏洞的能力优于除最顶尖人类专家外的所有其他人。"
+        },
+        {
+          "account": "darioamodei",
+          "role": "创始人",
+          "likes": 4901,
+          "replies": 146,
+          "content": "我为全球领先企业加入 Project Glasswing 感到自豪，我们将正面应对越来越强大的 AI 系统带来的网络威胁。"
+        },
+        {
+          "account": "joshkale",
+          "role": "媒体人",
+          "likes": 8545,
+          "replies": 296,
+          "content": "这是大事…… Anthropic 刚刚宣布了一个强大到他们不敢公开发布的模型，因为担心造成的破坏。Claude Mythos Preview 在每个主要操作系统和浏览器中发现了数千个零日漏洞。"
+        },
+        {
+          "account": "pmarca",
+          "role": "投资人",
+          "likes": 3684,
+          "replies": 232,
+          "content": "AI 发现的每一个安全缺陷在 AI 出现之前就已存在。世界从未擅长保护计算机系统；现在有了 AI，我们终于要做好这件事了。"
+        }
+      ],
+      "consensus": "",
+      "divergence": "",
+      "outlook": "AI 将从网络攻击工具转变为首要防御武器，行业联盟模式或成为未来应对前沿模型风险的标准路径。",
+      "opportunity": "安全研究效率提升数个数量级，关键基础设施修补速度加快，为 AI 原生安全产品和服务创造巨大市场。",
+      "risk": "模型能力扩散后，若防护措施跟不上，可能导致网络武器化风险指数级上升。"
+    },
+    {
+      "type": "shift",
+      "emoji": "🧠",
+      "title": "「资本与估值雷达 (Investment Radar)」",
+      "narrative": "AI 公司资本消耗与营收爆发并存：Anthropic 运行率收入已超 300 亿美元，较 2025 年底增长超 3 倍，并与 Google、Broadcom 签署多个吉瓦级 TPU 协议；OpenAI 2028 年计算支出预计达 1210 亿美元，至少到 2030 年才能盈利，泡沫讨论升温；同时 pmarca 指出前沿模型服务成本高企但需求呈指数级增长，行业未来取决于如何将每日数千美元体验降至每月 20 美元。",
+      "tweets": [
+        {
+          "account": "anthropicai",
+          "role": "官方账号",
+          "likes": 18890,
+          "replies": 884,
+          "content": "我们的运行率收入已超过 300 亿美元，较 2025 年底的 90 亿美元大幅增长，Claude 需求持续加速。此次与 Google 和 Broadcom 的合作将为我们提供所需算力。"
+        },
+        {
+          "account": "hesamation",
+          "role": "研究员",
+          "likes": 12043,
+          "replies": 107,
+          "content": "是的，这是泡沫。OpenAI 2028 年将在计算上花费 1210 亿美元，至少到 2030 年无法盈利。准备好你的 GPU 吧。"
+        },
+        {
+          "account": "pmarca",
+          "role": "投资人",
+          "likes": 6747,
+          "replies": 567,
+          "content": "使用前沿模型的魔法般 OpenClaw 体验目前每天花费 300-1000 美元，未来将走向每天 10000 美元以上。整个技术产业的未来形态，将取决于如何将其降至每月 20 美元。"
+        },
+        {
+          "account": "polymarket",
+          "role": "媒体人",
+          "likes": 1181,
+          "replies": 59,
+          "content": "刚刚：OpenAI 预计 2028 年计算支出 1210 亿美元，至少到 2030 年才有望盈利。"
+        }
+      ],
+      "consensus": "算力需求爆炸式增长，资本开支规模前所未有，领先实验室营收快速扩张。",
+      "divergence": "部分观点认为当前估值已严重泡沫化，盈利遥遥无期；另一些则坚信指数级 token 需求最终会平衡高昂服务成本。",
+      "outlook": "",
+      "opportunity": "",
+      "risk": ""
+    },
+    {
+      "type": "new",
+      "emoji": "🧠",
+      "title": "🧩 Karpathy LLM-Wiki 驱动知识图谱工具爆发",
+      "narrative": "Karpathy 提出的 LLM-Wiki 概念在 48 小时内被集成到 Hermes Agent 中，用户只需一条命令即可快速构建 Obsidian 知识库和研究库，标志着 AI 驱动的个人与团队知识管理进入新阶段。",
+      "tweets": [
+        {
+          "account": "teknium",
+          "role": "工程师",
+          "likes": 3036,
+          "replies": 159,
+          "content": "Hermes Agent 现在集成了 Karpathy 的 LLM-Wiki，可快速创建知识库和研究库。只需 hermes update，然后输入 /llm-wiki 即可开始。"
+        },
+        {
+          "account": "nousresearch",
+          "role": "官方账号",
+          "likes": 1619,
+          "replies": 48,
+          "content": "Karpathy 的 LLM Wiki 现在已成为 Hermes-Agent 的内置技能，欢迎试用。"
+        },
+        {
+          "account": "roundtablespace",
+          "role": "媒体人",
+          "likes": 1018,
+          "replies": 36,
+          "content": "Karpathy 要求构建 LLM 知识图谱，48 小时后有人用 70 倍 token 效率实现了它。"
+        }
+      ],
+      "consensus": "",
+      "divergence": "",
+      "outlook": "此类工具将让研究者和开发者快速积累专有知识库，加速 AI 原生工作流普及。",
+      "opportunity": "个人知识管理、学术研究和企业情报分析效率大幅跃升，催生新一代生产力工具。",
+      "risk": "知识图谱质量高度依赖底层模型，若模型幻觉未被有效控制，可能固化错误认知。"
+    },
+    {
+      "type": "shift",
+      "emoji": "🧠",
+      "title": "🌕 Artemis II 月球任务影像引发全球共鸣",
+      "narrative": "NASA Artemis II 任务近距离掠过月球，elonmusk 和 jeffdean 等转发分享地球视角下紫红色调月球与浩瀚太空背景的震撼照片，重新点燃公众对载人深空探索的热情。",
+      "tweets": [
+        {
+          "account": "elonmusk",
+          "role": "创始人",
+          "likes": 1073474,
+          "replies": 18304,
+          "content": "NASA Artemis 正在近距离掠过月球。"
+        },
+        {
+          "account": "jeffdean",
+          "role": "研究员",
+          "likes": 2022,
+          "replies": 48,
+          "content": "太不可思议了！从地球看过去，紫红色调不太明显，但黑色背景凸显了太空的浩瀚。"
+        }
+      ],
+      "consensus": "人类重返月球的视觉证据极大振奋了公众与产业对太空探索的信心。",
+      "divergence": "部分讨论聚焦技术细节与色彩呈现，另一些则联想到更宏大的星际未来时间线。",
+      "outlook": "",
+      "opportunity": "",
+      "risk": ""
+    }
+  ],
+  "top_picks": [
+    {
+      "account": "anthropicai",
+      "role": "官方账号",
+      "likes": 18890,
+      "replies": 884,
+      "content": "我们推出 Project Glasswing，这是一项紧急计划，用于保护全球最关键的软件。它由我们最新的前沿模型 Claude Mythos Preview 驱动，该模型发现软件漏洞的能力优于除最顶尖人类专家外的所有其他人。"
+    },
+    {
+      "account": "intel",
+      "role": "官方账号",
+      "likes": 13542,
+      "replies": 908,
+      "content": "英特尔自豪地加入由 SpaceX、xAI 和 Tesla 发起的 Terafab 项目，帮助重构硅晶圆制造技术。我们设计、制造和封装超高性能芯片的能力，将加速 Terafab 每年生产 1TW 计算能力的目标，以推动 AI 和机器人技术的未来进步。"
+    },
+    {
+      "account": "pmarca",
+      "role": "投资人",
+      "likes": 6747,
+      "replies": 567,
+      "content": "使用前沿模型的魔法般 OpenClaw 体验目前每天花费 300-1000 美元，未来将走向每天 10000 美元以上。整个技术产业的未来形态，将取决于如何将其降至每月 20 美元。"
+    },
+    {
+      "account": "darioamodei",
+      "role": "创始人",
+      "likes": 4901,
+      "replies": 146,
+      "content": "我为全球领先企业加入 Project Glasswing 感到自豪，我们将正面应对越来越强大的 AI 系统带来的网络威胁。"
+    },
+    {
+      "account": "lexfridman",
+      "role": "播客主持人",
+      "likes": 12280,
+      "replies": 1465,
+      "content": "这个人生太美妙了。我很感激能活着，和你们一起在这个奇迹般的星球上。哦，如果我有时搞砸了事情，我很抱歉。我是一个有缺陷的人类。但我承诺会尽我所能为这个世界增加更多的理解和爱。"
+    }
+  ]
+}

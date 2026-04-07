@@ -48,10 +48,10 @@
     "last_active": "2026-04-05"
   },
   "intelcdl": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 2,
     "used_in_reports": 0,
-    "last_active": "2026-04-05"
+    "last_active": "2026-04-08"
   },
   "marmaduke091": {
     "fetched_days": 1,
@@ -114,10 +114,10 @@
     "last_active": "2026-04-05"
   },
   "cb_doge": {
-    "fetched_days": 2,
-    "total_tweets": 2,
+    "fetched_days": 3,
+    "total_tweets": 4,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "zerohedge": {
     "fetched_days": 2,
@@ -132,10 +132,10 @@
     "last_active": "2026-04-05"
   },
   "kimmonismus": {
-    "fetched_days": 2,
-    "total_tweets": 2,
+    "fetched_days": 3,
+    "total_tweets": 3,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "jayplemons": {
     "fetched_days": 1,
@@ -234,10 +234,10 @@
     "last_active": "2026-04-07"
   },
   "hesamation": {
-    "fetched_days": 1,
-    "total_tweets": 1,
-    "used_in_reports": 1,
-    "last_active": "2026-04-07"
+    "fetched_days": 2,
+    "total_tweets": 2,
+    "used_in_reports": 2,
+    "last_active": "2026-04-08"
   },
   "deredleritt3r": {
     "fetched_days": 1,
@@ -276,10 +276,10 @@
     "last_active": "2026-04-07"
   },
   "polymarket": {
-    "fetched_days": 1,
-    "total_tweets": 2,
-    "used_in_reports": 1,
-    "last_active": "2026-04-07"
+    "fetched_days": 2,
+    "total_tweets": 3,
+    "used_in_reports": 2,
+    "last_active": "2026-04-08"
   },
   "collision": {
     "fetched_days": 1,
@@ -348,10 +348,10 @@
     "last_active": "2026-04-07"
   },
   "nvidiarobotics": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 2,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "mikeallen": {
     "fetched_days": 1,
@@ -366,16 +366,16 @@
     "last_active": "2026-04-07"
   },
   "jimcramer": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 2,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "om_patel5": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 2,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
   },
   "nvidiageforce": {
     "fetched_days": 1,
@@ -408,9 +408,153 @@
     "last_active": "2026-04-07"
   },
   "teknium": {
+    "fetched_days": 2,
+    "total_tweets": 2,
+    "used_in_reports": 2,
+    "last_active": "2026-04-08"
+  },
+  "spacex": {
     "fetched_days": 1,
     "total_tweets": 1,
     "used_in_reports": 1,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-08"
+  },
+  "tesla": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "joshkale": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-08"
+  },
+  "lipbutan1": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "ffmpeg": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "bcherny": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "charlieintel": {
+    "fetched_days": 1,
+    "total_tweets": 2,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "aviation_intel": {
+    "fetched_days": 1,
+    "total_tweets": 2,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "openaidevs": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "unslothai": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "nousresearch": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-08"
+  },
+  "ns123abc": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "beffjezos": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-08"
+  },
+  "roundtablespace": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-08"
+  },
+  "sawyermerritt": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "shiri_shh": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "elder_plinius": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "sharbel": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "andrewchen": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "alc2022": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "will4planet": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "mattshumer_": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "agrippa_inv": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
+  },
+  "ft": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-08"
   }
 }
