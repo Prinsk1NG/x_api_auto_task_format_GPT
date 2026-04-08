@@ -120,10 +120,10 @@
     "last_active": "2026-04-09"
   },
   "zerohedge": {
-    "fetched_days": 2,
-    "total_tweets": 2,
+    "fetched_days": 3,
+    "total_tweets": 3,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-09"
   },
   "andrewcurran_": {
     "fetched_days": 1,
@@ -132,10 +132,10 @@
     "last_active": "2026-04-05"
   },
   "kimmonismus": {
-    "fetched_days": 3,
-    "total_tweets": 3,
+    "fetched_days": 4,
+    "total_tweets": 4,
     "used_in_reports": 0,
-    "last_active": "2026-04-08"
+    "last_active": "2026-04-09"
   },
   "jayplemons": {
     "fetched_days": 1,
@@ -234,10 +234,10 @@
     "last_active": "2026-04-07"
   },
   "hesamation": {
-    "fetched_days": 2,
-    "total_tweets": 2,
-    "used_in_reports": 2,
-    "last_active": "2026-04-08"
+    "fetched_days": 3,
+    "total_tweets": 3,
+    "used_in_reports": 3,
+    "last_active": "2026-04-09"
   },
   "deredleritt3r": {
     "fetched_days": 1,
@@ -342,10 +342,10 @@
     "last_active": "2026-04-07"
   },
   "iam_smx": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 2,
     "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "last_active": "2026-04-09"
   },
   "nvidiarobotics": {
     "fetched_days": 2,
@@ -487,8 +487,8 @@
   },
   "beffjezos": {
     "fetched_days": 2,
-    "total_tweets": 3,
-    "used_in_reports": 2,
+    "total_tweets": 4,
+    "used_in_reports": 3,
     "last_active": "2026-04-09"
   },
   "roundtablespace": {
@@ -559,7 +559,7 @@
   },
   "elizabethholmes": {
     "fetched_days": 1,
-    "total_tweets": 1,
+    "total_tweets": 2,
     "used_in_reports": 0,
     "last_active": "2026-04-09"
   },
@@ -624,6 +624,108 @@
     "last_active": "2026-04-09"
   },
   "raspberry_pi": {
+    "fetched_days": 1,
+    "total_tweets": 2,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "repluna": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "foxnews": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "banteg": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "olanipekuntobid": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "teslaownerssv": {
+    "fetched_days": 1,
+    "total_tweets": 2,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "ogshoots": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
+  },
+  "paularambles": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "rhyssullivan": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "higgsfield": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "0xsero": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "artificialanlys": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
+  },
+  "kekius_sage": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "tesla_ai": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "trq212": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
+  },
+  "__tinygrad__": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "bubbleboi": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "cointelegraph": {
     "fetched_days": 1,
     "total_tweets": 1,
     "used_in_reports": 0,

@@ -2,141 +2,141 @@
   {
     "account": "anthropicai",
     "summary": "我们推出Project Glasswing，这是一项紧急计划，用于保护全球最关键的软件。它由我们最新的前沿模型Claude Mythos Preview驱动，该模型发现软件漏洞的能力优于除最顶尖人类专家外的所有其他人。",
-    "theme_title": "🛡️ Project Glasswing：AI网络安全防御新纪元",
-    "consensus": "",
-    "divergence": ""
-  },
-  {
-    "account": "darioamodei",
-    "summary": "我为全球领先企业加入Project Glasswing感到自豪，我们将正面应对越来越强大的AI系统带来的网络威胁。",
-    "theme_title": "🛡️ Project Glasswing：AI网络安全防御新纪元",
-    "consensus": "",
-    "divergence": ""
-  },
-  {
-    "account": "alexalbert__",
-    "summary": "我们两个月前刚发布Claude Opus 4.6，今天分享新模型Claude Mythos Preview的相关信息。Glasswing可能是过去三年我在Anthropic见过的最具历史转折意义的事件。",
-    "theme_title": "🛡️ Project Glasswing：AI网络安全防御新纪元",
-    "consensus": "",
-    "divergence": ""
-  },
-  {
-    "account": "joshkale",
-    "summary": "这是大事……Anthropic刚刚宣布了一个强大到他们不敢公开发布的模型，因为担心造成的破坏。Claude Mythos Preview在每个主要操作系统和浏览器中发现了数千个零日漏洞。",
-    "theme_title": "🛡️ Project Glasswing：AI网络安全防御新纪元",
-    "consensus": "",
-    "divergence": ""
-  },
-  {
-    "account": "pmarca",
-    "summary": "AI发现的每一个安全缺陷在AI出现之前就已存在。世界从未擅长保护计算机系统；现在有了AI，我们终于要做好这件事了。",
-    "theme_title": "🛡️ Project Glasswing：AI网络安全防御新纪元",
+    "theme_title": "🛡️ AI安全防御新纪元：Project Glasswing与Claude Mythos",
     "consensus": "",
     "divergence": ""
   },
   {
     "account": "anthropicai",
     "summary": "Mythos Preview已经发现了数千个高危漏洞，包括每个主流操作系统和网页浏览器中的缺陷。",
-    "theme_title": "🔬 Claude Mythos Preview 能力突破",
+    "theme_title": "🛡️ AI安全防御新纪元：Project Glasswing与Claude Mythos",
     "consensus": "",
     "divergence": ""
   },
   {
-    "account": "bcherny",
-    "summary": "Mythos非常强大，也应该让人感到恐惧。我们选择负责任地将其预览给网络防御者，而不是随意公开发布。",
-    "theme_title": "🔬 Claude Mythos Preview 能力突破",
+    "account": "theo",
+    "summary": "当我们依赖的每一行软件都能用几百美元的算力在for循环中被攻破时，我觉得你们还是不够害怕。",
+    "theme_title": "🛡️ AI安全防御新纪元：Project Glasswing与Claude Mythos",
     "consensus": "",
     "divergence": ""
   },
   {
-    "account": "deedydas",
-    "summary": "Claude Mythos刚刚碾压了所有AI基准。我无法相信我读到的内容。",
-    "theme_title": "🔬 Claude Mythos Preview 能力突破",
+    "account": "theo",
+    "summary": "Claude Mythos是终结的开始，我觉得这是我的精神错觉时刻。",
+    "theme_title": "🛡️ AI安全防御新纪元：Project Glasswing与Claude Mythos",
     "consensus": "",
     "divergence": ""
   },
   {
-    "account": "birdabo",
-    "summary": "Anthropic把Mythos放在沙箱中让它尝试逃逸，它做到了。它自主链式利用多个漏洞，突破容器并连接到开放互联网，还给研究员发了邮件。",
-    "theme_title": "🔬 Claude Mythos Preview 能力突破",
+    "account": "alexandr_wang",
+    "summary": "今天我们发布muse spark，这是MSL的第一个模型。九个月前我们从零重构了AI栈，新的基础设施、架构和数据管道，muse spark是成果，现在驱动Meta AI。",
+    "theme_title": "✨ Meta重返前沿竞赛：Muse Spark发布",
     "consensus": "",
     "divergence": ""
   },
   {
-    "account": "elonmusk",
-    "summary": "期待与Intel合作开发Terafab！",
-    "theme_title": "🚀 Terafab联盟重塑半导体制造",
-    "consensus": "美国必须建立独立于亚洲的先进半导体制造能力，AI巨头自建或联盟建厂成为主流趋势。",
-    "divergence": "部分观点认为Terafab具体技术细节仍不清晰，实际落地周期和成本控制存在不确定性。"
+    "account": "aiatmeta",
+    "summary": "Muse Spark是原生多模态推理模型，支持工具使用、可视化思维链和多代理编排，已在Meta AI app可用，并计划开源未来版本。",
+    "theme_title": "✨ Meta重返前沿竞赛：Muse Spark发布",
+    "consensus": "",
+    "divergence": ""
   },
   {
-    "account": "elonmusk",
-    "summary": "很荣幸与Intel和Lip-Bu合作。",
-    "theme_title": "🚀 Terafab联盟重塑半导体制造",
-    "consensus": "美国必须建立独立于亚洲的先进半导体制造能力，AI巨头自建或联盟建厂成为主流趋势。",
-    "divergence": "部分观点认为Terafab具体技术细节仍不清晰，实际落地周期和成本控制存在不确定性。"
-  },
-  {
-    "account": "beffjezos",
-    "summary": "美国版的TSMC正在我们眼前诞生。",
-    "theme_title": "🚀 Terafab联盟重塑半导体制造",
-    "consensus": "美国必须建立独立于亚洲的先进半导体制造能力，AI巨头自建或联盟建厂成为主流趋势。",
-    "divergence": "部分观点认为Terafab具体技术细节仍不清晰，实际落地周期和成本控制存在不确定性。"
-  },
-  {
-    "account": "magicsilicon",
-    "summary": "期待与@elonmusk建立激动人心的合作伙伴关系，一起打造Terafab！",
-    "theme_title": "🚀 Terafab联盟重塑半导体制造",
-    "consensus": "美国必须建立独立于亚洲的先进半导体制造能力，AI巨头自建或联盟建厂成为主流趋势。",
-    "divergence": "部分观点认为Terafab具体技术细节仍不清晰，实际落地周期和成本控制存在不确定性。"
+    "account": "artificialanlys",
+    "summary": "Muse Spark在Artificial Analysis Intelligence Index得分52，仅次于Gemini 3.1 Pro、GPT-5.4和Claude Opus 4.6，是Meta自Llama 4以来最大进步，视觉能力位居第二。",
+    "theme_title": "✨ Meta重返前沿竞赛：Muse Spark发布",
+    "consensus": "",
+    "divergence": ""
   },
   {
     "account": "elonmusk",
     "summary": "SpaceXAI Colossus 2现在有7个模型在训练中：Imagine V2、两个1T变体、两个1.5T变体、6T和10T。还需要追赶。",
-    "theme_title": "🚀 Terafab联盟重塑半导体制造",
-    "consensus": "美国必须建立独立于亚洲的先进半导体制造能力，AI巨头自建或联盟建厂成为主流趋势。",
-    "divergence": "部分观点认为Terafab具体技术细节仍不清晰，实际落地周期和成本控制存在不确定性。"
+    "theme_title": "🚀 xAI Colossus 2与Terafab半导体联盟",
+    "consensus": "",
+    "divergence": ""
   },
   {
-    "account": "_theme_divergence",
-    "summary": "部分观点认为Terafab具体技术细节仍不清晰，实际落地周期和成本控制存在不确定性。",
-    "theme_title": "🚀 Terafab联盟重塑半导体制造",
-    "consensus": "美国必须建立独立于亚洲的先进半导体制造能力，AI巨头自建或联盟建厂成为主流趋势。",
-    "divergence": "部分观点认为Terafab具体技术细节仍不清晰，实际落地周期和成本控制存在不确定性。"
+    "account": "beffjezos",
+    "summary": "美国版的TSMC正在我们眼前诞生。",
+    "theme_title": "🚀 xAI Colossus 2与Terafab半导体联盟",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "elonmusk",
+    "summary": "期待与Intel合作开发Terafab！很荣幸与Intel和Lip-Bu合作。",
+    "theme_title": "🚀 xAI Colossus 2与Terafab半导体联盟",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "claudeai",
+    "summary": "Introducing Claude Managed Agents：构建和大规模部署Agent所需的一切。现在已在Claude Platform公开Beta。",
+    "theme_title": "🤖 Claude Managed Agents规模化落地",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "claudeai",
+    "summary": "Managed Agents为你处理基础设施工作。你只需定义任务、工具和防护栏，我们负责在我们的基础设施上运行。",
+    "theme_title": "🤖 Claude Managed Agents规模化落地",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "anthropicai",
+    "summary": "构建Managed Agents意味着解决一个古老的计算问题：如何为“尚未被想到的程序”设计系统。",
+    "theme_title": "🤖 Claude Managed Agents规模化落地",
+    "consensus": "",
+    "divergence": ""
+  },
+  {
+    "account": "hesamation",
+    "summary": "Managed Agents直接干掉1000+ Agent初创公司，他们又做到了。",
+    "theme_title": "🤖 Claude Managed Agents规模化落地",
+    "consensus": "",
+    "divergence": ""
   },
   {
     "account": "anthropicai",
     "summary": "我们的运行率收入已超过300亿美元，较2025年底的90亿美元大幅增长，Claude需求持续加速。此次与Google和Broadcom的合作将为我们提供所需算力。",
     "theme_title": "📈 资本与估值雷达 (Investment Radar)",
-    "consensus": "",
-    "divergence": ""
+    "consensus": "前沿实验室商业化收入高速增长，算力需求与收入呈现指数级扩张，AI仍是资本最青睐赛道。",
+    "divergence": "部分观察者认为当前估值已严重泡沫化，巨额训练成本短期内难以通过营收覆盖，长期盈利能力存疑。"
   },
   {
-    "account": "pmarca",
-    "summary": "使用前沿模型的魔法般OpenClaw体验目前每天花费300-1000美元，未来将走向每天10000美元以上。整个技术产业的未来形态，将取决于如何将其降至每月20美元。",
+    "account": "hesamation",
+    "summary": "是的，这是泡沫。OpenAI 2028年在计算上将花费1210亿美元，至少到2030年无法盈利。准备好你的GPU吧。",
     "theme_title": "📈 资本与估值雷达 (Investment Radar)",
-    "consensus": "",
-    "divergence": ""
-  },
-  {
-    "account": "pmarca",
-    "summary": "AGI的定价层级大致是：(1)每月20美元，(2)每天200美元≈每年7.5万美元，(3)每天1000美元≈每年35万美元，(4)约100亿美元。目前来看。",
-    "theme_title": "📈 资本与估值雷达 (Investment Radar)",
-    "consensus": "",
-    "divergence": ""
-  },
-  {
-    "account": "pmarca",
-    "summary": "新AGI定价层级刚刚发布：如果你是11家特定公司之一则是负900万美元，否则就是无限。",
-    "theme_title": "📈 资本与估值雷达 (Investment Radar)",
-    "consensus": "",
-    "divergence": ""
+    "consensus": "前沿实验室商业化收入高速增长，算力需求与收入呈现指数级扩张，AI仍是资本最青睐赛道。",
+    "divergence": "部分观察者认为当前估值已严重泡沫化，巨额训练成本短期内难以通过营收覆盖，长期盈利能力存疑。"
   },
   {
     "account": "elonmusk",
     "summary": "OpenAI的非营利组织将获得诉讼的任何损害赔偿。",
-    "theme_title": "⚖️ OpenAI诉讼与Sam Altman诚信争议",
-    "consensus": "AI公司早期安全承诺与商业扩张之间存在明显张力，创始人诚信与治理问题成为行业焦点。",
-    "divergence": "一方认为这是竞争对手的攻击，另一方认为董事会早期决定有充分内部理由。"
+    "theme_title": "📈 资本与估值雷达 (Investment Radar)",
+    "consensus": "前沿实验室商业化收入高速增长，算力需求与收入呈现指数级扩张，AI仍是资本最青睐赛道。",
+    "divergence": "部分观察者认为当前估值已严重泡沫化，巨额训练成本短期内难以通过营收覆盖，长期盈利能力存疑。"
+  },
+  {
+    "account": "paulg",
+    "summary": "我们没有罢免Sam，我反复澄清不是为了袒护他，而是不断读到对自己行为的错误描述实在太烦人。",
+    "theme_title": "📈 资本与估值雷达 (Investment Radar)",
+    "consensus": "前沿实验室商业化收入高速增长，算力需求与收入呈现指数级扩张，AI仍是资本最青睐赛道。",
+    "divergence": "部分观察者认为当前估值已严重泡沫化，巨额训练成本短期内难以通过营收覆盖，长期盈利能力存疑。"
+  },
+  {
+    "account": "_theme_divergence",
+    "summary": "部分观察者认为当前估值已严重泡沫化，巨额训练成本短期内难以通过营收覆盖，长期盈利能力存疑。",
+    "theme_title": "📈 资本与估值雷达 (Investment Radar)",
+    "consensus": "前沿实验室商业化收入高速增长，算力需求与收入呈现指数级扩张，AI仍是资本最青睐赛道。",
+    "divergence": "部分观察者认为当前估值已严重泡沫化，巨额训练成本短期内难以通过营收覆盖，长期盈利能力存疑。"
+  },
+  {
+    "account": "thsottiaux",
+    "summary": "300万人现在每周使用Codex，较一个月前的200万大幅增长。我们将持续重置限制直到达到1000万用户。",
+    "theme_title": "📊 Codex用户爆发式增长与生态扩张",
+    "consensus": "",
+    "divergence": ""
   }
 ]
