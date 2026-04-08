@@ -114,10 +114,10 @@
     "last_active": "2026-04-05"
   },
   "cb_doge": {
-    "fetched_days": 3,
-    "total_tweets": 4,
-    "used_in_reports": 0,
-    "last_active": "2026-04-08"
+    "fetched_days": 4,
+    "total_tweets": 5,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
   },
   "zerohedge": {
     "fetched_days": 2,
@@ -390,10 +390,10 @@
     "last_active": "2026-04-07"
   },
   "openainewsroom": {
-    "fetched_days": 1,
-    "total_tweets": 1,
-    "used_in_reports": 0,
-    "last_active": "2026-04-07"
+    "fetched_days": 2,
+    "total_tweets": 2,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
   },
   "arfurrock": {
     "fetched_days": 1,
@@ -426,10 +426,10 @@
     "last_active": "2026-04-08"
   },
   "joshkale": {
-    "fetched_days": 1,
-    "total_tweets": 1,
-    "used_in_reports": 1,
-    "last_active": "2026-04-08"
+    "fetched_days": 2,
+    "total_tweets": 2,
+    "used_in_reports": 2,
+    "last_active": "2026-04-09"
   },
   "lipbutan1": {
     "fetched_days": 1,
@@ -438,10 +438,10 @@
     "last_active": "2026-04-08"
   },
   "ffmpeg": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 2,
     "used_in_reports": 0,
-    "last_active": "2026-04-08"
+    "last_active": "2026-04-09"
   },
   "bcherny": {
     "fetched_days": 1,
@@ -468,10 +468,10 @@
     "last_active": "2026-04-08"
   },
   "unslothai": {
-    "fetched_days": 1,
-    "total_tweets": 1,
-    "used_in_reports": 0,
-    "last_active": "2026-04-08"
+    "fetched_days": 2,
+    "total_tweets": 2,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
   },
   "nousresearch": {
     "fetched_days": 1,
@@ -486,10 +486,10 @@
     "last_active": "2026-04-08"
   },
   "beffjezos": {
-    "fetched_days": 1,
-    "total_tweets": 1,
-    "used_in_reports": 1,
-    "last_active": "2026-04-08"
+    "fetched_days": 2,
+    "total_tweets": 3,
+    "used_in_reports": 2,
+    "last_active": "2026-04-09"
   },
   "roundtablespace": {
     "fetched_days": 1,
@@ -504,10 +504,10 @@
     "last_active": "2026-04-08"
   },
   "shiri_shh": {
-    "fetched_days": 1,
-    "total_tweets": 1,
+    "fetched_days": 2,
+    "total_tweets": 3,
     "used_in_reports": 0,
-    "last_active": "2026-04-08"
+    "last_active": "2026-04-09"
   },
   "elder_plinius": {
     "fetched_days": 1,
@@ -556,5 +556,77 @@
     "total_tweets": 1,
     "used_in_reports": 0,
     "last_active": "2026-04-08"
+  },
+  "elizabethholmes": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "magicsilicon": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
+  },
+  "birdabo": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
+  },
+  "rexvil01": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "xfreeze": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "damianplayer": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "muskonomy": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
+  },
+  "noisyb0y1": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "gergelyorosz": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "superset_sh": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 1,
+    "last_active": "2026-04-09"
+  },
+  "jukan05": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
+  },
+  "raspberry_pi": {
+    "fetched_days": 1,
+    "total_tweets": 1,
+    "used_in_reports": 0,
+    "last_active": "2026-04-09"
   }
 }
