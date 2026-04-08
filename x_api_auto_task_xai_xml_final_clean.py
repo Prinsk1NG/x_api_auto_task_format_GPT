@@ -569,15 +569,15 @@ def build_xml_prompt(combined_jsonl: str, today_str: str, memory_context: str) -
 1. 输出 <REPORT> 根节点。
 2. 生成 <COVER><title>...</title><prompt>...</prompt><insight>...</insight></COVER>。
 3. 生成 <PULSE>，必须是中文，长度不超过60个汉字，只总结当天最值得关注的2个主题，不允许超过两个主题。
-4. 生成 4-6 个 <THEME>，属性 type 只能是 shift 或 new，并带 emoji。
+4. 生成 8-15 个 <THEME>，属性 type 只能是 shift develop 或 new，并带 emoji。
 5. **专题监测拦截**：
    - 如果输入数据中包含明确的"投融资快讯"、"VC观点"、"资本市场"相关推文与讨论，请务必将其单独整合为一个 THEME，且 <TITLE> 必须精确写为「资本与估值雷达 (Investment Radar)」。
    - 如果输入数据中包含明确的"地缘与监管"、"中国 AI 评价"、"大国博弈"相关推文与讨论，请务必将其单独整合为另一个 THEME，且 <TITLE> 必须精确写为「风险与中国视角 (Risk & China View)」。
    - 如果没有上述两类内容的切实推文，请**不要硬说生造**这两个板块，直接呈现其他维度的深度叙事即可。
 6. 每个 THEME 需包含 <TITLE>、<NARRATIVE>、若干 <TWEET account="..." role="..." likes="..." replies="...">...</TWEET>。
 7. shift 类型必须尽量给出 <CONSENSUS> 和 <DIVERGENCE>。
-8. new 类型必须尽量给出 <OUTLOOK>、<OPPORTUNITY>、<RISK>。
-9. 生成 <TOPPICKS>，包含5条最值得读的推文，TWEET 格式同上。
+8. new或develop 类型必须尽量给出 <OUTLOOK>、<OPPORTUNITY>、<RISK>。
+9. 生成 <TOPPICKS>，包含5-10条最值得读的推文，TWEET 格式同上。
 10. 所有推文正文、主题里的引用推文、TOPPICKS 默认翻译成自然中文；但人名、账号名、品牌名、产品名、模型名、缩写、黑话、梗和必要英文术语不要硬翻。
 11. role 必须是简短中文角色标签，例如：产品专家、投资人、研究员、创始人、工程师、媒体人。
 12. 不要把账号、角色、点赞、评论写进正文内容里，这些信息只放在 TWEET 属性中。
