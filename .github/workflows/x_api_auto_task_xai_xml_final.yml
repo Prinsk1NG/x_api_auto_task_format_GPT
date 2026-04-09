@@ -3,7 +3,7 @@ name: 昨晚硅谷在聊啥 v17 (日报主流程)
 on:
   #schedule:
    # - cron: '0 23 * * *'
-  workflow_dispatch:
+  #workflow_dispatch:
     inputs:
       test_mode:
         description: '🧪 开启测试模式'
